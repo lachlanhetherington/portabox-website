@@ -111,11 +111,11 @@ function head(p) {
 
 function nav(active) {
   const PROMO = {
-    [url("storage-services")]: { img: "facility-lot.png", t: "Not sure which one?",
+    [url("storage-services")]: { img: "yard-stacked.jpg", t: "Not sure which one?",
       b: "All four storage options side by side, with what each one suits." },
-    [url("moving-services")]: { img: "two-containers.jpeg", t: "Moving soon?",
+    [url("moving-services")]: { img: "sizes-three.jpg", t: "Moving soon?",
       b: "Local, interstate or regional — see how a container move runs." },
-    [url("locations")]: { img: "truck-coastal.png", t: "Check your postcode",
+    [url("locations")]: { img: "step-move.jpg", t: "Check your postcode",
       b: "Four depots, 150–200 km each, plus regional runs anywhere." },
   };
 
@@ -703,7 +703,7 @@ function facilities(r) {
         ${quoteForm("Check")}
 
         <p class="g-fac-lead">Our <strong>${r.name}</strong> facility</p>
-        <a class="g-fac-card" href="https://www.google.com/maps/search/?api=1&amp;query=${q}" rel="noopener">
+        <a class="g-fac-card" href="${url("facility-" + r.depot)}">
           <span class="g-fac-ico" aria-hidden="true">${ICON.pin}</span>
           <span class="g-fac-txt">
             <strong>${d.name}</strong>
@@ -723,6 +723,141 @@ function facilities(r) {
     </div>
   </div>
 </section>`;
+}
+
+/* ---- Storage facility pages ----
+   The facility card used to open Google Maps, which takes people off the site
+   at the moment they are checking you are real. It now opens a page about the
+   yard, the way the reference site does, with the map on it.
+
+   One page per depot rather than per region, because a depot serves several:
+   Blacktown covers Sydney, the Central Coast, Newcastle and Wollongong.
+
+   Nothing here claims opening hours, access times or security equipment —
+   none of that has been supplied. What it says about the yard is what the
+   rest of the site already says. */
+
+const DEPOT_REGIONS = (depotKey) => C.REGIONS.filter((r) => r.depot === depotKey);
+
+function facilityPage(key) {
+  const d = C.DEPOTS[key];
+  const regions = DEPOT_REGIONS(key);
+  const q = encodeURIComponent(d.addr);
+  const suburbs = regions.flatMap((r) => r.suburbs.map((s) => s.name));
+
+  return [
+    hero({
+      short: true, img: "yard-stacked.jpg", alt: `The Portabox ${d.suburb} storage facility`,
+      crumb: crumb([["Home", url("index")], ["Storage facilities", url("facilities")], [d.suburb]]),
+      h1: `${regions[0].name} Storage Facility`,
+      sub: `${d.addr}. This is the yard your container comes from, and the yard it comes back to if you store it with us rather than at your place.`,
+      btns: traceBtn(d.tel, `Call ${d.phone}`, "Talk to this depot", "primary") +
+            traceBtn(`https://www.google.com/maps/dir/?api=1&destination=${q}`, "Get directions", d.suburb, "outline"),
+    }),
+    trust(),
+
+    `
+<section class="g-band g-band--light">
+  <div class="g-wrap">
+    <div class="g-fac">
+      <div class="g-fac-side g-rise">
+        ${gl("The address")}
+        <h2 class="g-h2">${d.name}</h2>
+        <p class="g-body">${d.addr}</p>
+        <p class="g-fac-tel"><a href="${d.tel}">${d.phone}</a></p>
+
+        <p class="g-fac-lead">Serving</p>
+        <ul class="g-sub-list">
+          ${regions.map((r) => `<li><a href="${url(r.slug)}">Self storage ${r.name}</a></li>`).join("\n          ")}
+        </ul>
+
+        <p class="g-fac-q">Do we service your suburb?</p>
+        ${quoteForm("Check")}
+      </div>
+      <div class="g-fac-map g-rise" style="--d:120ms">
+        <iframe
+          title="Map showing the Portabox ${d.suburb} facility"
+          src="https://maps.google.com/maps?q=${q}&amp;z=12&amp;output=embed"
+          loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </div>
+</section>`,
+
+    featureGrid({
+      band: "grey", chip: "What happens here",
+      h: "What the yard is for",
+      items: [
+        { ico: "truck", t: "Containers go out from here", b: `Every delivery across ${regions.map((r) => r.name).join(", ")} leaves this yard on the hydraulic lift truck.` },
+        { ico: "key", t: "Your lock stays on the door", b: "If you store with us, the container arrives here loaded and locked. We move it. We do not open it." },
+        { ico: "shield", t: "A monitored facility", b: "The container sits in a monitored yard rather than on a public street, and nobody has a key but you." },
+        { ico: "cube", t: "Whole containers, not lockers", b: "You are not renting a corner of a warehouse. The container you loaded is the container that sits here." },
+      ],
+    }),
+
+    split({
+      band: "light", img: "yard-keys.jpg", alt: "A customer holding the only key to their container", flip: true,
+      chip: "Getting your things back",
+      h: "It comes back to your door",
+      body: `<p class="g-body">You do not come to the yard and wheel a trolley around. Tell us when you want it and we deliver the container back to your address, level, on the same hydraulic frame it left on.</p>
+        <p class="g-body">If you are moving instead of storing, it goes straight to the new address — see <a href="${url("moving-services")}">moving services</a>, or <a href="${url("how-it-works")}">how it works</a> end to end.</p>`,
+      btns: traceBtn(C.CONTACT.quote, "Get a price", "Takes a minute", "primary") +
+            traceBtn(url("container-sizes"), "Compare sizes", "10, 19 and 25 m³", "outline"),
+    }),
+
+    suburbs.length ? `
+<section class="g-band g-band--grey">
+  <div class="g-wrap">
+    ${gintro("Delivered from here", `Suburbs served from ${d.suburb}`,
+      `Standard delivery runs out from this yard across ${regions.map((r) => r.name).join(", ")}.`)}
+    <ul class="g-sub-list g-sub-list--wide g-rise">
+      ${suburbs.map((s) => `<li><span>${s}</span></li>`).join("\n      ")}
+    </ul>
+  </div>
+</section>` : "",
+
+    ctaBand({ cyan: true }),
+  ].filter(Boolean).join("\n");
+}
+
+/* The index: all four yards, each linking to its own page. */
+function facilityIndex() {
+  const keys = Object.keys(C.DEPOTS);
+  return [
+    hero({
+      short: true, img: "yard-office.jpg", alt: "Inside the Portabox office at a container yard",
+      crumb: crumb([["Home", url("index")], ["Storage facilities"]]),
+      h1: "Our storage facilities",
+      sub: "Four yards, and every delivery in the country goes out from one of them. Find the one that covers you.",
+      form: true,
+    }),
+    trust(),
+    `
+<section class="g-band g-band--light">
+  <div class="g-wrap">
+    ${gintro("Where we are", "Four depots, Australia-wide",
+      "Each yard runs a standard delivery radius, and we quote anything past it as a regional run.")}
+    <div class="g-fac-grid">
+      ${keys.map((k) => {
+        const d = C.DEPOTS[k];
+        const regions = DEPOT_REGIONS(k);
+        return `
+      <a class="g-fac-card g-rise" href="${url("facility-" + k)}">
+        <span class="g-fac-ico" aria-hidden="true">${ICON.pin}</span>
+        <span class="g-fac-txt">
+          <strong>${d.name}</strong>
+          <span>${d.addr}</span>
+          <span>${d.phone}${regions.length ? " &middot; serves " + regions.map((r) => r.name).join(", ") : ""}</span>
+        </span>
+        <span class="g-fac-go" aria-hidden="true">${ARROW}</span>
+      </a>`;
+      }).join("")}
+    </div>
+  </div>
+</section>`,
+    faq(C.FAQ_GENERAL, "Questions about storing with us", "grey"),
+    ctaBand({ cyan: true }),
+  ].join("\n");
 }
 
 /* ---- Region hubs (SEO build sheet, batch 2) ----
@@ -812,11 +947,11 @@ function regionHub(r) {
     simpleSteps({
       band: "light", h: "How does it work?",
       items: [
-        { img: "doorstep-delivery.jpg", t: "We deliver",
+        { img: "step-deliver.jpg", t: "We deliver",
           b: `Your container comes from the ${d.suburb} depot and sets down <strong>level</strong> on your driveway.` },
-        { img: "about-easy-load.jpg", t: "You pack",
+        { img: "step-pack.jpg", t: "You pack",
           b: "Load it at ground level, in your own time. You fit the <strong>lock</strong> and keep the keys." },
-        { img: "truck-coastal.png", t: "We store or move it",
+        { img: "step-move.jpg", t: "We store or move it",
           b: "Leave it at your place, or we <strong>collect</strong> it — to our yard or your new address." },
       ],
     }),
@@ -867,7 +1002,7 @@ PAGES.push({
   body: [
     hero({
       form: true,
-      short: true, img: "facility-lot.png", alt: "Portabox containers lined up at a secure facility",
+      short: true, img: "yard-stacked.jpg", alt: "Portabox containers lined up at a secure facility",
       crumb: crumb([["Home", url("index")], ["Storage Services"]]),
       h1: "Storage services",
       sub: "Whether it sits in your driveway or in our facility, it is the same container, the same keys and the same per-cubic-metre rate.",
@@ -894,7 +1029,7 @@ PAGES.push({
   body: [
     hero({
       form: true,
-      short: true, img: "two-containers.jpeg", alt: "Two Portabox containers ready for a move",
+      short: true, img: "sizes-three.jpg", alt: "Two Portabox containers ready for a move",
       crumb: crumb([["Home", url("index")], ["Moving Services"]]),
       h1: "Moving services",
       sub: "Pack it once, properly, instead of racing a removalist's clock. We carry the sealed container and lower it flat at the other end.",
@@ -924,7 +1059,7 @@ PAGES.push({
   body: [
     hero({
       form: true,
-      short: true, img: "truck-coastal.png", alt: "A Portabox truck on a coastal road",
+      short: true, img: "step-move.jpg", alt: "A Portabox truck on a coastal road",
       crumb: crumb([["Home", url("index")], ["Locations"]]),
       h1: "Where we go",
       sub: "Four depots covering the capitals and 150–200 km around each of them — and regional runs anywhere else in the country.",
@@ -949,7 +1084,7 @@ PAGES.push({
   body: [
     hero({
       form: true,
-      short: true, img: "clearance.jpg", alt: "External clearance dimensions for the Small, Medium and Large Portabox containers",
+      short: true, img: "earl-raised.jpg", alt: "External clearance dimensions for the Small, Medium and Large Portabox containers",
       crumb: crumb([["Home", url("index")], ["Pricing"]]),
       h1: "Pricing and sizes",
       sub: "Three sizes, published volumes, and the per-cubic-metre rate printed next to each one so you can actually compare us to anybody else.",
@@ -962,7 +1097,7 @@ PAGES.push({
       items: C.SIZES.map((s) => ({ slug: "pricing", title: `${s.name} — ${s.vol} m³`, img: s.img, blurb: s.holds, more: `$${s.per} per m³` })),
     }),
     split({
-      band: "light", img: "clearance.jpg", alt: "Clearance diagram for Portabox containers", flip: true,
+      band: "light", img: "earl-raised.jpg", alt: "Clearance diagram for Portabox containers", flip: true,
       chip: "Will it fit?", h: "Check the clearance before you book",
       body: `<p class="muted">You need a level spot — driveway, hardstand or firm ground — and a straight run for a rigid truck to reach it. Keep it clear of branches, eaves and service lines.</p>
       <p class="muted"><strong>Indicative placement footprint for the Large is about 4.7 × 2.2 m.</strong> That figure is derived from the published 25 m³, not surveyed — your depot confirms the exact clearance when you book.</p>`,
@@ -981,7 +1116,7 @@ PAGES.push({
   body: [
     hero({
       form: true,
-      short: true, img: "man-with-customer.png", alt: "A Portabox team member handing over keys to a customer",
+      short: true, img: "staff-tablet.jpg", alt: "A Portabox team member handing over keys to a customer",
       crumb: crumb([["Home", url("index")], ["How it works"]]),
       h1: "How it works",
       sub: "Three moves, and none of them are yours. The only part you do is the packing.",
@@ -1012,13 +1147,13 @@ PAGES.push({
 
 const SERVICE_DETAIL = {
   "storage-at-your-place": {
-    hero: "doorstep-delivery.jpg", heroAlt: "A couple receiving a Portabox container at their home",
+    hero: "delivery-home.jpg", heroAlt: "A couple receiving a Portabox container at their home",
     h1: "Storage at your place",
     sub: "The container is delivered to your address and stays there. No facility trips, no access hours, no counter staff with a spare key.",
     chip: "Storage", parent: ["Storage Services", url("storage-services")],
     body: `<p class="muted">This is the option most people come to us for. We lower a container onto your driveway, lawn or hardstand and leave it with you. You load it over an afternoon or a month, whichever suits, and it sits there until you tell us otherwise.</p>
       <p class="muted">Because it never leaves your property, you get to it whenever you want — no 6pm cut-off, no booking a time slot, no driving across town with a ute full of boxes because you forgot one thing.</p>`,
-    img2: "hero-customer.jpg", img2alt: "A customer leaning on their Portabox container at home",
+    img2: "couple-driveway.jpg", img2alt: "A customer leaning on their Portabox container at home",
     points: [
       ["clock", "Access whenever you like", "It is on your property. There are no opening hours to work around and nobody to sign in with."],
       ["key", "Your lock, your keys", "You fit your own lock. Portabox does not hold a duplicate, and nobody opens it without you."],
@@ -1034,13 +1169,13 @@ const SERVICE_DETAIL = {
     ],
   },
   "store-with-us": {
-    hero: "store-with-us.jpg", heroAlt: "Portabox team members helping a customer at the facility",
+    hero: "yard-keys.jpg", heroAlt: "Portabox team members helping a customer at the facility",
     h1: "Store with us",
     sub: "Load it at home, then we collect the sealed container and keep it in a monitored facility. You still hold the only keys.",
     chip: "Storage", parent: ["Storage Services", url("storage-services")],
     body: `<p class="muted">If the driveway is needed, or the house has sold, we take the loaded container away and store it for you. Nothing gets unpacked, re-handled or transferred into a different unit — the container you filled is the container that sits in the facility.</p>
       <p class="muted">Access takes 48 hours notice, because we need to bring your container to the front rather than have you climb over anyone else's. That is the one trade-off against keeping it at home.</p>`,
-    img2: "facility-lot.png", img2alt: "Portabox containers at a secure monitored facility",
+    img2: "yard-stacked.jpg", img2alt: "Portabox containers at a secure monitored facility",
     points: [
       ["shield", "Monitored around the clock", "The facility is under 24-hour monitoring. Your container is sealed the entire time it is with us."],
       ["key", "We still don't have a key", "This is the part that surprises people. Your lock stays on it in our facility. We cannot open it."],
@@ -1056,13 +1191,13 @@ const SERVICE_DETAIL = {
     ],
   },
   "business-storage": {
-    hero: "facility-lot.png", heroAlt: "Portabox containers at a secure facility",
+    hero: "business.jpg", heroAlt: "A Portabox container during an office relocation",
     h1: "Business & inventory storage",
     sub: "Stock overflow, seasonal inventory and site equipment — stored at your premises or ours, without a lease.",
     chip: "Storage", parent: ["Storage Services", url("storage-services")],
     body: `<p class="muted">Retail overflow after a big order. Tools and plant between jobs. Records and fit-out you need out of the way but not gone. A container on site means your stock is where your people are, and a container with us means it is out of the way without signing a warehouse lease.</p>
       <p class="muted">Because pricing is per cubic metre and monthly, it scales with the season rather than locking you into floor space you only need twice a year.</p>`,
-    img2: "two-containers.jpeg", img2alt: "Two Portabox containers ready to move",
+    img2: "sizes-three.jpg", img2alt: "Two Portabox containers ready to move",
     points: [
       ["cube", "Scale by the month", "Add a container for the busy season and hand it back after. No lease, no fit-out, no make-good."],
       ["pin", "On your site or ours", "Keep it in the yard where your team works, or have us store it and bring it back when you need it."],
@@ -1078,13 +1213,13 @@ const SERVICE_DETAIL = {
     ],
   },
   "renovation-storage": {
-    hero: "hybrid-choice.jpg", heroAlt: "Comparing storage options during a renovation",
+    hero: "renovation.jpg", heroAlt: "A Portabox container on the driveway of a house mid-renovation",
     h1: "Renovation storage",
     sub: "Clear a room or a whole house while the trades work — without anything leaving your property.",
     chip: "Storage", parent: ["Storage Services", url("storage-services")],
     body: `<p class="muted">Renovating means living around your own furniture for months. A container in the driveway takes the lounge, the spare room and everything in the shed out of the way on day one, and gives it back the week the trades finish.</p>
       <p class="muted">Keeping it on site matters more here than anywhere else: when the painter needs the hallway clear on Tuesday and you need the dining chairs back on Friday, a facility across town is useless.</p>`,
-    img2: "doorstep-delivery.jpg", img2alt: "A Portabox container being delivered to a home",
+    img2: "delivery-home.jpg", img2alt: "A Portabox container being delivered to a home",
     points: [
       ["clock", "Get to it mid-job", "Pull one thing out without booking anything. It is twenty steps from your back door."],
       ["shield", "Out of the dust", "Sealed and weather-proof, which is more than can be said for a tarp in the carport."],
@@ -1100,13 +1235,13 @@ const SERVICE_DETAIL = {
     ],
   },
   "local-moves": {
-    hero: "man-with-customer.png", heroAlt: "A Portabox team member helping a customer",
+    hero: "staff-tablet.jpg", heroAlt: "A Portabox team member helping a customer",
     h1: "Local moves",
     sub: "Door to door within your metro area. Load once, at your own pace, with no removalist clock running.",
     chip: "Moving", parent: ["Moving Services", url("moving-services")],
     body: `<p class="muted">A traditional removalist turns up at 7am and everything has to be ready. With a container you load over days, in the order that makes sense to you, and we move the whole thing when you say so.</p>
       <p class="muted">It also solves the gap most local moves have: settlement on the old place and the new one rarely line up. The container simply stays loaded in between, at your address or ours.</p>`,
-    img2: "hero-customer.jpg", img2alt: "A customer with their Portabox container",
+    img2: "couple-driveway.jpg", img2alt: "A customer with their Portabox container",
     points: [
       ["clock", "No 7am start", "Load across a week if you like. Nothing has to be ready by the time a truck arrives."],
       ["shield", "Packed once, handled once", "Everything is loaded a single time. Fewer handles means fewer chances to damage something."],
@@ -1122,13 +1257,13 @@ const SERVICE_DETAIL = {
     ],
   },
   "interstate-moves": {
-    hero: "two-containers.jpeg", heroAlt: "Two Portabox containers ready for an interstate move",
+    hero: "interstate-map.jpg", heroAlt: "A map of the Portabox interstate routes between Brisbane, Sydney, Melbourne and Adelaide",
     h1: "Interstate moves",
     sub: "Brisbane, Sydney, Melbourne and Adelaide, door to door. It travels sealed and it travels level.",
     chip: "Moving", parent: ["Moving Services", url("moving-services")],
     body: `<p class="muted">Interstate is where the EARL lift earns its keep. A load that gets tilted off a tray at both ends, after a thousand kilometres of highway, is a load that arrives rearranged. Ours is lowered flat at the old address and flat again at the new one.</p>
       <p class="muted">It is also where the settlement gap is worst. The container can sit loaded at either end — or in a facility in between — while the dates sort themselves out.</p>`,
-    img2: "truck-coastal.png", img2alt: "A Portabox truck on a coastal highway",
+    img2: "step-move.jpg", img2alt: "A Portabox truck on a coastal highway",
     points: [
       ["lift", "Level at both ends", "The whole argument for interstate. Nothing inside ever leans on the doors."],
       ["shield", "Sealed for the whole run", "Loaded once at your place, opened once at the other end, by you."],
@@ -1144,13 +1279,13 @@ const SERVICE_DETAIL = {
     ],
   },
   "regional-remote": {
-    hero: "truck-outback.png", heroAlt: "A Portabox truck on an outback highway",
+    hero: "outback.jpg", heroAlt: "A Portabox truck on an outback highway",
     h1: "Regional & remote",
     sub: "Anywhere in Australia, quoted individually. Give us the two postcodes and we will price the run.",
     chip: "Moving", parent: ["Moving Services", url("moving-services")],
     body: `<p class="muted">Outside the 150–200 km depot radii we quote every job on its own merits rather than pretending a metro rate applies. That is more honest than a surcharge table, and usually cheaper than you expect.</p>
       <p class="muted">Remote and regional work is also where leaving the container on site matters most — there is rarely a facility within an hour, so a box that stays at the property is the only sensible option.</p>`,
-    img2: "truck-coastal.png", img2alt: "A Portabox truck on a coastal road",
+    img2: "step-move.jpg", img2alt: "A Portabox truck on a coastal road",
     points: [
       ["pin", "Anywhere in the country", "Western Australia, Tasmania, the Territory, Far North Queensland and everything between."],
       ["phone", "Quoted by a person", "Ring the depot with both postcodes. You get a real figure, not an automated surcharge."],
@@ -1202,6 +1337,25 @@ Object.keys(SERVICE_DETAIL).forEach((slug) => {
 
 /* The four city pages are now region hubs at /self-storage/<city>/; only
    the regional-australia page still comes from LOCATIONS. */
+PAGES.push({
+  file: outFile("facilities"), active: "locations.html",
+  title: "Our Storage Facilities | Four Depots Australia-wide | Portabox",
+  desc: "The four Portabox yards your container is delivered from — Brisbane, Sydney, Melbourne and Adelaide — with addresses, direct numbers and the regions each one covers.",
+  faqs: C.FAQ_GENERAL,
+  body: facilityIndex(),
+});
+
+Object.keys(C.DEPOTS).forEach((k) => {
+  const d = C.DEPOTS[k];
+  const regions = C.REGIONS.filter((r) => r.depot === k);
+  PAGES.push({
+    file: outFile("facility-" + k), active: "locations.html",
+    title: `${regions[0].name} Storage Facility | ${d.suburb} | Portabox`,
+    desc: `The Portabox yard at ${d.addr}. Containers for ${regions.map((r) => r.name).join(", ")} are delivered from here, and stored here if you store with us.`,
+    body: facilityPage(k),
+  });
+});
+
 C.REGIONS.forEach((r) => {
   PAGES.push({
     file: outFile(r.slug), active: "locations.html",
@@ -1232,7 +1386,7 @@ C.LOCATIONS.filter((l) => l.regional).forEach((l) => {
       }),
       trust(),
       split({
-        band: "light", img: "doorstep-delivery.jpg", alt: "A Portabox container delivered to a home", flip: true,
+        band: "light", img: "delivery-home.jpg", alt: "A Portabox container delivered to a home", flip: true,
         chip: l.regional ? "Anywhere in Australia" : `${l.hub} depot`,
         h: l.regional ? "Past the radius, we still go" : `Delivering across ${l.title}`,
         body: `<p class="muted">${depotLine} ${l.regional ? "" : `We cover ${l.sats.slice(0, -1).join(", ")} and ${l.sats[l.sats.length - 1]}.`}</p>
@@ -1247,9 +1401,9 @@ C.LOCATIONS.filter((l) => l.regional).forEach((l) => {
       cards({
         band: "light", chip: "Services here", h: "What you can book in this region",
         items: [
-          { slug: "storage-at-your-place", title: "Storage at Your Place", img: "doorstep-delivery.jpg", blurb: "Delivered to your address and left there, with access whenever you like.", more: "Read more" },
-          { slug: "store-with-us", title: "Store With Us", img: "store-with-us.jpg", blurb: "We collect the loaded container and keep it in a monitored facility.", more: "Read more" },
-          { slug: "interstate-moves", title: "Moving", img: "two-containers.jpeg", blurb: "Local, interstate or regional — door to door, sealed and level.", more: "Read more" },
+          { slug: "storage-at-your-place", title: "Storage at Your Place", img: "delivery-home.jpg", blurb: "Delivered to your address and left there, with access whenever you like.", more: "Read more" },
+          { slug: "store-with-us", title: "Store With Us", img: "yard-keys.jpg", blurb: "We collect the loaded container and keep it in a monitored facility.", more: "Read more" },
+          { slug: "interstate-moves", title: "Moving", img: "sizes-three.jpg", blurb: "Local, interstate or regional — door to door, sealed and level.", more: "Read more" },
         ],
       }),
       pricing({ band: "grey" }),
@@ -1462,7 +1616,7 @@ PAGES.push({
   body: [
     hero({
       form: true,
-      short: true, img: "clearance.jpg",
+      short: true, img: "earl-raised.jpg",
       alt: "Portabox containers side by side showing their external dimensions",
       crumb: crumb([["Home", url("index")], ["Container sizes"]]),
       h1: "Container sizes",
@@ -1471,8 +1625,19 @@ PAGES.push({
     }),
     trust(),
     specCards({ band: "light" }),
+    /* The client's own dimensioned drawing of the three containers, which
+       answers "will my stuff fit" faster than the spec table above it. */
     split({
-      band: "grey", img: "clearance.jpg", flip: true,
+      band: "grey", img: "sizes-internal.jpg",
+      alt: "Internal dimensions of the 10, 19 and 25 cubic metre Portabox containers",
+      chip: "Side by side",
+      h: "The three sizes, measured",
+      body: `<p class="g-body">Every figure on this page is an internal measurement, because that is the space you actually load. A lot of comparisons quote the outside of the box.</p>
+        <p class="g-body">If you are between two sizes, take the larger one — the price per cubic metre falls as the container gets bigger, so the bigger box is usually the better buy. The <a href="${url("pricing")}">pricing page</a> shows that arithmetic.</p>`,
+      btns: traceBtn(C.CONTACT.quote, "Get a price", "Takes a minute", "primary"),
+    }),
+    split({
+      band: "light", img: "earl-raised.jpg", flip: true,
       alt: "A Portabox container being lowered onto a residential driveway",
       chip: "Access",
       h: "What the truck needs at your place",
@@ -1519,7 +1684,7 @@ PAGES.push({
   body: [
     hero({
       form: true,
-      short: true, img: "hero-customer.jpg",
+      short: true, img: "couple-driveway.jpg",
       alt: "A customer beside their Portabox container in the driveway",
       crumb: crumb([["Home", url("index")], ["About us"]]),
       h1: "About Portabox",
@@ -1528,7 +1693,7 @@ PAGES.push({
     }),
     trust(),
     split({
-      band: "light", img: "doorstep-delivery.jpg",
+      band: "light", img: "delivery-home.jpg",
       alt: "A Portabox container being lowered onto a residential driveway",
       chip: "What we do",
       h: "Storage built around your driveway, not a warehouse",
@@ -1575,7 +1740,7 @@ PAGES.push({
     }),
     earl(),
     split({
-      band: "light", img: "about-keys.jpg",
+      band: "light", img: "keys-handover.jpg",
       alt: "A Portabox team member handing the container keys to a customer",
       chip: "Access and security",
       h: "You fit the lock. We never hold a copy.",
@@ -1583,7 +1748,7 @@ PAGES.push({
         <p>If your container is stored with us and you want to get into it, give us 48 hours notice and bring your keys. If it is at your place, there is nothing to arrange and nobody to sign in with.</p>`,
     }),
     split({
-      band: "grey", flip: true, img: "about-lot.jpg",
+      band: "grey", flip: true, img: "yard-office.jpg",
       alt: "Portabox containers stacked at a secure monitored storage facility",
       chip: "Our facilities",
       h: "Where your container lives if you store with us",
@@ -1617,7 +1782,7 @@ PAGES.push({
   desc: "Call 1800 467 637 or email sales@portabox.au. Quick actions for your next move, cancellations, accounts, photo requests and permit waivers.",
   body: [
     hero({
-      short: true, img: "man-with-customer.png",
+      short: true, img: "staff-tablet.jpg",
       alt: "A Portabox team member talking with a customer",
       crumb: crumb([["Home", url("index")], ["Contact us"]]),
       h1: "Contact Portabox",
@@ -1714,14 +1879,18 @@ function gNav() {
     { id: "storage", label: "Storage", href: url("storage-services"), all: "All storage services",
       items: C.STORAGE_SERVICES.map((s) => [s.title, url(s.slug), s.blurb])
         .concat([["Container sizes", url("container-sizes"), "External dimensions, floor area and door clearances for every size."]]),
-      promo: ["facility-lot.png", "Not sure which one?", "All four storage options side by side, with what each one suits."] },
+      promo: ["yard-stacked.jpg", "Not sure which one?", "All four storage options side by side, with what each one suits."] },
     { id: "moving", label: "Moving", href: url("moving-services"), all: "All moving services",
       items: C.MOVING_SERVICES.map((s) => [s.title, url(s.slug), s.blurb]),
-      promo: ["two-containers.jpeg", "Moving soon?", "Local, interstate or regional &mdash; see how a container move runs."] },
+      promo: ["sizes-three.jpg", "Moving soon?", "Local, interstate or regional &mdash; see how a container move runs."] },
     { id: "locations", label: "Locations", href: url("locations"), all: "All locations",
-      items: C.LOCATIONS.map((l) => [l.title, url(l.slug),
-        l.regional ? "Anywhere in Australia, quoted per run." : `${l.hub} depot &middot; ${l.sats.slice(0, 3).join(", ")}`]),
-      promo: ["truck-coastal.png", "Check your postcode", "Four depots, 150&ndash;200 km each, plus regional runs anywhere."] },
+      /* The eight region hubs the SEO build is organised around, plus the
+         facilities page, which otherwise had nothing linking to it. */
+      items: C.REGIONS.map((r) => [`Self storage ${r.name}`, url(r.slug),
+        `${C.DEPOTS[r.depot].suburb} depot${r.suburbs.length ? " &middot; " + r.suburbs.length + " suburbs" : ""}`])
+        .concat([["Our storage facilities", url("facilities"), "All four yards, with addresses and direct numbers"],
+                 ["Regional Australia", url("regional-australia"), "Anywhere in Australia, quoted per run."]]),
+      promo: ["step-move.jpg", "Check your postcode", "Four depots, 150&ndash;200 km each, plus regional runs anywhere."] },
   ];
 
   const FLAT = [
@@ -1823,15 +1992,15 @@ function gHero() {
 /* ---- Three service options ---- */
 function gServices() {
   const items = [
-    { slug: "storage-at-your-place", img: "doorstep-delivery.jpg", t: "Storage at Your Place",
+    { slug: "storage-at-your-place", img: "delivery-home.jpg", t: "Storage at Your Place",
       d: "We deliver the container to your driveway. You load it whenever suits you.",
       f: ["Delivered to your door", "Access day or night", "Discreet white design", "Ideal for renos and house sales"],
       cta: "Explore storage" },
-    { slug: "store-with-us", img: "store-with-us.jpg", t: "Store With Us",
+    { slug: "store-with-us", img: "yard-keys.jpg", t: "Store With Us",
       d: "Pack at home, then we collect it and keep it at our secure facility until you need it.",
       f: ["Pack once, no double handling", "24 hour facility security", "Access with 48 hours notice", "Short or long term"],
       cta: "Store with us" },
-    { slug: "moving-services", img: "two-containers.jpeg", t: "Moving &amp; Regional",
+    { slug: "moving-services", img: "sizes-three.jpg", t: "Moving &amp; Regional",
       d: "Load at your old place and unload at your new one. Across town, interstate or regional.",
       f: ["Local and interstate moves", "Regional Solution Australia wide", "Store between homes", "EARL keeps it level on the road"],
       cta: "Plan my move" },
@@ -2139,9 +2308,9 @@ function gEarl() {
 /* ---- Build and specs ---- */
 function gSpecs() {
   const items = [
-    { img: "clearance.jpg", t: "External clearances", d: "See exactly how much space the Small, Medium or Large container needs on your driveway or street." },
-    { img: "facility-lot.png", t: "Premium build", d: "Heavy duty security for your belongings, engineered to withstand the elements." },
-    { img: "size-large.jpg", t: "Internal dimensions", d: "Flat interior walls designed for floor to ceiling loading." },
+    { img: "earl-raised.jpg", t: "External clearances", d: "See exactly how much space the Small, Medium or Large container needs on your driveway or street." },
+    { img: "yard-stacked.jpg", t: "Premium build", d: "Heavy duty security for your belongings, engineered to withstand the elements." },
+    { img: "size-l.jpg", t: "Internal dimensions", d: "Flat interior walls designed for floor to ceiling loading." },
   ];
   return `
 <section class="g-band g-band--white">
@@ -2272,7 +2441,7 @@ function gStoreWithUs() {
         <div class="g-btns" style="margin-top:2rem">${gBtn(url("store-with-us"), "Learn more", "yellow")}</div>
       </div>
       <div class="g-rise" style="--d:110ms">
-        <img src="${IMG}facility-lot.png" alt="Portabox containers at a secure monitored facility" loading="lazy" style="width:100%;aspect-ratio:4/5;object-fit:cover">
+        <img src="${IMG}yard-stacked.jpg" alt="Portabox containers at a secure monitored facility" loading="lazy" style="width:100%;aspect-ratio:4/5;object-fit:cover">
       </div>
     </div>
   </div>
@@ -2360,7 +2529,7 @@ function gFooter() {
       ])}
       ${col("Storage services", C.STORAGE_SERVICES.map((s) => [s.title, url(s.slug)]).concat([["Container sizes", url("container-sizes")], ["Pricing &amp; sizes", url("pricing")]]))}
       ${col("Moving services", C.MOVING_SERVICES.map((s) => [s.title, url(s.slug)]))}
-      ${col("Locations", C.LOCATIONS.map((l) => [l.title, url(l.slug)]))}
+      ${col("Locations", C.REGIONS.map((r) => [r.name, url(r.slug)]).concat([["Storage facilities", url("facilities")]]))}
     </div>
     <div class="g-foot-legal">
       <p>&copy; <span class="yr">2026</span> portabox.au. All rights reserved.</p>

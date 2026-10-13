@@ -6,14 +6,16 @@ function gNav() {
   const GROUPS = [
     { id: "storage", label: "Storage", href: "storage-services.html", all: "All storage services",
       items: C.STORAGE_SERVICES.map((s) => [s.title, s.slug + ".html", s.blurb]),
-      promo: ["facility-lot.png", "Not sure which one?", "All four storage options side by side, with what each one suits."] },
+      promo: ["yard-stacked.jpg", "Not sure which one?", "All four storage options side by side, with what each one suits."] },
     { id: "moving", label: "Moving", href: "moving-services.html", all: "All moving services",
       items: C.MOVING_SERVICES.map((s) => [s.title, s.slug + ".html", s.blurb]),
-      promo: ["two-containers.jpeg", "Moving soon?", "Local, interstate or regional &mdash; see how a container move runs."] },
+      promo: ["sizes-three.jpg", "Moving soon?", "Local, interstate or regional &mdash; see how a container move runs."] },
     { id: "locations", label: "Locations", href: "locations.html", all: "All locations",
-      items: C.LOCATIONS.map((l) => [l.title, l.slug + ".html",
-        l.regional ? "Anywhere in Australia, quoted per run." : `${l.hub} depot &middot; ${l.sats.slice(0, 3).join(", ")}`]),
-      promo: ["truck-coastal.png", "Check your postcode", "Four depots, 150&ndash;200 km each, plus regional runs anywhere."] },
+      items: C.REGIONS.map((r) => [`Self storage ${r.name}`, r.slug + ".html",
+        `${C.DEPOTS[r.depot].suburb} depot${r.suburbs.length ? " &middot; " + r.suburbs.length + " suburbs" : ""}`])
+        .concat([["Our storage facilities", "facilities.html", "All four yards, with addresses and direct numbers"],
+                 ["Regional Australia", "regional-australia.html", "Anywhere in Australia, quoted per run."]]),
+      promo: ["step-move.jpg", "Check your postcode", "Four depots, 150&ndash;200 km each, plus regional runs anywhere."] },
   ];
 
   const FLAT = [

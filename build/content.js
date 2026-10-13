@@ -44,6 +44,14 @@ const ROUTES = {
   "newcastle":             "/self-storage/newcastle/",
   "wollongong":            "/self-storage/wollongong/",
   "regional-australia":    "/locations/regional-australia/",
+  /* One page per depot. A depot serves more than one region — Blacktown
+     covers Sydney, the Central Coast, Newcastle and Wollongong — so these
+     are keyed by depot rather than by region. */
+  "facilities":            "/facilities/",
+  "facility-brisbane":     "/facilities/brisbane/",
+  "facility-sydney":       "/facilities/sydney/",
+  "facility-melbourne":    "/facilities/melbourne/",
+  "facility-adelaide":     "/facilities/adelaide/",
   "about-us":              "/about/",
   "contact-us":            "/contact/",
 };
@@ -81,19 +89,19 @@ const CONTACT = {
 const CONTAINER_SPECS = [
   { id:"small", name:"10 m³ Portabox", vol:10, length:"2.15 m", width:"1.52 m", height:"2.40 m",
     floor:"3.3 m²", door:"1.40 m (W) × 2.10 m (H)",
-    fits:"1 bedroom apartment · Queen bed, sofa, fridge, 30–40 boxes", img:"size-small.jpg" },
+    fits:"1 bedroom apartment · Queen bed, sofa, fridge, 30–40 boxes", img:"size-s.jpg" },
   { id:"medium", name:"19 m³ Portabox", vol:19, length:"3.75 m", width:"2.20 m", height:"2.40 m",
     floor:"8.2 m²", door:"2.10 m (W) × 2.10 m (H)",
-    fits:"2 bedroom home · 2 beds, dining suite, living room, 60–80 boxes", img:"size-medium.jpg" },
+    fits:"2 bedroom home · 2 beds, dining suite, living room, 60–80 boxes", img:"size-m.jpg" },
   { id:"large", name:"25 m³ Portabox", vol:25, length:"4.95 m", width:"2.20 m", height:"2.40 m",
     floor:"10.9 m²", door:"2.10 m (W) × 2.10 m (H)",
-    fits:"3 bedroom family home · 3 beds, lounge, outdoor set, 100–120 boxes", img:"size-large.jpg" },
+    fits:"3 bedroom family home · 3 beds, lounge, outdoor set, 100–120 boxes", img:"size-l.jpg" },
   { id:"combo", name:"35 m³ Combo", vol:35, length:"25 m³ + 10 m³ together", width:"2.20 m & 1.52 m", height:"2.40 m",
     floor:"14.2 m²", door:"Dual ground access doors",
-    fits:"4 bedroom large home · 26 to 35 m³ of contents", img:"two-containers.jpeg" },
+    fits:"4 bedroom large home · 26 to 35 m³ of contents", img:"sizes-three.jpg" },
   { id:"twolarge", name:"50 m³ (two 25 m³)", vol:50, length:"2 × 4.95 m", width:"2.20 m", height:"2.40 m",
     floor:"21.8 m²", door:"Dual large access doors",
-    fits:"5 bedroom expansive home · 36 to 50 m³ of contents", img:"facility-lot.png" },
+    fits:"5 bedroom expansive home · 36 to 50 m³ of contents", img:"yard-stacked.jpg" },
 ];
 
 /* Rates from the client's Instant Quote tool (pricingEngine.ts DEFAULT_CONFIG,
@@ -104,11 +112,11 @@ const CONTAINER_SPECS = [
    Awaiting the client's final confirmation — one edit here changes the site. */
 const SIZES = [
   { id:"small",  name:"Small",  vol:10, rate:209, per:"20.90", suits:"Apartments and units",
-    img:"size-small.jpg", holds:"A one-bedroom flat, or a single room plus whitegoods." },
+    img:"size-s.jpg", holds:"A one-bedroom flat, or a single room plus whitegoods." },
   { id:"medium", name:"Medium", vol:19, rate:219, per:"11.53", suits:"Two-bedroom homes", flag:"Price drop",
-    img:"size-medium.jpg", holds:"Two bedrooms, a lounge, a full kitchen and the garage overflow." },
+    img:"size-m.jpg", holds:"Two bedrooms, a lounge, a full kitchen and the garage overflow." },
   { id:"large",  name:"Large",  vol:25, rate:219, per:"8.76",  suits:"Three-bedroom homes", flag:"Best value", best:true,
-    img:"size-large.jpg", holds:"A whole three-bedroom house, including the shed and the bikes." },
+    img:"size-l.jpg", holds:"A whole three-bedroom house, including the shed and the bikes." },
 ];
 
 const TESTIMONIALS = [
@@ -124,22 +132,22 @@ const TESTIMONIALS = [
 
 const STORAGE_SERVICES = [
   { slug:"storage-at-your-place", title:"Storage at Your Place",
-    blurb:"The container is delivered to your address and stays there. Access it whenever you like.", img:"doorstep-delivery.jpg" },
+    blurb:"The container is delivered to your address and stays there. Access it whenever you like.", img:"delivery-home.jpg" },
   { slug:"store-with-us", title:"Store With Us",
-    blurb:"We collect the loaded container and keep it in a monitored facility. You still hold the only keys.", img:"store-with-us.jpg" },
+    blurb:"We collect the loaded container and keep it in a monitored facility. You still hold the only keys.", img:"yard-keys.jpg" },
   { slug:"business-storage", title:"Business & Inventory Storage",
-    blurb:"Stock overflow, site equipment and seasonal inventory, stored at your premises or ours.", img:"facility-lot.png" },
+    blurb:"Stock overflow, site equipment and seasonal inventory, stored at your premises or ours.", img:"yard-stacked.jpg" },
   { slug:"renovation-storage", title:"Renovation Storage",
     blurb:"Clear a room or a whole house while the trades work, without anything leaving your property.", img:"hybrid-choice.jpg" },
 ];
 
 const MOVING_SERVICES = [
   { slug:"local-moves", title:"Local Moves",
-    blurb:"Door to door within your metro area. Load once, at your own pace, with no removalist clock running.", img:"man-with-customer.png" },
+    blurb:"Door to door within your metro area. Load once, at your own pace, with no removalist clock running.", img:"staff-tablet.jpg" },
   { slug:"interstate-moves", title:"Interstate Moves",
-    blurb:"Brisbane, Sydney, Melbourne and Adelaide, door to door. It travels sealed and it travels level.", img:"two-containers.jpeg" },
+    blurb:"Brisbane, Sydney, Melbourne and Adelaide, door to door. It travels sealed and it travels level.", img:"sizes-three.jpg" },
   { slug:"regional-remote", title:"Regional & Remote",
-    blurb:"Anywhere in Australia, quoted individually. Give us the two postcodes and we will price the run.", img:"truck-outback.png" },
+    blurb:"Anywhere in Australia, quoted individually. Give us the two postcodes and we will price the run.", img:"outback.jpg" },
 ];
 
 /* The four depots, straight from the build sheet's "THE FOUR DEPOTS" block.
@@ -165,7 +173,7 @@ const DEPOTS = {
    the page lands under the wrong hub. */
 const REGIONS = [
   { slug:"brisbane", name:"Brisbane", kw:"self storage brisbane", searches:2400, depot:"brisbane",
-    img:"truck-coastal.png", old:"/locations/brisbane/",
+    img:"r-brisbane.jpg", old:"/locations/brisbane/",
     blurb:"Our Gilberton depot covers Brisbane, Ipswich, Logan and the bay suburbs, and runs south to the Gold Coast.",
     suburbs:[
       { name:"Ipswich", slug:"ipswich", imp:8336, built:false },
@@ -178,7 +186,7 @@ const REGIONS = [
     ] },
 
   { slug:"sydney", name:"Sydney", kw:"self storage sydney", searches:2900, depot:"sydney",
-    img:"two-containers.jpeg", old:"/locations/sydney/",
+    img:"r-sydney.jpg", old:"/locations/sydney/",
     blurb:"Our Blacktown depot covers greater Sydney, from the northern beaches through the inner west to the Hills and out to Penrith.",
     suburbs:[
       { name:"Blacktown", slug:"blacktown", imp:8149, built:false },
@@ -199,7 +207,7 @@ const REGIONS = [
     ] },
 
   { slug:"melbourne", name:"Melbourne", kw:"self storage melbourne", searches:3600, depot:"melbourne",
-    img:"hero-customer.jpg", old:"/locations/melbourne/",
+    img:"r-melbourne.jpg", old:"/locations/melbourne/",
     blurb:"Our Laverton North depot covers metropolitan Melbourne, the bayside suburbs, the east and the south-east growth corridor.",
     suburbs:[
       { name:"Hoppers Crossing", slug:"hoppers-crossing", imp:12151, built:false },
@@ -212,14 +220,14 @@ const REGIONS = [
     ] },
 
   { slug:"adelaide", name:"Adelaide", kw:"self storage adelaide", searches:2400, depot:"adelaide",
-    img:"doorstep-delivery.jpg", old:"/locations/adelaide/",
+    img:"r-adelaide.jpg", old:"/locations/adelaide/",
     blurb:"Our Edinburgh North depot covers metropolitan Adelaide, the northern suburbs, the Hills and down to the south coast.",
     suburbs:[
       { name:"Port Adelaide", slug:"port-adelaide", imp:8914, built:false },
     ] },
 
   { slug:"gold-coast", name:"Gold Coast", kw:"self storage gold coast", searches:0, depot:"brisbane",
-    img:"facility-lot.png", old:"/locations/gold-coast/",
+    img:"r-gold-coast.jpg", old:"/locations/gold-coast/",
     blurb:"The Gold Coast is served from our Gilberton depot, north to Hope Island and south across the border to Tweed Heads.",
     suburbs:[
       { name:"Tweed Heads", slug:"tweed-heads", imp:7062, built:false },
@@ -230,7 +238,7 @@ const REGIONS = [
     ] },
 
   { slug:"central-coast", name:"Central Coast", kw:"self storage central coast", searches:0, depot:"sydney",
-    img:"about-arrival.jpg", old:"/locations/central-coast/",
+    img:"r-central-coast.jpg", old:"/locations/central-coast/",
     blurb:"The Central Coast and the lower Hunter are served from our Blacktown depot, from Gosford up through Morisset to Maitland.",
     suburbs:[
       { name:"West Gosford", slug:"west-gosford", imp:16460, built:false },
@@ -242,31 +250,31 @@ const REGIONS = [
   /* New markets. The sheet notes both sit inside the Blacktown radius and
      neither has an old URL to inherit, so they start from nothing. */
   { slug:"newcastle", name:"Newcastle", kw:"self storage newcastle", searches:0, depot:"sydney", isNew:true,
-    img:"about-lot.jpg",
+    img:"r-newcastle.jpg",
     blurb:"Newcastle and the Hunter sit inside our Blacktown delivery radius. Same container, same per-cubic-metre price, delivered to your driveway.",
     suburbs:[] },
 
   { slug:"wollongong", name:"Wollongong", kw:"self storage wollongong", searches:0, depot:"sydney", isNew:true,
-    img:"about-facility.jpg",
+    img:"r-wollongong.jpg",
     blurb:"Wollongong and the Illawarra sit inside our Blacktown delivery radius, down the coast through Thirroul and Port Kembla.",
     suburbs:[] },
 ];
 
 const LOCATIONS = [
   { slug:"south-east-queensland", title:"South East Queensland", hub:"Brisbane",
-    sats:["Gold Coast","Sunshine Coast","Toowoomba","Ipswich","Byron Bay"], img:"truck-coastal.png",
+    sats:["Gold Coast","Sunshine Coast","Toowoomba","Ipswich","Byron Bay"], img:"step-move.jpg",
     intro:"Our Brisbane depot covers the whole of South East Queensland, from the Sunshine Coast down across the border to Byron Bay, and west to Toowoomba." },
   { slug:"greater-sydney", title:"Greater Sydney", hub:"Sydney",
-    sats:["Newcastle","Blue Mountains","Wollongong"], img:"two-containers.jpeg",
+    sats:["Newcastle","Blue Mountains","Wollongong"], img:"sizes-three.jpg",
     intro:"Our Sydney depot runs the length of the coast from Newcastle to Wollongong, and west over the range into the Blue Mountains." },
   { slug:"victoria", title:"Victoria", hub:"Melbourne",
-    sats:["Geelong","Mornington Peninsula","Ballarat","Morwell","Seymour"], img:"hero-customer.jpg",
+    sats:["Geelong","Mornington Peninsula","Ballarat","Morwell","Seymour"], img:"couple-driveway.jpg",
     intro:"Our Melbourne depot covers the metro area and reaches out to Geelong, the Mornington Peninsula, Ballarat, Morwell and Seymour." },
   { slug:"south-australia", title:"South Australia", hub:"Adelaide",
-    sats:["Victor Harbor","Murray Bridge","Barossa","Gawler","Adelaide Hills"], img:"doorstep-delivery.jpg",
+    sats:["Victor Harbor","Murray Bridge","Barossa","Gawler","Adelaide Hills"], img:"delivery-home.jpg",
     intro:"Our Adelaide depot covers the metro area, the Hills, the Barossa, and south to Victor Harbor." },
   { slug:"regional-australia", title:"Regional Australia", hub:"Anywhere", regional:true,
-    sats:["Western Australia","Tasmania","Northern Territory","Far North Queensland","Outback NSW & SA"], img:"truck-outback.png",
+    sats:["Western Australia","Tasmania","Northern Territory","Far North Queensland","Outback NSW & SA"], img:"outback.jpg",
     intro:"Outside the four depot radii we quote every job individually — and we still go. Tell us the two postcodes and we will price the run." },
 ];
 

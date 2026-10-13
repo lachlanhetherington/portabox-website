@@ -53,14 +53,18 @@ function gNav() {
     { id: "storage", label: "Storage", href: url("storage-services"), all: "All storage services",
       items: C.STORAGE_SERVICES.map((s) => [s.title, url(s.slug), s.blurb])
         .concat([["Container sizes", url("container-sizes"), "External dimensions, floor area and door clearances for every size."]]),
-      promo: ["facility-lot.png", "Not sure which one?", "All four storage options side by side, with what each one suits."] },
+      promo: ["yard-stacked.jpg", "Not sure which one?", "All four storage options side by side, with what each one suits."] },
     { id: "moving", label: "Moving", href: url("moving-services"), all: "All moving services",
       items: C.MOVING_SERVICES.map((s) => [s.title, url(s.slug), s.blurb]),
-      promo: ["two-containers.jpeg", "Moving soon?", "Local, interstate or regional &mdash; see how a container move runs."] },
+      promo: ["sizes-three.jpg", "Moving soon?", "Local, interstate or regional &mdash; see how a container move runs."] },
     { id: "locations", label: "Locations", href: url("locations"), all: "All locations",
-      items: C.LOCATIONS.map((l) => [l.title, url(l.slug),
-        l.regional ? "Anywhere in Australia, quoted per run." : `${l.hub} depot &middot; ${l.sats.slice(0, 3).join(", ")}`]),
-      promo: ["truck-coastal.png", "Check your postcode", "Four depots, 150&ndash;200 km each, plus regional runs anywhere."] },
+      /* The eight region hubs the SEO build is organised around, plus the
+         facilities page, which otherwise had nothing linking to it. */
+      items: C.REGIONS.map((r) => [`Self storage ${r.name}`, url(r.slug),
+        `${C.DEPOTS[r.depot].suburb} depot${r.suburbs.length ? " &middot; " + r.suburbs.length + " suburbs" : ""}`])
+        .concat([["Our storage facilities", url("facilities"), "All four yards, with addresses and direct numbers"],
+                 ["Regional Australia", url("regional-australia"), "Anywhere in Australia, quoted per run."]]),
+      promo: ["step-move.jpg", "Check your postcode", "Four depots, 150&ndash;200 km each, plus regional runs anywhere."] },
   ];
 
   const FLAT = [
@@ -162,15 +166,15 @@ function gHero() {
 /* ---- Three service options ---- */
 function gServices() {
   const items = [
-    { slug: "storage-at-your-place", img: "doorstep-delivery.jpg", t: "Storage at Your Place",
+    { slug: "storage-at-your-place", img: "delivery-home.jpg", t: "Storage at Your Place",
       d: "We deliver the container to your driveway. You load it whenever suits you.",
       f: ["Delivered to your door", "Access day or night", "Discreet white design", "Ideal for renos and house sales"],
       cta: "Explore storage" },
-    { slug: "store-with-us", img: "store-with-us.jpg", t: "Store With Us",
+    { slug: "store-with-us", img: "yard-keys.jpg", t: "Store With Us",
       d: "Pack at home, then we collect it and keep it at our secure facility until you need it.",
       f: ["Pack once, no double handling", "24 hour facility security", "Access with 48 hours notice", "Short or long term"],
       cta: "Store with us" },
-    { slug: "moving-services", img: "two-containers.jpeg", t: "Moving &amp; Regional",
+    { slug: "moving-services", img: "sizes-three.jpg", t: "Moving &amp; Regional",
       d: "Load at your old place and unload at your new one. Across town, interstate or regional.",
       f: ["Local and interstate moves", "Regional Solution Australia wide", "Store between homes", "EARL keeps it level on the road"],
       cta: "Plan my move" },
@@ -478,9 +482,9 @@ function gEarl() {
 /* ---- Build and specs ---- */
 function gSpecs() {
   const items = [
-    { img: "clearance.jpg", t: "External clearances", d: "See exactly how much space the Small, Medium or Large container needs on your driveway or street." },
-    { img: "facility-lot.png", t: "Premium build", d: "Heavy duty security for your belongings, engineered to withstand the elements." },
-    { img: "size-large.jpg", t: "Internal dimensions", d: "Flat interior walls designed for floor to ceiling loading." },
+    { img: "earl-raised.jpg", t: "External clearances", d: "See exactly how much space the Small, Medium or Large container needs on your driveway or street." },
+    { img: "yard-stacked.jpg", t: "Premium build", d: "Heavy duty security for your belongings, engineered to withstand the elements." },
+    { img: "size-l.jpg", t: "Internal dimensions", d: "Flat interior walls designed for floor to ceiling loading." },
   ];
   return `
 <section class="g-band g-band--white">
@@ -611,7 +615,7 @@ function gStoreWithUs() {
         <div class="g-btns" style="margin-top:2rem">${gBtn(url("store-with-us"), "Learn more", "yellow")}</div>
       </div>
       <div class="g-rise" style="--d:110ms">
-        <img src="${IMG}facility-lot.png" alt="Portabox containers at a secure monitored facility" loading="lazy" style="width:100%;aspect-ratio:4/5;object-fit:cover">
+        <img src="${IMG}yard-stacked.jpg" alt="Portabox containers at a secure monitored facility" loading="lazy" style="width:100%;aspect-ratio:4/5;object-fit:cover">
       </div>
     </div>
   </div>
@@ -699,7 +703,7 @@ function gFooter() {
       ])}
       ${col("Storage services", C.STORAGE_SERVICES.map((s) => [s.title, url(s.slug)]).concat([["Container sizes", url("container-sizes")], ["Pricing &amp; sizes", url("pricing")]]))}
       ${col("Moving services", C.MOVING_SERVICES.map((s) => [s.title, url(s.slug)]))}
-      ${col("Locations", C.LOCATIONS.map((l) => [l.title, url(l.slug)]))}
+      ${col("Locations", C.REGIONS.map((r) => [r.name, url(r.slug)]).concat([["Storage facilities", url("facilities")]]))}
     </div>
     <div class="g-foot-legal">
       <p>&copy; <span class="yr">2026</span> portabox.au. All rights reserved.</p>

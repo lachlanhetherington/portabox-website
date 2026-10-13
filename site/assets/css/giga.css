@@ -1670,6 +1670,10 @@ body.g { box-sizing:border-box; font-family:var(--font, "Montserrat", Arial, san
 .g .g-fac-tel { margin:.9rem 0 0; font-size:.875rem; color:var(--g-body); }
 .g .g-fac-tel a { color:var(--g-cyan-tx); font-weight:700; }
 
+.g .g-fac-grid { display:grid; gap:1rem; grid-template-columns:1fr; }
+@media (min-width:760px){ .g .g-fac-grid { grid-template-columns:repeat(2,1fr); } }
+.g .g-fac-grid .g-fac-card { padding:1.25rem 1.35rem; }
+
 /* The map is the keyless Google embed — a Maps Platform key is billable. */
 .g .g-fac-map { border:1px solid var(--g-rule); background:var(--g-stone); }
 .g .g-fac-map iframe {

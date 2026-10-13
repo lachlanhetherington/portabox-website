@@ -26,6 +26,31 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://portabox.au/facilities/</loc>
+    <lastmod>2026-10-13</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://portabox.au/facilities/adelaide/</loc>
+    <lastmod>2026-10-13</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://portabox.au/facilities/brisbane/</loc>
+    <lastmod>2026-10-13</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://portabox.au/facilities/melbourne/</loc>
+    <lastmod>2026-10-13</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://portabox.au/facilities/sydney/</loc>
+    <lastmod>2026-10-13</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://portabox.au/how-it-works/</loc>
     <lastmod>2026-10-13</lastmod>
     <priority>0.8</priority>
