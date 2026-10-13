@@ -153,10 +153,14 @@ const MOVING_SERVICES = [
 /* The four depots, straight from the build sheet's "THE FOUR DEPOTS" block.
    The per-depot phone numbers are new — the site had only the 1800 number. */
 const DEPOTS = {
-  brisbane:  { name:"Brisbane depot",  addr:"9 Citywest Court, Gilberton QLD 4208",      suburb:"Gilberton",       state:"QLD", postcode:"4208", phone:"07 3053 8770", tel:"tel:0730538770" },
-  sydney:    { name:"Sydney depot",    addr:"20 Carnegie Place, Blacktown NSW 2148",     suburb:"Blacktown",       state:"NSW", postcode:"2148", phone:"02 8310 8188", tel:"tel:0283108188" },
-  melbourne: { name:"Melbourne depot", addr:"103 Fitzgerald Road, Laverton North VIC 3026", suburb:"Laverton North", state:"VIC", postcode:"3026", phone:"03 8375 8770", tel:"tel:0383758770" },
-  adelaide:  { name:"Adelaide depot",  addr:"10 Barfield Crescent, Edinburgh North SA 5113", suburb:"Edinburgh North", state:"SA", postcode:"5113", phone:"08 7160 3333", tel:"tel:0871603333" },
+  /* cbdKm is road distance from the depot to its CBD, computed from the
+     coordinates in build/quote-data.json. Sydney and Melbourne come from the
+     prototype's measured-routes table; Brisbane and Adelaide use its road
+     factor over the straight line, so they are close rather than surveyed. */
+  brisbane:  { name:"Brisbane depot",  addr:"9 Citywest Court, Gilberton QLD 4208",      suburb:"Gilberton",       state:"QLD", postcode:"4208", cbdKm:44, cbd:"Brisbane CBD",  phone:"07 3053 8770", tel:"tel:0730538770" },
+  sydney:    { name:"Sydney depot",    addr:"20 Carnegie Place, Blacktown NSW 2148",     suburb:"Blacktown",       state:"NSW", postcode:"2148", cbdKm:38, cbd:"Sydney CBD",    phone:"02 8310 8188", tel:"tel:0283108188" },
+  melbourne: { name:"Melbourne depot", addr:"103 Fitzgerald Road, Laverton North VIC 3026", suburb:"Laverton North", state:"VIC", postcode:"3026", cbdKm:22, cbd:"Melbourne CBD", phone:"03 8375 8770", tel:"tel:0383758770" },
+  adelaide:  { name:"Adelaide depot",  addr:"10 Barfield Crescent, Edinburgh North SA 5113", suburb:"Edinburgh North", state:"SA", postcode:"5113", cbdKm:32, cbd:"Adelaide CBD",  phone:"08 7160 3333", tel:"tel:0871603333" },
 };
 
 /* The eight region hubs of batch 2. Every suburb page links up to one of

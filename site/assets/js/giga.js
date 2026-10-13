@@ -42,7 +42,12 @@
     var hero = document.querySelector(".g-hero");
     if (!bar) return;
 
+    /* The bar is transparent until you scroll past the photo hero. A page
+       that opens on a light card instead has nothing to be transparent over,
+       and the white logo lands on white — so those start solid. */
+    var photoHero = document.querySelector(".g-hero, .g-phero");
     function onScroll() {
+      if (!photoHero) { bar.classList.add("is-stuck"); return; }
       var t = hero ? hero.offsetHeight - 80 : 10;
       bar.classList.toggle("is-stuck", window.scrollY > t);
     }

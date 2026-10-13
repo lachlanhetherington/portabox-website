@@ -726,101 +726,134 @@ function facilities(r) {
 }
 
 /* ---- Storage facility pages ----
-   The facility card used to open Google Maps, which takes people off the site
-   at the moment they are checking you are real. It now opens a page about the
-   yard, the way the reference site does, with the map on it.
+   Laid out after the reference site's location page: a light card with the
+   yard photographed on one side and the address, numbers and map on the
+   other; then the perks of this particular yard; then what storing here is
+   for; then the suburbs it reaches.
 
-   One page per depot rather than per region, because a depot serves several:
-   Blacktown covers Sydney, the Central Coast, Newcastle and Wollongong.
+   Three things on the reference page are deliberately absent here, because
+   Portabox has not supplied them and a facility page is exactly where an
+   invented fact does damage: the star rating and review count, the customer
+   service and facility access hours, and the specific security equipment.
+   Where the reference page lists opening hours this one says to ring the
+   depot, which is true. */
 
-   Nothing here claims opening hours, access times or security equipment —
-   none of that has been supplied. What it says about the yard is what the
-   rest of the site already says. */
-
-const DEPOT_REGIONS = (depotKey) => C.REGIONS.filter((r) => r.depot === depotKey);
+const DEPOT_REGIONS = (key) => C.REGIONS.filter((r) => r.depot === key);
 
 function facilityPage(key) {
   const d = C.DEPOTS[key];
   const regions = DEPOT_REGIONS(key);
   const q = encodeURIComponent(d.addr);
-  const suburbs = regions.flatMap((r) => r.suburbs.map((s) => s.name));
+  const covers = regions.map((r) => r.name);
+  const suburbs = regions.filter((r) => r.suburbs.length);
+
+  const perk = (ico, t, b) => `
+        <li class="g-perk">
+          <span class="g-perk-ico" aria-hidden="true">${ICON[ico]}</span>
+          <div>
+            <h3 class="g-perk-t">${t}</h3>
+            <p class="g-perk-b">${b}</p>
+          </div>
+        </li>`;
 
   return [
-    hero({
-      short: true, img: "yard-stacked.jpg", alt: `The Portabox ${d.suburb} storage facility`,
-      crumb: crumb([["Home", url("index")], ["Storage facilities", url("facilities")], [d.suburb]]),
-      h1: `${regions[0].name} Storage Facility`,
-      sub: `${d.addr}. This is the yard your container comes from, and the yard it comes back to if you store it with us rather than at your place.`,
-      btns: traceBtn(d.tel, `Call ${d.phone}`, "Talk to this depot", "primary") +
-            traceBtn(`https://www.google.com/maps/dir/?api=1&destination=${q}`, "Get directions", d.suburb, "outline"),
-    }),
-    trust(),
-
+    /* 1. The card: the yard on the left, the facts on the right. */
     `
-<section class="g-band g-band--light">
+<section class="g-band g-band--light g-facp-top">
   <div class="g-wrap">
-    <div class="g-fac">
-      <div class="g-fac-side g-rise">
-        ${gl("The address")}
-        <h2 class="g-h2">${d.name}</h2>
-        <p class="g-body">${d.addr}</p>
-        <p class="g-fac-tel"><a href="${d.tel}">${d.phone}</a></p>
-
-        <p class="g-fac-lead">Serving</p>
-        <ul class="g-sub-list">
-          ${regions.map((r) => `<li><a href="${url(r.slug)}">Self storage ${r.name}</a></li>`).join("\n          ")}
-        </ul>
-
-        <p class="g-fac-q">Do we service your suburb?</p>
-        ${quoteForm("Check")}
+    <nav class="g-crumb" aria-label="Breadcrumb">${
+      crumb([["Home", url("index")], ["Storage facilities", url("facilities")], [d.suburb]])
+    }</nav>
+    <div class="g-facp">
+      <div class="g-facp-pic g-rise">
+        <img src="${IMG}yard-stacked.jpg" alt="The Portabox ${d.suburb} storage facility"
+             width="1600" height="900" fetchpriority="high">
       </div>
-      <div class="g-fac-map g-rise" style="--d:120ms">
-        <iframe
-          title="Map showing the Portabox ${d.suburb} facility"
-          src="https://maps.google.com/maps?q=${q}&amp;z=12&amp;output=embed"
-          loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="g-facp-info g-rise" style="--d:90ms">
+        <h1 class="g-facp-h1">Portabox ${d.suburb}</h1>
+        <p class="g-facp-sub">The yard every container for ${covers.join(", ")} is delivered from — and comes back to, if you store with us rather than at your place.</p>
+
+        <div class="g-facp-tels">
+          ${traceBtn(C.CONTACT.tel, C.CONTACT.phone, "National", "primary")}
+          ${traceBtn(d.tel, d.phone, "This depot", "outline")}
+        </div>
+
+        <dl class="g-facp-dl">
+          <dt>Address</dt>
+          <dd><a href="https://www.google.com/maps/search/?api=1&amp;query=${q}" rel="noopener">${d.addr}</a></dd>
+          <dt>Distance</dt>
+          <dd>About ${d.cbdKm} km from the ${d.cbd}</dd>
+          <dt>Access</dt>
+          <dd>You do not visit the yard — we bring the container to you. To arrange a delivery or a return, ring <a href="${d.tel}">${d.phone}</a>.</dd>
+        </dl>
       </div>
     </div>
   </div>
 </section>`,
 
-    featureGrid({
-      band: "grey", chip: "What happens here",
-      h: "What the yard is for",
-      items: [
-        { ico: "truck", t: "Containers go out from here", b: `Every delivery across ${regions.map((r) => r.name).join(", ")} leaves this yard on the hydraulic lift truck.` },
-        { ico: "key", t: "Your lock stays on the door", b: "If you store with us, the container arrives here loaded and locked. We move it. We do not open it." },
-        { ico: "shield", t: "A monitored facility", b: "The container sits in a monitored yard rather than on a public street, and nobody has a key but you." },
-        { ico: "cube", t: "Whole containers, not lockers", b: "You are not renting a corner of a warehouse. The container you loaded is the container that sits here." },
-      ],
-    }),
+    trust(),
 
+    /* 2. Perks of this yard. */
+    `
+<section class="g-band g-band--grey">
+  <div class="g-wrap">
+    <div class="g-hiw-head g-rise">
+      <h2 class="g-h2">Perks of storing at ${d.suburb}</h2>
+    </div>
+    <ul class="g-perks">
+      ${perk("truck", "It comes to you", `You never drive here. The container is delivered to your address and collected from it, so there is no trip out to ${d.suburb} with a car full of boxes.`)}
+      ${perk("key", "You hold the only keys", "You fit your own lock before it leaves your place. We move the container. We do not open it, and we have no key to it.")}
+      ${perk("shield", "A monitored yard", "Stored with us, your container sits inside a monitored facility rather than on a public street or an open block.")}
+      ${perk("cube", "A whole container, not a cage", "You are not renting a corner of a warehouse measured in square feet. The container you packed is the container that sits here.")}
+      ${perk("pin", `${d.cbdKm} km from the ${d.cbd}`, `Close enough to the city for a same-run delivery across ${covers.join(" and ")}, and far enough out that you are not paying inner-city rent for the space.`)}
+      ${perk("clock", "Month to month", `No minimum term and no exit fee. Keep it a fortnight or a year — see <a href="${url("pricing")}">what it costs</a>.`)}
+    </ul>
+  </div>
+</section>`,
+
+    /* 3. What storing here is actually for. */
     split({
-      band: "light", img: "yard-keys.jpg", alt: "A customer holding the only key to their container", flip: true,
-      chip: "Getting your things back",
-      h: "It comes back to your door",
-      body: `<p class="g-body">You do not come to the yard and wheel a trolley around. Tell us when you want it and we deliver the container back to your address, level, on the same hydraulic frame it left on.</p>
-        <p class="g-body">If you are moving instead of storing, it goes straight to the new address — see <a href="${url("moving-services")}">moving services</a>, or <a href="${url("how-it-works")}">how it works</a> end to end.</p>`,
-      btns: traceBtn(C.CONTACT.quote, "Get a price", "Takes a minute", "primary") +
-            traceBtn(url("container-sizes"), "Compare sizes", "10, 19 and 25 m³", "outline"),
+      band: "light", img: "yard-keys.jpg", flip: true,
+      alt: "A customer holding the only key to their container",
+      chip: "What people use it for",
+      h: "Space, without the storage unit",
+      body: `<p class="g-body">Between houses. Mid-renovation. A business with stock and nowhere to put it. The container turns up, you fill it, and it either stays on your driveway or comes back here until you want it.</p>
+        <ul class="g-ticks">
+          <li>Storing between moves</li>
+          <li>Renovating around your own furniture</li>
+          <li>Local or interstate moving</li>
+          <li>Business stock and records</li>
+        </ul>`,
+      btns: traceBtn(C.CONTACT.quote, "Get your instant quote", "Takes a minute", "primary") +
+            traceBtn(url("how-it-works"), "See how it works", "Three steps", "outline"),
     }),
 
+    /* 4. Suburbs, grouped by the region they sit in. */
     suburbs.length ? `
 <section class="g-band g-band--grey">
   <div class="g-wrap">
-    ${gintro("Delivered from here", `Suburbs served from ${d.suburb}`,
-      `Standard delivery runs out from this yard across ${regions.map((r) => r.name).join(", ")}.`)}
-    <ul class="g-sub-list g-sub-list--wide g-rise">
-      ${suburbs.map((s) => `<li><span>${s}</span></li>`).join("\n      ")}
-    </ul>
+    <div class="g-hiw-head g-rise">
+      <h2 class="g-h2">Suburbs we service</h2>
+      <p class="g-body">Standard delivery runs out from ${d.suburb} across ${covers.join(", ")}. If your suburb is not listed, put the postcode in above — the radius is wider than the list.</p>
+    </div>
+    ${suburbs.map((r) => `
+    <div class="g-rise">
+      <h3 class="g-fac-lead">${r.name}</h3>
+      <ul class="g-sub-list g-sub-list--wide">
+        ${r.suburbs.map((s) => (s.built
+          ? `<li><a href="/self-storage/${r.slug}/${s.slug}/">${s.name}</a></li>`
+          : `<li><span>${s.name}</span></li>`)).join("\n        ")}
+      </ul>
+    </div>`).join("")}
   </div>
 </section>` : "",
 
+    testimonials({ band: "light" }),
     ctaBand({ cyan: true }),
   ].filter(Boolean).join("\n");
 }
 
-/* The index: all four yards, each linking to its own page. */
+/* The index: all four yards. */
 function facilityIndex() {
   const keys = Object.keys(C.DEPOTS);
   return [
@@ -828,7 +861,7 @@ function facilityIndex() {
       short: true, img: "yard-office.jpg", alt: "Inside the Portabox office at a container yard",
       crumb: crumb([["Home", url("index")], ["Storage facilities"]]),
       h1: "Our storage facilities",
-      sub: "Four yards, and every delivery in the country goes out from one of them. Find the one that covers you.",
+      sub: "Four yards, and every delivery in the country goes out from one of them. You never have to visit one — but this is where your container lives if you store it with us.",
       form: true,
     }),
     trust(),
@@ -836,7 +869,7 @@ function facilityIndex() {
 <section class="g-band g-band--light">
   <div class="g-wrap">
     ${gintro("Where we are", "Four depots, Australia-wide",
-      "Each yard runs a standard delivery radius, and we quote anything past it as a regional run.")}
+      "Each yard runs a standard delivery radius, and anything past it we quote as a regional run.")}
     <div class="g-fac-grid">
       ${keys.map((k) => {
         const d = C.DEPOTS[k];
@@ -845,7 +878,7 @@ function facilityIndex() {
       <a class="g-fac-card g-rise" href="${url("facility-" + k)}">
         <span class="g-fac-ico" aria-hidden="true">${ICON.pin}</span>
         <span class="g-fac-txt">
-          <strong>${d.name}</strong>
+          <strong>Portabox ${d.suburb}</strong>
           <span>${d.addr}</span>
           <span>${d.phone}${regions.length ? " &middot; serves " + regions.map((r) => r.name).join(", ") : ""}</span>
         </span>
@@ -2775,6 +2808,12 @@ PAGES.forEach((p) => {
      body it was built from. */
   if (/class="g-form quote-form"|<form class="g-qf-main"| data-qf\b/.test(html)) {
     html = html.replace("</body>", QUOTE_SUBURBS + "\n</body>");
+  }
+
+  /* A page that does not open on a photo hero gets a solid nav from the
+     first paint, so the white logo never lands on a white card. */
+  if (!/class="g-hero|class="g-phero/.test(html)) {
+    html = html.replace('<header class="g-nav"', '<header class="g-nav is-stuck"');
   }
 
   /* Structured data goes in the head, next to the canonical it agrees with. */

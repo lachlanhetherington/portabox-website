@@ -10,6 +10,9 @@ const fs = require('fs');
     const p = await b.newPage({ viewport: { width: 390, height: 844 } });
     await p.goto(BASE + f, { waitUntil: 'domcontentloaded' });
     await p.waitForTimeout(300);
+    /* A redirect shell carries no chrome on purpose — no nav, so no burger.
+       Checking it for one reports a deliberate choice as a defect. */
+    if (!p.url().startsWith(BASE)) { await p.close(); continue; }
     const r = await p.evaluate(() => ({
       over: document.documentElement.scrollWidth - document.documentElement.clientWidth,
       burger: !!document.querySelector('.g-burger'),
