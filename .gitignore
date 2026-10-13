@@ -50,3 +50,6 @@ research
 # The client's source photography, 858MB. The optimised copies that the
 # site actually serves are committed under site/assets/img.
 "/Portabox Content"
+
+# Excel owner/lock files, written while a workbook is open
+~$*
