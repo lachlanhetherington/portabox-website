@@ -2788,6 +2788,7 @@ PAGES.forEach((p) => {
 </script>
 </body>
 </html>`;
+    emitted.push(p.path);
     const rdest = path.join(OUT, p.file);
     fs.mkdirSync(path.dirname(rdest), { recursive: true });
     fs.writeFileSync(rdest, shell, "utf8");
@@ -2829,6 +2830,36 @@ PAGES.forEach((p) => {
 
 /* robots.txt and the sitemap are written from the pages just emitted, so a
    page that exists is listed and one that does not cannot be. */
+/* Pages that moved leave their old file behind: the generator writes, it has
+   never removed. /locations/<city>/ sat in the output for a whole restructure
+   after the hubs moved to /self-storage/<city>/ — redirected in production, so
+   invisible, but still deployed and still being audited as though live.
+
+   Only index.html files are pruned, and only ones this run did not write.
+   Assets are not touched. */
+const kept = new Set(emitted);
+const stale = [];
+(function sweep(d) {
+  for (const f of fs.readdirSync(d, { withFileTypes: true })) {
+    const p = path.join(d, f.name);
+    if (f.isDirectory()) { if (f.name !== "assets") sweep(p); continue; }
+    if (f.name !== "index.html") continue;
+    const u = "/" + path.relative(OUT, p).split(path.sep).join("/").replace(/index\.html$/, "");
+    if (!kept.has(u)) { fs.rmSync(p, { force: true }); stale.push(u); }
+  }
+})(OUT);
+  /* A directory the prune emptied is stale too. */
+  (function tidy(d) {
+    for (const f of fs.readdirSync(d, { withFileTypes: true })) {
+      if (!f.isDirectory() || f.name === "assets") continue;
+      const p = path.join(d, f.name);
+      tidy(p);
+      if (!fs.readdirSync(p).length) fs.rmdirSync(p);
+    }
+  })(OUT);
+
+if (stale.length) console.log(`  pruned ${stale.length} page(s) left by an earlier structure: ${stale.join(", ")}`);
+
 writeRobots();
 const inSitemap = writeSitemap(emitted.filter((u) => !/^\/get-a-quote\//.test(u)).sort());
 
