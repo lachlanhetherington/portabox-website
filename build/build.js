@@ -290,10 +290,13 @@ const QUOTE_SUBURBS = require("./quoteflow").suburbsScript();
 /* The destination rides on the form rather than living in the script, so the
    quote app's URL stays a content value in one place and a WordPress port does
    not have to patch giga.js to change it. */
-const quoteForm = () => `
+/* The label is variable because the same box answers a different question in
+   different places — "get my instant quote" in a hero, "check my postcode"
+   under "do we service your suburb?". Same form, same destination. */
+const quoteForm = (label) => `
       <form class="g-form quote-form" data-quote="${C.CONTACT.quote}" novalidate>
         <input type="text" inputmode="numeric" maxlength="4" placeholder="Your postcode" aria-label="Delivery postcode">
-        ${traceSubmit("Get my instant quote", "", "", "primary")}
+        ${traceSubmit(label || "Get my instant quote", "", "", "primary")}
       </form>`;
 
 /* Contact form. Fields mirror the enquiry form on portabox.au/contact/.
@@ -646,6 +649,82 @@ function alternate(html) {
   return out + html.slice(at);
 }
 
+/* ---- How does it work: three columns, and nothing else ----
+   Modelled on the section called out in the review video. The point of it is
+   how little it says: a numbered picture, two or three words of title, one
+   line underneath. The vertical steps() builder says far more and is the
+   wrong shape for the top of a landing page.
+
+   Portabox's own square-cornered treatment rather than the round one on the
+   reference site — the layout is what was being praised, not the radius. */
+function simpleSteps(o) {
+  return `
+<section class="g-band g-band--${bandOf(o.band || "light")}">
+  <div class="g-wrap">
+    <div class="g-hiw-head g-rise">
+      <h2 class="g-h2">${o.h || "How does it work?"}</h2>
+      ${o.sub ? `<p class="g-body">${o.sub}</p>` : ""}
+    </div>
+    <ol class="g-hiw">
+      ${o.items.map((it, i) => `
+      <li class="g-hiw-i g-rise" style="--d:${i * 90}ms">
+        <span class="g-hiw-pic">
+          <img src="${IMG}${it.img}" alt="" loading="lazy" decoding="async" width="520" height="520">
+          <span class="g-hiw-n" aria-hidden="true">${i + 1}</span>
+        </span>
+        <h3 class="g-hiw-t">${it.t}</h3>
+        <p class="g-hiw-b">${it.b}</p>
+      </li>`).join("")}
+    </ol>
+  </div>
+</section>`;
+}
+
+/* ---- Our storage facilities ----
+   The same shape as the reference page: the question "do we service your
+   suburb?" with a postcode box answering it, the depot itself as an address
+   and a direct number, and a map beside it.
+
+   The map is the keyless Google embed. A Maps Platform key is billable and
+   the one that arrived with the quote app belonged to someone else's project,
+   so this deliberately uses the form that needs no key. */
+function facilities(r) {
+  const d = C.DEPOTS[r.depot];
+  const q = encodeURIComponent(d.addr);
+  return `
+<section class="g-band g-band--${bandOf(r.facBand || "grey")}" id="facilities">
+  <div class="g-wrap">
+    <div class="g-fac">
+      <div class="g-fac-side g-rise">
+        ${gl("Our storage facilities")}
+        <h2 class="g-h2">Where your container lives</h2>
+
+        <p class="g-fac-q">Do we service your suburb?</p>
+        ${quoteForm("Check")}
+
+        <p class="g-fac-lead">Our <strong>${r.name}</strong> facility</p>
+        <a class="g-fac-card" href="https://www.google.com/maps/search/?api=1&amp;query=${q}" rel="noopener">
+          <span class="g-fac-ico" aria-hidden="true">${ICON.pin}</span>
+          <span class="g-fac-txt">
+            <strong>${d.name}</strong>
+            <span>${d.addr}</span>
+          </span>
+          <span class="g-fac-go" aria-hidden="true">${ARROW}</span>
+        </a>
+        <p class="g-fac-tel"><a href="${d.tel}">${d.phone}</a> &middot; ${r.name} depot</p>
+      </div>
+
+      <div class="g-fac-map g-rise" style="--d:120ms">
+        <iframe
+          title="Map showing the Portabox ${d.suburb} depot"
+          src="https://maps.google.com/maps?q=${q}&amp;z=11&amp;output=embed"
+          loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </div>
+</section>`;
+}
+
 /* ---- Region hubs (SEO build sheet, batch 2) ----
 
    Page order follows the structure asked for on the review call: what they
@@ -729,30 +808,21 @@ function regionHub(r) {
     }),
     trust(),
 
-    /* 2. How it works, in the fewest words that still say something. */
-    steps({
-      band: "light", chip: "How it works", h: `Three steps, anywhere in ${r.name}`,
-      sub: "You do one of them.",
+    /* 2. How it works. Three pictures, three short titles, one line each. */
+    simpleSteps({
+      band: "light", h: "How does it work?",
       items: [
-        ["We deliver the container", `It comes from our ${d.suburb} depot and sets down level on your driveway on the EARL hydraulic frame. No ramp, no lifting it up onto a truck bed.`],
-        ["You load it, in your own time", "Ground level, your own lock, your own keys. There is no counter to queue at and no trolley to push."],
-        ["It stays, or it goes", `Leave it on your property, have us collect it into the ${d.suburb} yard, or have us drive it to your new address. Same rate per cubic metre either way.`],
+        { img: "doorstep-delivery.jpg", t: "We deliver",
+          b: `Your container comes from the ${d.suburb} depot and sets down <strong>level</strong> on your driveway.` },
+        { img: "about-easy-load.jpg", t: "You pack",
+          b: "Load it at ground level, in your own time. You fit the <strong>lock</strong> and keep the keys." },
+        { img: "truck-coastal.png", t: "We store or move it",
+          b: "Leave it at your place, or we <strong>collect</strong> it — to our yard or your new address." },
       ],
     }),
 
     /* 3. The facility — the thing people check before they trust you. */
-    split({
-      band: "grey", img: "about-facility.jpg", alt: `The Portabox ${d.suburb} depot`, flip: true,
-      chip: "Our storage facilities",
-      h: `Your containers live at ${d.suburb}`,
-      body: `<p class="g-body"><strong>${d.name}</strong><br>${d.addr}<br>
-        <a href="${d.tel}">${d.phone}</a> &middot;
-        <a href="https://www.google.com/maps/search/?api=1&amp;query=${mapQ}" rel="noopener">See it on the map</a></p>
-        <p class="g-body">If you store with us rather than at your place, this is where the container sits — a monitored yard, with your lock still on the door and the only keys still yours. Nobody opens it but you.</p>
-        <p class="g-body">Not sure we reach you? The postcode box at the top of this page answers that, and <a href="${url("how-it-works")}">how it works</a> walks through the whole thing end to end.</p>`,
-      btns: traceBtn(C.CONTACT.quote, "Get a price", "Takes a minute", "primary") +
-            traceBtn(url("container-sizes"), "Compare sizes", "10, 19 and 25 m³", "outline"),
-    }),
+    facilities(r),
 
     pricing({ band: "light" }),
 
