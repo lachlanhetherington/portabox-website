@@ -682,18 +682,50 @@ function siblingBlock(current) {
       </ul>`;
 }
 
+/* The FAQ carries the keyword in the question itself, the way the reference
+   page in the review video does ("How much does an interstate move from
+   Adelaide to Gold Coast cost?"). A generic site-wide FAQ ranks for nothing;
+   these are the questions somebody searching "self storage <city>" actually
+   types, and the answers link onward in prose rather than as a bare list. */
+function regionFaq(r) {
+  const d = C.DEPOTS[r.depot];
+  return [
+    [`How much does self storage in ${r.name} cost?`,
+     `<p>From <strong>$209 a month</strong> for the 10 m³ container, $219 for the 19 m³ and the 25 m³. That is the container itself, not a share of a warehouse — which is why it is worth comparing on the <a href="${url("pricing")}">price per cubic metre</a> rather than the headline rate.</p>
+      <p>Delivery inside ${Math.round(35)} km of the ${d.suburb} depot is included. Past that it is costed by distance, and the <a href="${C.CONTACT.quote}">instant quote</a> will tell you before you commit.</p>`],
+
+    [`Do you deliver to my suburb in ${r.name}?`,
+     `<p>${r.suburbs.length ? `We deliver across ${r.name}, including ${r.suburbs.slice(0, 4).map((s) => s.name).join(", ")} and the rest of the list above.` : `We deliver right across ${r.name} on the standard run.`} Put your postcode into the box at the top of this page and it will tell you which depot covers you.</p>`],
+
+    [`What size container do I need?`,
+     `<p>A 10 m³ holds about a one-bedroom flat, a 19 m³ a two-bedroom home, and a 25 m³ a three-bedroom house including the shed. If you are between two sizes, the <a href="${url("container-sizes")}">container sizes page</a> lists the internal dimensions and door clearances.</p>`],
+
+    [`Can I keep the container at my place, or does it go to your facility?`,
+     `<p>Either. Leave it on the driveway and open it whenever you like, or we collect it into the ${d.suburb} yard once you have loaded it. The rate per cubic metre is the same both ways — see <a href="${url("how-it-works")}">how it works</a>.</p>`],
+
+    [`How soon can you deliver in ${r.name}?`,
+     `<p>We confirm the date and the window with you before the truck is booked, so the honest answer is that it depends on the run. Ring the ${r.name} depot on <a href="${d.tel}">${d.phone}</a> and they will tell you what is free this week.</p>`],
+
+    [`Do I need a council permit to put a container on the street?`,
+     `<p>If it sits on your own driveway or yard, no. If it has to sit on the road or the nature strip, most councils want a permit, and the rules differ council by council. Tell us the address when you book and we will tell you what applies.</p>`],
+  ];
+}
+
 function regionHub(r) {
   const d = C.DEPOTS[r.depot];
-  const sibling = C.REGIONS.filter((x) => x.slug !== r.slug).slice(0, 3).map((x) => x.name);
+  const mapQ = encodeURIComponent(d.addr);
 
   return [
-    /* 1. Answer the query in the H1, and put the quote box in the hero. */
+    /* 1. Answer the query in the H1. The postcode box and both buttons sit in
+          the hero together — "the CTAs are instant, you can't miss them". */
     hero({
       short: true, img: r.img, alt: `A Portabox container delivered in ${r.name}`,
       crumb: crumb([["Home", url("index")], ["Self storage", url("locations")], [r.name]]),
       h1: `Self Storage ${r.name}`,
       sub: `${r.blurb} From $209 a month, delivered level to your driveway — you keep the only key.`,
       form: true,
+      btns: traceBtn(C.CONTACT.quote, "Book now", "Pick your date", "primary") +
+            traceBtn(d.tel, `Call ${d.phone}`, `${r.name} depot`, "outline"),
     }),
     trust(),
 
@@ -711,13 +743,15 @@ function regionHub(r) {
     /* 3. The facility — the thing people check before they trust you. */
     split({
       band: "grey", img: "about-facility.jpg", alt: `The Portabox ${d.suburb} depot`, flip: true,
-      chip: `${r.name} depot`,
+      chip: "Our storage facilities",
       h: `Your containers live at ${d.suburb}`,
       body: `<p class="g-body"><strong>${d.name}</strong><br>${d.addr}<br>
-        <a href="${d.tel}">${d.phone}</a></p>
-        <p class="g-body">If you store with us rather than at your place, this is where the container sits — a monitored yard, with your lock still on the door and the only keys still yours. Nobody opens it but you.</p>`,
+        <a href="${d.tel}">${d.phone}</a> &middot;
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=${mapQ}" rel="noopener">See it on the map</a></p>
+        <p class="g-body">If you store with us rather than at your place, this is where the container sits — a monitored yard, with your lock still on the door and the only keys still yours. Nobody opens it but you.</p>
+        <p class="g-body">Not sure we reach you? The postcode box at the top of this page answers that, and <a href="${url("how-it-works")}">how it works</a> walks through the whole thing end to end.</p>`,
       btns: traceBtn(C.CONTACT.quote, "Get a price", "Takes a minute", "primary") +
-            traceBtn(d.tel, `Call ${d.phone}`, `${r.name} depot`, "outline"),
+            traceBtn(url("container-sizes"), "Compare sizes", "10, 19 and 25 m³", "outline"),
     }),
 
     pricing({ band: "light" }),
@@ -728,7 +762,7 @@ function regionHub(r) {
   <div class="g-wrap">
     ${gintro("Areas covered", `Self storage across ${r.name}`,
       r.suburbs.length
-        ? `We deliver to every suburb in ${r.name} on the standard run, including ${sibling.length ? "" : ""}${r.suburbs.slice(0, 3).map((s) => s.name).join(", ")} and the rest below.`
+        ? `We deliver to every suburb in ${r.name} on the standard run, including ${r.suburbs.slice(0, 3).map((s) => s.name).join(", ")} and the rest below.`
         : `We deliver across ${r.name} on the standard run from ${d.suburb}.`)}
     <div class="g-rise">${suburbBlock(r)}</div>
 
@@ -738,7 +772,7 @@ function regionHub(r) {
   </div>
 </section>`,
 
-    faq(C.FAQ_GENERAL, `Self storage in ${r.name}: common questions`, "light"),
+    faq(regionFaq(r), `Self storage in ${r.name}: your questions, answered`, "light"),
     ctaBand({ cyan: true }),
   ].join("\n");
 }
@@ -1104,7 +1138,7 @@ C.REGIONS.forEach((r) => {
     title: `Self Storage ${r.name} | Portable Storage Containers | Portabox`,
     desc: `${r.blurb} Containers from $209 a month, delivered level to your driveway. You keep the only key.`,
     /* Same list the page prints, so the markup cannot disagree with it. */
-    faqs: C.FAQ_GENERAL,
+    faqs: regionFaq(r),
     body: regionHub(r),
   });
 });
