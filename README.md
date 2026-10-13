@@ -84,6 +84,46 @@ restoring the page entry brings it back. `tools/extract-quote-data.cjs` still
 lifts the rates out of the app's TypeScript, which is what keeps the two sets
 of numbers from drifting.
 
+### The SEO build
+
+`Portabox-SEO-Build-Sheet.xlsx` is the client’s plan: 126 items in ten
+batches, keyed to Search Console data from **auspods.com.au**, the site this
+one replaces. `tools/read-xlsx.cjs` reads it without a dependency.
+
+Batches 1 and 2 are built, plus Brisbane as the page template to sign off:
+
+- **The region hubs moved** from `/locations/<city>/` to
+  `/self-storage/<city>/`, and four new ones were added — Gold Coast,
+  Central Coast, Newcastle, Wollongong. The old URLs 301 from `vercel.json`.
+  Those redirects carry the Search Console history the whole plan exists to
+  rescue, so they matter more than the new URLs do.
+- **`robots.txt`, `sitemap.xml` and JSON-LD** are generated from the pages
+  actually emitted, so they cannot drift. The sheet’s note was "Zero
+  structured data exists on the site today".
+- **Internal linking** is the thing the brief keeps returning to. Each hub
+  lists every suburb beneath it and links to the other seven regions.
+
+Two rules the data follows:
+
+- **Suburbs that have no page yet are listed as plain text, not links.** The
+  `built` flag in `REGIONS` turns each one into a link when its page lands,
+  so the linking grows with the build and no hub points at a 404.
+- **Nothing goes into the schema that is not already on the page.** No
+  `aggregateRating`, no review count, no founding date — none have been
+  supplied, and inventing them in markup is worse than inventing them in
+  copy, because Google penalises it.
+
+Still to come, and why:
+
+| Batch | Blocked on |
+| --- | --- |
+| 3–5, the 43 suburb pages | Depot distance, drive time, delivery lead time, whether the council wants a kerbside permit, and the nearby-suburb list. The sheet says a page cannot publish with those blank, and four suburb names exist in more than one state. |
+| 6–9, format, route, box and comparison pages | Nothing — they wait on sign-off of the Brisbane template. |
+| 10, the 28 consolidation items | A merge-or-rebuild decision per page. |
+
+The four Google Business Profile items are the client’s team, not this repo.
+
+
 ## The design
 
 One system across every page: square corners, hairline rules, and the brand palette

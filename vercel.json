@@ -14,28 +14,113 @@
       "source": "/get-a-quote/",
       "destination": "https://portabox-instant-quote.vercel.app/",
       "permanent": false
+    },
+    {
+      "source": "/locations/brisbane",
+      "destination": "/self-storage/brisbane/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/brisbane/",
+      "destination": "/self-storage/brisbane/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/sydney",
+      "destination": "/self-storage/sydney/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/sydney/",
+      "destination": "/self-storage/sydney/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/melbourne",
+      "destination": "/self-storage/melbourne/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/melbourne/",
+      "destination": "/self-storage/melbourne/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/adelaide",
+      "destination": "/self-storage/adelaide/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/adelaide/",
+      "destination": "/self-storage/adelaide/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/gold-coast",
+      "destination": "/self-storage/gold-coast/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/gold-coast/",
+      "destination": "/self-storage/gold-coast/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/central-coast",
+      "destination": "/self-storage/central-coast/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/central-coast/",
+      "destination": "/self-storage/central-coast/",
+      "permanent": true
     }
   ],
   "headers": [
     {
       "source": "/assets/img/(.*)",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
     },
     {
       "source": "/assets/video/(.*)",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
     },
     {
       "source": "/assets/css/(.*)",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
     },
     {
       "source": "/assets/js/(.*)",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
     },
     {
       "source": "/(.*)",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
     }
   ]
 }

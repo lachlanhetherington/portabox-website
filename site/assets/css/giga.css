@@ -1563,6 +1563,35 @@ body.g { box-sizing:border-box; font-family:var(--font, "Montserrat", Arial, san
   .g .g-qf-nav .g-btn { flex:1 1 auto; justify-content:center; }
 }
 
+/* ---------- Suburb and region lists ----------
+   The internal-linking block at the foot of a region hub. A suburb whose page
+   is not built yet sits in the same list as plain text rather than being left
+   out, so the page reads as complete coverage and the links fill in as the
+   pages land. */
+/* Cell borders rather than a 1px grid gap over a coloured background: a
+   part-filled last row would otherwise show the background through the empty
+   cells as grey blocks. */
+.g .g-sub-list {
+  list-style:none; margin:0 0 2.5rem; padding:0;
+  display:grid; gap:0; background:#fff;
+  border:1px solid var(--g-rule); border-width:1px 0 0 1px;
+  grid-template-columns:1fr;
+}
+@media (min-width:640px){ .g .g-sub-list { grid-template-columns:repeat(2,1fr); } }
+@media (min-width:980px){ .g .g-sub-list { grid-template-columns:repeat(3,1fr); } }
+@media (min-width:980px){ .g .g-sub-list--wide { grid-template-columns:repeat(4,1fr); } }
+.g .g-sub-list li { background:#fff; border:1px solid var(--g-rule); border-width:0 1px 1px 0; }
+.g .g-sub-list a, .g .g-sub-list span {
+  display:block; padding:.85rem 1.1rem; font-size:.875rem; line-height:1.45;
+  text-decoration:none; color:var(--g-ink); font-weight:600;
+  transition:background var(--g-t) var(--g-hover), color var(--g-t) var(--g-hover);
+}
+.g .g-sub-list a:hover { background:var(--g-navy); color:#fff; }
+.g .g-sub-list a:focus-visible { outline:2px solid var(--g-cyan); outline-offset:-2px; }
+/* Not yet built: still listed, but plainly not a link. */
+.g .g-sub-list span { color:var(--g-mute); font-weight:400; cursor:default; }
+
+
 /* ---------- Phone and tablet ----------
    Measured with tools/g-responsive.cjs across 360 / 390 / 414 / 768 / 820 /
    1024 / 1180. Three things: nothing interactive below ~44px, no text below

@@ -646,6 +646,103 @@ function alternate(html) {
   return out + html.slice(at);
 }
 
+/* ---- Region hubs (SEO build sheet, batch 2) ----
+
+   Page order follows the structure asked for on the review call: what they
+   came for first and the CTA impossible to miss, then how it works in the
+   plainest terms, then the depot, and only then the SEO block — the suburb
+   list, the sibling regions and the FAQ.
+
+   Every suburb beneath a hub appears here whether or not its page exists yet.
+   Built ones are links; the rest are plain text, so the internal linking
+   grows as the pages land and no hub ever points at a 404. */
+
+function suburbBlock(r) {
+  const built = r.suburbs.filter((s) => s.built);
+  const soon = r.suburbs.filter((s) => !s.built);
+  if (!r.suburbs.length) {
+    return `
+      <p class="g-body">We deliver across ${r.name} on the standard run from our
+      ${C.DEPOTS[r.depot].suburb} depot. Put your postcode in above and we will
+      confirm the date before anything is booked.</p>`;
+  }
+  return `
+      <ul class="g-sub-list">
+        ${built.map((s) => `<li><a href="/self-storage/${r.slug}/${s.slug}/">Self storage ${s.name}</a></li>`).join("\n        ")}
+        ${soon.map((s) => `<li><span>Self storage ${s.name}</span></li>`).join("\n        ")}
+      </ul>`;
+}
+
+function siblingBlock(current) {
+  return `
+      <ul class="g-sub-list g-sub-list--wide">
+        ${C.REGIONS.filter((x) => x.slug !== current)
+          .map((x) => `<li><a href="${url(x.slug)}">Self storage ${x.name}</a></li>`)
+          .join("\n        ")}
+      </ul>`;
+}
+
+function regionHub(r) {
+  const d = C.DEPOTS[r.depot];
+  const sibling = C.REGIONS.filter((x) => x.slug !== r.slug).slice(0, 3).map((x) => x.name);
+
+  return [
+    /* 1. Answer the query in the H1, and put the quote box in the hero. */
+    hero({
+      short: true, img: r.img, alt: `A Portabox container delivered in ${r.name}`,
+      crumb: crumb([["Home", url("index")], ["Self storage", url("locations")], [r.name]]),
+      h1: `Self Storage ${r.name}`,
+      sub: `${r.blurb} From $209 a month, delivered level to your driveway — you keep the only key.`,
+      form: true,
+    }),
+    trust(),
+
+    /* 2. How it works, in the fewest words that still say something. */
+    steps({
+      band: "light", chip: "How it works", h: `Three steps, anywhere in ${r.name}`,
+      sub: "You do one of them.",
+      items: [
+        ["We deliver the container", `It comes from our ${d.suburb} depot and sets down level on your driveway on the EARL hydraulic frame. No ramp, no lifting it up onto a truck bed.`],
+        ["You load it, in your own time", "Ground level, your own lock, your own keys. There is no counter to queue at and no trolley to push."],
+        ["It stays, or it goes", `Leave it on your property, have us collect it into the ${d.suburb} yard, or have us drive it to your new address. Same rate per cubic metre either way.`],
+      ],
+    }),
+
+    /* 3. The facility — the thing people check before they trust you. */
+    split({
+      band: "grey", img: "about-facility.jpg", alt: `The Portabox ${d.suburb} depot`, flip: true,
+      chip: `${r.name} depot`,
+      h: `Your containers live at ${d.suburb}`,
+      body: `<p class="g-body"><strong>${d.name}</strong><br>${d.addr}<br>
+        <a href="${d.tel}">${d.phone}</a></p>
+        <p class="g-body">If you store with us rather than at your place, this is where the container sits — a monitored yard, with your lock still on the door and the only keys still yours. Nobody opens it but you.</p>`,
+      btns: traceBtn(C.CONTACT.quote, "Get a price", "Takes a minute", "primary") +
+            traceBtn(d.tel, `Call ${d.phone}`, `${r.name} depot`, "outline"),
+    }),
+
+    pricing({ band: "light" }),
+
+    /* 4. Only now the SEO block: suburbs, siblings, FAQ. */
+    `
+<section class="g-band g-band--grey">
+  <div class="g-wrap">
+    ${gintro("Areas covered", `Self storage across ${r.name}`,
+      r.suburbs.length
+        ? `We deliver to every suburb in ${r.name} on the standard run, including ${sibling.length ? "" : ""}${r.suburbs.slice(0, 3).map((s) => s.name).join(", ")} and the rest below.`
+        : `We deliver across ${r.name} on the standard run from ${d.suburb}.`)}
+    <div class="g-rise">${suburbBlock(r)}</div>
+
+    ${gintro("Other regions", "We cover these too",
+      "Same container, same price per cubic metre, same hydraulic delivery.")}
+    <div class="g-rise">${siblingBlock(r.slug)}</div>
+  </div>
+</section>`,
+
+    faq(C.FAQ_GENERAL, `Self storage in ${r.name}: common questions`, "light"),
+    ctaBand({ cyan: true }),
+  ].join("\n");
+}
+
 /* ---------- Pages ---------- */
 
 /* Swapped for gJourney() at emit time; see the Emit section. */
@@ -999,7 +1096,20 @@ Object.keys(SERVICE_DETAIL).forEach((slug) => {
 
 /* ---- Location pages ---- */
 
-C.LOCATIONS.forEach((l) => {
+/* The four city pages are now region hubs at /self-storage/<city>/; only
+   the regional-australia page still comes from LOCATIONS. */
+C.REGIONS.forEach((r) => {
+  PAGES.push({
+    file: outFile(r.slug), active: "locations.html",
+    title: `Self Storage ${r.name} | Portable Storage Containers | Portabox`,
+    desc: `${r.blurb} Containers from $209 a month, delivered level to your driveway. You keep the only key.`,
+    /* Same list the page prints, so the markup cannot disagree with it. */
+    faqs: C.FAQ_GENERAL,
+    body: regionHub(r),
+  });
+});
+
+C.LOCATIONS.filter((l) => l.regional).forEach((l) => {
   const depotLine = l.regional
     ? "Every regional job is quoted individually. Tell us the two postcodes and we will price the run."
     : `Standard delivery runs 150–200 km out from our ${l.hub} depot.`;
@@ -2191,7 +2301,146 @@ PAGES.push({
 
 /* ---------- Emit ---------- */
 
+/* ---------- Technical SEO (build sheet, batch 1 items 9–11) ----------
+
+   The sheet's note on the schema layer is "Zero structured data exists on the
+   site today", and the same was true of robots.txt and the sitemap. All three
+   are generated from the pages that actually exist, so they cannot drift.
+
+   SITE_ORIGIN is what the sitemap and the JSON-LD are absolute against. It
+   has to be the live domain to be any use to a crawler, so it is overridable
+   at build time for preview deploys. */
+const SITE_ORIGIN = (process.env.SITE_ORIGIN || "https://portabox.au").replace(/\/+$/, "");
+
+function writeRobots() {
+  fs.writeFileSync(path.join(OUT, "robots.txt"), [
+    "# portabox.au",
+    "User-agent: *",
+    "Allow: /",
+    "",
+    "# The quote is a separate application on its own host.",
+    "Disallow: /get-a-quote/",
+    "",
+    "Sitemap: " + SITE_ORIGIN + "/sitemap.xml",
+    "",
+  ].join("\n"), "utf8");
+}
+
+function writeSitemap(urls) {
+  /* Priority is a hint rather than a ranking factor, but it costs nothing to
+     say which pages matter: the homepage, then the region hubs batch 2 is
+     built around, then the rest. */
+  const rank = (u) =>
+    u === "/" ? "1.0"
+    : /^\/self-storage\/[^/]+\/$/.test(u) ? "0.9"
+    : /^\/(pricing|how-it-works|container-sizes)\/$/.test(u) ? "0.8"
+    : "0.6";
+
+  const today = new Date().toISOString().slice(0, 10);
+  const body = [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ...urls.map((u) => [
+      "  <url>",
+      "    <loc>" + SITE_ORIGIN + u + "</loc>",
+      "    <lastmod>" + today + "</lastmod>",
+      "    <priority>" + rank(u) + "</priority>",
+      "  </url>",
+    ].join("\n")),
+    "</urlset>",
+    "",
+  ].join("\n");
+  fs.writeFileSync(path.join(OUT, "sitemap.xml"), body, "utf8");
+  return urls.length;
+}
+
+/* Only facts already published on the site go into the markup. The depot
+   addresses and phone numbers come from the build sheet; the rates come from
+   SIZES. No aggregateRating, no review count, no founding date — none have
+   been supplied, and inventing them in markup is no better than inventing
+   them in copy, with the added problem that Google penalises it. */
+function schemaFor(p, pageUrl) {
+  const graph = [{
+    "@type": "Organization",
+    "@id": SITE_ORIGIN + "/#organization",
+    name: "Portabox",
+    alternateName: ["PODS Australia", "AusPods"],
+    url: SITE_ORIGIN + "/",
+    telephone: C.CONTACT.phone,
+    email: C.CONTACT.email,
+    areaServed: "AU",
+    sameAs: C.CONTACT.social.map((s) => s[1]),
+  }];
+
+  const region = C.REGIONS.find((r) => url(r.slug) === pageUrl);
+  if (region) {
+    const d = C.DEPOTS[region.depot];
+    const cheapest = C.SIZES.reduce((a, s) => Math.min(a, s.rate), Infinity);
+    graph.push({
+      "@type": "SelfStorage",
+      "@id": SITE_ORIGIN + pageUrl + "#business",
+      name: "Portabox — Self Storage " + region.name,
+      parentOrganization: { "@id": SITE_ORIGIN + "/#organization" },
+      url: SITE_ORIGIN + pageUrl,
+      telephone: d.phone,
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: d.addr.split(",")[0].trim(),
+        addressLocality: d.suburb,
+        addressRegion: d.state,
+        postalCode: d.postcode,
+        addressCountry: "AU",
+      },
+      areaServed: { "@type": "City", name: region.name },
+      makesOffer: {
+        "@type": "Offer",
+        priceCurrency: "AUD",
+        price: String(cheapest),
+        description: "Portable storage container delivered to your address, per month",
+      },
+    });
+  }
+
+  if (p.faqs && p.faqs.length) {
+    graph.push({
+      "@type": "FAQPage",
+      "@id": SITE_ORIGIN + pageUrl + "#faq",
+      mainEntity: p.faqs.map((f) => ({
+        "@type": "Question",
+        name: f[0],
+        acceptedAnswer: { "@type": "Answer", text: String(f[1]).replace(/<[^>]+>/g, "").trim() },
+      })),
+    });
+  }
+
+  /* Breadcrumbs from the path itself, so they cannot disagree with the trail
+     printed on the page. */
+  const parts = pageUrl.split("/").filter(Boolean);
+  if (parts.length) {
+    const crumbs = [["Home", "/"]];
+    let acc = "";
+    parts.forEach((seg) => {
+      acc += "/" + seg;
+      const name = seg.replace(/-/g, " ").replace(/\b\w/g, (m) => m.toUpperCase());
+      crumbs.push([name, acc + "/"]);
+    });
+    graph.push({
+      "@type": "BreadcrumbList",
+      "@id": SITE_ORIGIN + pageUrl + "#breadcrumbs",
+      itemListElement: crumbs.map((c, i) => ({
+        "@type": "ListItem", position: i + 1, name: c[0], item: SITE_ORIGIN + c[1],
+      })),
+    });
+  }
+
+  return '<script type="application/ld+json">' +
+    JSON.stringify({ "@context": "https://schema.org", "@graph": graph }).replace(/</g, "\\u003c") +
+    "</script>";
+}
+
+
 let n = 0;
+const emitted = [];
 PAGES.forEach((p) => {
   // The homepage carries its own nav/footer inside p.body; every other page
   // gets the same giga chrome wrapped around its sections here.
@@ -2254,10 +2503,22 @@ PAGES.forEach((p) => {
   if (/class="g-form quote-form"|<form class="g-qf-main"| data-qf\b/.test(html)) {
     html = html.replace("</body>", QUOTE_SUBURBS + "\n</body>");
   }
+
+  /* Structured data goes in the head, next to the canonical it agrees with. */
+  html = html.replace("</head>", schemaFor(p, p.path) + "\n</head>");
+  emitted.push(p.path);
+
   const dest = path.join(OUT, p.file);
   fs.mkdirSync(path.dirname(dest), { recursive: true });
   fs.writeFileSync(dest, html, "utf8");
   n++;
   console.log(`  ${String(Math.round(html.length / 1024)).padStart(4)}KB  ${p.file}`);
 });
+
+/* robots.txt and the sitemap are written from the pages just emitted, so a
+   page that exists is listed and one that does not cannot be. */
+writeRobots();
+const inSitemap = writeSitemap(emitted.filter((u) => !/^\/get-a-quote\//.test(u)).sort());
+
 console.log(`\n${n} pages written to site/`);
+console.log(`robots.txt, sitemap.xml (${inSitemap} URLs), JSON-LD on every page`);

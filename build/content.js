@@ -26,11 +26,23 @@ const ROUTES = {
   "interstate-moves":      "/moving/moving-interstate/",
   "local-moves":           "/moving/moving-locally/",
   "regional-remote":       "/moving/regional-solution/",
+  /* The region hubs moved to /self-storage/<city>/ for the SEO build (batch 2
+     of Portabox-SEO-Build-Sheet.xlsx). The old /locations/<city>/ URLs 301 to
+     them from vercel.json — they carry the Search Console history, so the
+     redirect matters more than the new URL does. */
   "locations":             "/locations/",
-  "south-east-queensland": "/locations/brisbane/",
-  "greater-sydney":        "/locations/sydney/",
-  "victoria":              "/locations/melbourne/",
-  "south-australia":       "/locations/adelaide/",
+  "south-east-queensland": "/self-storage/brisbane/",
+  "greater-sydney":        "/self-storage/sydney/",
+  "victoria":              "/self-storage/melbourne/",
+  "south-australia":       "/self-storage/adelaide/",
+  "brisbane":              "/self-storage/brisbane/",
+  "sydney":                "/self-storage/sydney/",
+  "melbourne":             "/self-storage/melbourne/",
+  "adelaide":              "/self-storage/adelaide/",
+  "gold-coast":            "/self-storage/gold-coast/",
+  "central-coast":         "/self-storage/central-coast/",
+  "newcastle":             "/self-storage/newcastle/",
+  "wollongong":            "/self-storage/wollongong/",
   "regional-australia":    "/locations/regional-australia/",
   "about-us":              "/about/",
   "contact-us":            "/contact/",
@@ -130,6 +142,116 @@ const MOVING_SERVICES = [
     blurb:"Anywhere in Australia, quoted individually. Give us the two postcodes and we will price the run.", img:"truck-outback.png" },
 ];
 
+/* The four depots, straight from the build sheet's "THE FOUR DEPOTS" block.
+   The per-depot phone numbers are new — the site had only the 1800 number. */
+const DEPOTS = {
+  brisbane:  { name:"Brisbane depot",  addr:"9 Citywest Court, Gilberton QLD 4208",      suburb:"Gilberton",       state:"QLD", postcode:"4208", phone:"07 3053 8770", tel:"tel:0730538770" },
+  sydney:    { name:"Sydney depot",    addr:"20 Carnegie Place, Blacktown NSW 2148",     suburb:"Blacktown",       state:"NSW", postcode:"2148", phone:"02 8310 8188", tel:"tel:0283108188" },
+  melbourne: { name:"Melbourne depot", addr:"103 Fitzgerald Road, Laverton North VIC 3026", suburb:"Laverton North", state:"VIC", postcode:"3026", phone:"03 8375 8770", tel:"tel:0383758770" },
+  adelaide:  { name:"Adelaide depot",  addr:"10 Barfield Crescent, Edinburgh North SA 5113", suburb:"Edinburgh North", state:"SA", postcode:"5113", phone:"08 7160 3333", tel:"tel:0871603333" },
+};
+
+/* The eight region hubs of batch 2. Every suburb page links up to one of
+   these, which is why they exist before the suburb pages do.
+
+   `suburbs` is the list that sits beneath each hub, taken from batches 3 to 5
+   with its Search Console impressions. `built:true` marks a suburb page that
+   actually exists — the hub links those and prints the rest as plain text, so
+   a hub never links to a page that has not been built yet.
+
+   The four suburbs the sheet marks CHECK FIRST (Richmond, Queanbeyan,
+   Springwood, Mitchell) are deliberately absent: each name exists in more
+   than one state and the sheet says to confirm the state before building, or
+   the page lands under the wrong hub. */
+const REGIONS = [
+  { slug:"brisbane", name:"Brisbane", kw:"self storage brisbane", searches:2400, depot:"brisbane",
+    img:"truck-coastal.png", old:"/locations/brisbane/",
+    blurb:"Our Gilberton depot covers Brisbane, Ipswich, Logan and the bay suburbs, and runs south to the Gold Coast.",
+    suburbs:[
+      { name:"Ipswich", slug:"ipswich", imp:8336, built:false },
+      { name:"Browns Plains", slug:"browns-plains", imp:6465, built:false },
+      { name:"Logan", slug:"logan", imp:1768, built:false },
+      { name:"Milton", slug:"milton", imp:1623, built:false },
+      { name:"Indooroopilly", slug:"indooroopilly", imp:1534, built:false },
+      { name:"Caboolture", slug:"caboolture", imp:1352, built:false },
+      { name:"Coorparoo", slug:"coorparoo", imp:35, built:false },
+    ] },
+
+  { slug:"sydney", name:"Sydney", kw:"self storage sydney", searches:2900, depot:"sydney",
+    img:"two-containers.jpeg", old:"/locations/sydney/",
+    blurb:"Our Blacktown depot covers greater Sydney, from the northern beaches through the inner west to the Hills and out to Penrith.",
+    suburbs:[
+      { name:"Blacktown", slug:"blacktown", imp:8149, built:false },
+      { name:"Castle Hill", slug:"castle-hill", imp:6527, built:false },
+      { name:"Artarmon", slug:"artarmon", imp:4467, built:false },
+      { name:"Alexandria", slug:"alexandria", imp:3912, built:false },
+      { name:"Dee Why", slug:"dee-why", imp:3909, built:false },
+      { name:"Hornsby", slug:"hornsby", imp:2849, built:false },
+      { name:"Chatswood", slug:"chatswood", imp:2020, built:false },
+      { name:"Bondi Junction", slug:"bondi-junction", imp:1635, built:false },
+      { name:"Northern Beaches", slug:"northern-beaches", imp:1461, built:false },
+      { name:"Burwood", slug:"burwood", imp:1390, built:false },
+      { name:"Waterloo", slug:"waterloo", imp:1155, built:false },
+      { name:"St Marys", slug:"st-marys", imp:1062, built:false },
+      { name:"Manly", slug:"manly", imp:909, built:false },
+      { name:"Camperdown", slug:"camperdown", imp:793, built:false },
+      { name:"Rosebery", slug:"rosebery", imp:426, built:false },
+    ] },
+
+  { slug:"melbourne", name:"Melbourne", kw:"self storage melbourne", searches:3600, depot:"melbourne",
+    img:"hero-customer.jpg", old:"/locations/melbourne/",
+    blurb:"Our Laverton North depot covers metropolitan Melbourne, the bayside suburbs, the east and the south-east growth corridor.",
+    suburbs:[
+      { name:"Hoppers Crossing", slug:"hoppers-crossing", imp:12151, built:false },
+      { name:"Box Hill", slug:"box-hill", imp:11933, built:false },
+      { name:"Pakenham", slug:"pakenham", imp:5039, built:false },
+      { name:"Cheltenham", slug:"cheltenham", imp:3245, built:false },
+      { name:"Carrum Downs", slug:"carrum-downs", imp:3204, built:false },
+      { name:"Clayton", slug:"clayton", imp:1004, built:false },
+      { name:"Collingwood", slug:"collingwood", imp:25, built:false },
+    ] },
+
+  { slug:"adelaide", name:"Adelaide", kw:"self storage adelaide", searches:2400, depot:"adelaide",
+    img:"doorstep-delivery.jpg", old:"/locations/adelaide/",
+    blurb:"Our Edinburgh North depot covers metropolitan Adelaide, the northern suburbs, the Hills and down to the south coast.",
+    suburbs:[
+      { name:"Port Adelaide", slug:"port-adelaide", imp:8914, built:false },
+    ] },
+
+  { slug:"gold-coast", name:"Gold Coast", kw:"self storage gold coast", searches:0, depot:"brisbane",
+    img:"facility-lot.png", old:"/locations/gold-coast/",
+    blurb:"The Gold Coast is served from our Gilberton depot, north to Hope Island and south across the border to Tweed Heads.",
+    suburbs:[
+      { name:"Tweed Heads", slug:"tweed-heads", imp:7062, built:false },
+      { name:"Robina", slug:"robina", imp:4409, built:false },
+      { name:"Currumbin", slug:"currumbin", imp:2881, built:false },
+      { name:"Nerang", slug:"nerang", imp:1715, built:false },
+      { name:"Hope Island", slug:"hope-island", imp:1692, built:false },
+    ] },
+
+  { slug:"central-coast", name:"Central Coast", kw:"self storage central coast", searches:0, depot:"sydney",
+    img:"about-arrival.jpg", old:"/locations/central-coast/",
+    blurb:"The Central Coast and the lower Hunter are served from our Blacktown depot, from Gosford up through Morisset to Maitland.",
+    suburbs:[
+      { name:"West Gosford", slug:"west-gosford", imp:16460, built:false },
+      { name:"Rutherford", slug:"rutherford", imp:4968, built:false },
+      { name:"Maitland", slug:"maitland", imp:1260, built:false },
+      { name:"Morisset", slug:"morisset", imp:849, built:false },
+    ] },
+
+  /* New markets. The sheet notes both sit inside the Blacktown radius and
+     neither has an old URL to inherit, so they start from nothing. */
+  { slug:"newcastle", name:"Newcastle", kw:"self storage newcastle", searches:0, depot:"sydney", isNew:true,
+    img:"about-lot.jpg",
+    blurb:"Newcastle and the Hunter sit inside our Blacktown delivery radius. Same container, same per-cubic-metre price, delivered to your driveway.",
+    suburbs:[] },
+
+  { slug:"wollongong", name:"Wollongong", kw:"self storage wollongong", searches:0, depot:"sydney", isNew:true,
+    img:"about-facility.jpg",
+    blurb:"Wollongong and the Illawarra sit inside our Blacktown delivery radius, down the coast through Thirroul and Port Kembla.",
+    suburbs:[] },
+];
+
 const LOCATIONS = [
   { slug:"south-east-queensland", title:"South East Queensland", hub:"Brisbane",
     sats:["Gold Coast","Sunshine Coast","Toowoomba","Ipswich","Byron Bay"], img:"truck-coastal.png",
@@ -198,6 +320,7 @@ const FAQ_PRICE = [
 
 module.exports = {
   ROUTES, CONTACT, SIZES, CONTAINER_SPECS, TESTIMONIALS, NAV,
+  DEPOTS, REGIONS,
   STORAGE_SERVICES, MOVING_SERVICES, LOCATIONS,
   WHY, FAQ_GENERAL, FAQ_PRICE,
 };

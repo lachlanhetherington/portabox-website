@@ -1,0 +1,8 @@
+# portabox.au
+User-agent: *
+Allow: /
+
+# The quote is a separate application on its own host.
+Disallow: /get-a-quote/
+
+Sitemap: https://portabox.au/sitemap.xml
