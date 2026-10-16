@@ -1752,6 +1752,40 @@ body.g { box-sizing:border-box; font-family:var(--font, "Montserrat", Arial, san
   border-color:var(--g-cyan);
 }
 
+/* ---------- Comparison and price tables ----------
+   Used by the box shop and the comparison pages. Hairlines and right angles
+   like the rest of the system; the row header carries the weight so the
+   table reads down the left edge. */
+.g .g-ptable {
+  width:100%; border-collapse:collapse; margin:0 0 2.5rem;
+  border:1px solid var(--g-rule); background:#fff; font-size:.9375rem;
+}
+.g .g-ptable caption {
+  text-align:left; padding:0 0 .75rem; font-size:.6875rem; font-weight:700;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--g-mute);
+}
+.g .g-ptable th, .g .g-ptable td {
+  text-align:left; padding:.85rem 1.1rem; border-bottom:1px solid var(--g-rule);
+  line-height:1.55; vertical-align:top;
+}
+.g .g-ptable thead th {
+  background:var(--g-navy); color:#fff; font-size:.75rem; font-weight:700;
+  letter-spacing:.08em; text-transform:uppercase; border-bottom:0;
+}
+.g .g-ptable tbody th { font-weight:700; color:var(--g-ink); width:32%; }
+.g .g-ptable tbody td { color:var(--g-body); }
+.g .g-ptable tbody tr:last-child th, .g .g-ptable tbody tr:last-child td { border-bottom:0; }
+.g .g-ptable tbody tr:nth-child(even) th, .g .g-ptable tbody tr:nth-child(even) td { background:var(--g-mist); }
+@media (max-width:620px){
+  /* Three columns will not fit a phone, so each row becomes its own block. */
+  .g .g-ptable, .g .g-ptable tbody, .g .g-ptable tr, .g .g-ptable th, .g .g-ptable td { display:block; width:auto; }
+  .g .g-ptable thead { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }
+  .g .g-ptable tbody tr { border-bottom:1px solid var(--g-rule); }
+  .g .g-ptable tbody tr:last-child { border-bottom:0; }
+  .g .g-ptable tbody th { background:var(--g-mist); border-bottom:0; }
+  .g .g-ptable tbody td { border-bottom:0; padding-top:.2rem; }
+}
+
 /* ---------- Phone and tablet ----------
    Measured with tools/g-responsive.cjs across 360 / 390 / 414 / 768 / 820 /
    1024 / 1180. Three things: nothing interactive below ~44px, no text below

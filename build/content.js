@@ -47,6 +47,22 @@ const ROUTES = {
   /* One page per depot. A depot serves more than one region — Blacktown
      covers Sydney, the Central Coast, Newcastle and Wollongong — so these
      are keyed by depot rather than by region. */
+  /* Batch 6 format pages, batch 8 box shop, batch 9 comparison and trust. */
+  "storage-pods":                "/storage-pods/",
+  "mobile-storage":              "/mobile-storage/",
+  "portable-storage-containers": "/portable-storage-containers/",
+  "moving-pods":                 "/moving-pods/",
+  "storage-size-calculator":     "/storage-size-calculator/",
+  "moving-boxes":                "/moving-boxes/",
+  "moving-boxes-brisbane":       "/moving-boxes/brisbane/",
+  "packing-supplies":            "/packing-supplies/",
+  "box-shop":                    "/box-shop/",
+  "compare-mobile-vs-self":      "/compare/mobile-storage-vs-self-storage/",
+  "compare-pods-vs-unit":        "/compare/storage-pods-vs-storage-unit/",
+  "compare-pods-vs-truck":       "/compare/moving-pods-vs-truck-hire/",
+  "compare-portabox-vs-taxibox": "/compare/portabox-vs-taxibox/",
+  "reviews":                     "/reviews/",
+  "formerly-pods-australia":     "/formerly-pods-australia/",
   "facilities":            "/facilities/",
   "facility-brisbane":     "/facilities/brisbane/",
   "facility-sydney":       "/facilities/sydney/",

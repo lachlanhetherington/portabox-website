@@ -725,6 +725,448 @@ function facilities(r) {
 </section>`;
 }
 
+/* ---- Format, box shop, comparison and trust pages (batches 6, 8 and 9) ----
+
+   The format pages exist because the same product is searched for under four
+   different names. They are not four copies of one page: each one answers the
+   question that term is actually asked with, and each links to the others
+   rather than pretending the synonyms do not exist.
+
+   Prices here are the real ones — the container rates from SIZES and the
+   packing supplies straight out of the quote app's config, so the box shop
+   quotes what the quote charges. */
+
+const SUPPLIES = require("./quote-data.json").supplies;
+
+function formatPage(o) {
+  return [
+    hero({
+      short: true, img: o.img, alt: o.alt,
+      crumb: crumb([["Home", url("index")], [o.crumb || o.h1]]),
+      h1: o.h1, sub: o.sub, form: true,
+      btns: traceBtn(C.CONTACT.quote, "Get your instant quote", "Takes a minute", "primary") +
+            traceBtn(url("container-sizes"), "Compare sizes", "10, 19 and 25 m³", "outline"),
+    }),
+    trust(),
+    simpleSteps({
+      band: "light", h: o.stepsH || "How does it work?",
+      items: [
+        { img: "step-deliver.jpg", t: "We deliver", b: "It arrives on a hydraulic frame and sets down <strong>level</strong> on your driveway." },
+        { img: "step-pack.jpg", t: "You pack", b: "Ground level, your own time. You fit the <strong>lock</strong> and keep the keys." },
+        { img: "step-move.jpg", t: "We store or move it", b: "Leave it at your place, or we <strong>collect</strong> it — to our yard or your new address." },
+      ],
+    }),
+    split({
+      band: "grey", img: o.img2 || "sizes-three.jpg", alt: o.img2alt || "The three Portabox container sizes side by side",
+      flip: true, chip: o.chip, h: o.bodyH, body: o.body,
+      btns: traceBtn(C.CONTACT.quote, "Get a price", "Takes a minute", "primary"),
+    }),
+    pricing({ band: "light" }),
+    `
+<section class="g-band g-band--grey">
+  <div class="g-wrap">
+    ${gintro("Same thing, other names", "Called something else where you are?",
+      "People search for this under half a dozen names. They all land on the same container.")}
+    <ul class="g-sub-list g-sub-list--wide g-rise">
+      ${FORMAT_LINKS.filter((f) => f.key !== o.key)
+        .map((f) => `<li><a href="${url(f.key)}">${f.label}</a></li>`).join("\n      ")}
+    </ul>
+  </div>
+</section>`,
+    faq(C.FAQ_GENERAL, o.faqH || "Common questions", "light"),
+    ctaBand({ cyan: true }),
+  ].join("\n");
+}
+
+const FORMAT_LINKS = [
+  { key: "storage-pods", label: "Storage pods" },
+  { key: "mobile-storage", label: "Mobile storage" },
+  { key: "portable-storage-containers", label: "Portable storage containers" },
+  { key: "moving-pods", label: "Moving pods" },
+  { key: "container-sizes", label: "Container sizes" },
+  { key: "storage-size-calculator", label: "Storage size calculator" },
+];
+
+/* ---- the box shop ---- */
+const boxRows = (kind) => {
+  const p = SUPPLIES;
+  const single = kind === "box" ? p.boxSinglePrice : p.blanketSinglePrice;
+  const t10 = kind === "box" ? p.box10Price : p.blanket10Price;
+  const t50 = kind === "box" ? p.box50Price : p.blanket50Price;
+  const t100 = kind === "box" ? p.box100Price : p.blanket100Price;
+  const label = kind === "box" ? "box" : "blanket";
+  return [
+    ["One " + label, `${single.toFixed(2)}`, "Topping up"],
+    ["10 " + label + "s", `${t10}`, `${(t10 / 10).toFixed(2)} each`],
+    ["50 " + label + "s", `${t50}`, `${(t50 / 50).toFixed(2)} each — a two bedroom home`],
+    ["100 " + label + "s", `${t100}`, `${(t100 / 100).toFixed(2)} each — a full house`],
+  ];
+};
+
+const priceTable = (kind, caption) => `
+    <table class="g-ptable g-rise">
+      <caption>${caption}</caption>
+      <thead><tr><th scope="col">Quantity</th><th scope="col">Price</th><th scope="col">Works out at</th></tr></thead>
+      <tbody>
+        ${boxRows(kind).map((r) => `<tr><th scope="row">${r[0]}</th><td>${r[1]}</td><td>${r[2]}</td></tr>`).join("\n        ")}
+      </tbody>
+    </table>`;
+
+function boxShopPage(o) {
+  return [
+    hero({
+      short: true, img: "step-pack.jpg", alt: "Packing boxes inside a Portabox container",
+      crumb: crumb([["Home", url("index")], [o.crumb || o.h1]]),
+      h1: o.h1, sub: o.sub, form: true,
+      btns: traceBtn(C.CONTACT.quote, "Add supplies to a quote", "Priced with the container", "primary"),
+    }),
+    trust(),
+    `
+<section class="g-band g-band--light">
+  <div class="g-wrap">
+    ${gintro("What they cost", o.priceH || "Boxes and blankets, priced by the bundle",
+      "Ordered with the container and delivered with it, so there is no separate trip and no separate delivery fee.")}
+    ${priceTable("box", "Moving boxes")}
+    ${priceTable("blanket", "Blanket rental")}
+    <p class="g-body">Blankets are a rental — they go back when the container comes back. Boxes are yours.</p>
+  </div>
+</section>`,
+    split({
+      band: "grey", img: "couple-driveway.jpg", alt: "A couple loading a Portabox container on their driveway",
+      flip: true, chip: "How many do I need?",
+      h: "Roughly a box per square metre",
+      body: `<p class="g-body">A one bedroom flat is usually 30 to 40 boxes, a two bedroom home 60 to 80, and a three bedroom house 100 to 120. Those are the same figures the <a href="${url("container-sizes")}">container sizes</a> page uses, so the box count and the container size agree with each other.</p>
+        <p class="g-body">Order on the high side. Unused boxes are easier to deal with than a half-packed kitchen at ten at night.</p>`,
+      btns: traceBtn(C.CONTACT.quote, "Get a price", "Container and supplies", "primary"),
+    }),
+    o.extra || "",
+    faq(C.FAQ_GENERAL, "Common questions", "light"),
+    ctaBand({ cyan: true }),
+  ].filter(Boolean).join("\n");
+}
+
+/* ---- comparisons ----
+   Written to be useful to somebody deciding, not to run a competitor down.
+   Portabox's own numbers are stated because they are ours to state; anybody
+   else's are left as the thing for you to go and check, because we do not
+   have their current pricing and will not invent it. */
+function comparePage(o) {
+  return [
+    hero({
+      short: true, img: o.img || "sizes-vs-rival.jpg", alt: o.alt || "Portabox containers beside a competitor's",
+      crumb: crumb([["Home", url("index")], ["Compare", url("pricing")], [o.short]]),
+      h1: o.h1, sub: o.sub, form: true,
+      btns: traceBtn(C.CONTACT.quote, "Get your instant quote", "Takes a minute", "primary"),
+    }),
+    trust(),
+    `
+<section class="g-band g-band--light">
+  <div class="g-wrap">
+    ${gintro("Side by side", o.tableH, o.tableSub)}
+    <table class="g-ptable g-rise">
+      <thead><tr><th scope="col">&nbsp;</th><th scope="col">${o.colA}</th><th scope="col">${o.colB}</th></tr></thead>
+      <tbody>
+        ${o.rows.map((r) => `<tr><th scope="row">${r[0]}</th><td>${r[1]}</td><td>${r[2]}</td></tr>`).join("\n        ")}
+      </tbody>
+    </table>
+    ${o.note ? `<p class="g-body">${o.note}</p>` : ""}
+  </div>
+</section>`,
+    pricing({ band: "grey" }),
+    faq(C.FAQ_PRICE, "Questions about the comparison", "light"),
+    ctaBand({ cyan: true }),
+  ].join("\n");
+}
+
+/* ---- Interstate route pages (build sheet, batch 7) ----
+
+   Twenty city pairs. Each carries the real line-haul rate for that direction
+   out of the quote app's interstate matrix, which is why they are not twenty
+   copies of one page: Adelaide to Melbourne is $1,500 and Sydney to Adelaide
+   is $2,700, and the direction matters — Melbourne to Adelaide is $1,600
+   while Adelaide to Melbourne is $1,500.
+
+   The rate is the line haul for one container. The legs either end are the
+   standard $149 each, and the quote adds them up properly; the page says so
+   rather than presenting the line haul as the total. */
+const ROUTE_CITIES = {
+  sydney:       { name: "Sydney",      hub: "Sydney",              depot: "sydney" },
+  melbourne:    { name: "Melbourne",   hub: "Melbourne",           depot: "melbourne" },
+  brisbane:     { name: "Brisbane",    hub: "Brisbane/Gold Coast", depot: "brisbane" },
+  adelaide:     { name: "Adelaide",    hub: "Adelaide",            depot: "adelaide" },
+  "gold-coast": { name: "Gold Coast",  hub: "Brisbane/Gold Coast", depot: "brisbane" },
+};
+
+const ROUTES = (() => {
+  const data = require("./quote-data.json");
+  const out = [];
+  const order = ["sydney", "melbourne", "brisbane", "adelaide", "gold-coast"];
+  order.forEach((from) => order.forEach((to) => {
+    if (from === to) return;
+    const a = ROUTE_CITIES[from], b = ROUTE_CITIES[to];
+    const rate = a.hub === b.hub ? null : data.interstate[a.hub + "->" + b.hub];
+    if (a.hub !== b.hub && !rate) return;
+    out.push({ from, to, a, b, rate, local: rate === null, slug: `${from}-to-${to}` });
+  }));
+  return out;
+})();
+
+function routeFaq(r) {
+  const da = C.DEPOTS[r.a.depot], db = C.DEPOTS[r.b.depot];
+  const legs = C.QUOTE_LEG_FEE || 149;
+  return [
+    [`How much does it cost to move from ${r.a.name} to ${r.b.name}?`,
+     (r.local
+       ? `<p>Both ends run off the same depot, so there is no interstate line haul on this one — it is costed as a direct local move on the distance between your two addresses, plus the delivery legs at <strong>$${legs}</strong> per container per leg.</p>`
+       : `<p>The line haul for one container ${r.a.name} to ${r.b.name} is <strong>$${r.rate.toLocaleString("en-AU")}</strong>. On top of that sit the delivery legs at each end — $${legs} per container per leg — and the monthly rate for however long you keep it, from $209.</p>`) +
+     `<p>That is the whole of it. The <a href="${C.CONTACT.quote}">instant quote</a> adds it up for your two addresses and shows you the breakdown before you commit.</p>`],
+
+    [`How long does a move from ${r.a.name} to ${r.b.name} take?`,
+     `<p>${r.local ? "It is a direct run between the two addresses" : "It runs on a scheduled line haul rather than a dedicated truck, which is what keeps it cheaper than a removalist"}. We give you the date when you book, after we have the two addresses — we do not quote a transit time here that we might not make.</p>`],
+
+    [`Do I have to pack it all in one day?`,
+     `<p>No, and that is the point of a container. It sits on your driveway in ${r.a.name} for as long as you need, you load it at ground level, and it leaves when you say. No removalist waiting with the clock running.</p>`],
+
+    [`What if the new place is not ready?`,
+     `<p>Then it does not have to go straight there. We can hold the container at ${db.suburb} until the ${r.b.name} end is ready, and you pay the monthly rate while it sits. Nobody opens it — your lock stays on.</p>`],
+
+    [`Is one container enough?`,
+     `<p>A 25 m³ holds a three-bedroom house including the shed. If you are over that, two containers cost two line hauls, so it is worth checking the <a href="${url("container-sizes")}">sizes</a> before you book.</p>`],
+  ];
+}
+
+function routePage(r) {
+  const da = C.DEPOTS[r.a.depot], db = C.DEPOTS[r.b.depot];
+  const back = ROUTES.find((x) => x.from === r.to && x.to === r.from);
+
+  return [
+    hero({
+      short: true, img: "interstate-map.jpg",
+      alt: `The Portabox interstate route from ${r.a.name} to ${r.b.name}`,
+      crumb: crumb([["Home", url("index")], ["Moving", url("moving-services")], [`${r.a.name} to ${r.b.name}`]]),
+      h1: `Removalists ${r.a.name} to ${r.b.name}`,
+      sub: r.local
+        ? `Load once in ${r.a.name}, unload once in ${r.b.name}. Both ends run off the same depot, so this is a local move priced on the distance between them rather than an interstate line haul.`
+        : `Load once in ${r.a.name}, unload once in ${r.b.name}. The container goes on the truck — you never touch it in between. Line haul from $${r.rate.toLocaleString("en-AU")} a container.`,
+      form: true,
+      btns: traceBtn(C.CONTACT.quote, "Book now", "Pick your date", "primary") +
+            traceBtn(C.CONTACT.tel, `Call ${C.CONTACT.phone}`, "Talk it through", "outline"),
+    }),
+    trust(),
+
+    simpleSteps({
+      band: "light", h: `${r.a.name} to ${r.b.name}, in three moves`,
+      items: [
+        { img: "step-deliver.jpg", t: `We deliver in ${r.a.name}`,
+          b: `The container comes from ${da.suburb} and sits <strong>level</strong> on your driveway until you are done.` },
+        { img: "step-pack.jpg", t: "You load it once",
+          b: "Ground level, your own pace, your own lock. Nothing gets carried twice." },
+        { img: "step-move.jpg", t: `We deliver in ${r.b.name}`,
+          b: `Straight to the new address via ${db.suburb} — <strong>no warehouse detour</strong>, no second handling.` },
+      ],
+    }),
+
+    `
+<section class="g-band g-band--grey">
+  <div class="g-wrap">
+    ${gintro("What it costs",
+      r.local
+        ? `${r.a.name} to ${r.b.name}, priced on the run`
+        : `$${r.rate.toLocaleString("en-AU")} on the ${r.a.name} to ${r.b.name} run`,
+      r.local
+        ? "Both ends sit inside one depot's radius, so there is no line haul — it is costed as a local move on the distance between your two addresses."
+        : "That is the line haul for one container. Here is everything that sits around it, so nothing arrives as a surprise.")}
+    <ul class="g-perks g-rise">
+      <li class="g-perk"><span class="g-perk-ico" aria-hidden="true">${ICON.truck}</span>
+        <div><h3 class="g-perk-t">${r.local ? "The move &middot; priced on distance" : `Line haul &middot; $${r.rate.toLocaleString("en-AU")}`}</h3>
+        <p class="g-perk-b">${r.local
+          ? `A direct run from your door in ${r.a.name} to your door in ${r.b.name}, costed on the kilometres between them. The quote shows the figure before you commit.`
+          : `${r.a.name} to ${r.b.name}, one container, direct. Two containers is two line hauls.`}</p></div></li>
+      <li class="g-perk"><span class="g-perk-ico" aria-hidden="true">${ICON.house}</span>
+        <div><h3 class="g-perk-t">Delivery legs &middot; $149 each</h3>
+        <p class="g-perk-b">Out to you in ${r.a.name}, and out to you again in ${r.b.name}. Per container, per leg.</p></div></li>
+      <li class="g-perk"><span class="g-perk-ico" aria-hidden="true">${ICON.cube}</span>
+        <div><h3 class="g-perk-t">The container &middot; from $209 a month</h3>
+        <p class="g-perk-b">For as long as you have it, whether that is a fortnight either side or six months in between.</p></div></li>
+      <li class="g-perk"><span class="g-perk-ico" aria-hidden="true">${ICON.key}</span>
+        <div><h3 class="g-perk-t">Your lock, the whole way</h3>
+        <p class="g-perk-b">You lock it in ${r.a.name} and you unlock it in ${r.b.name}. It is not opened, repacked or transferred in between.</p></div></li>
+    </ul>
+    <p class="g-body"><a href="${url("pricing")}">See how the per-cubic-metre rate compares</a></p>
+  </div>
+</section>`,
+
+    pricing({ band: "light" }),
+
+    `
+<section class="g-band g-band--grey">
+  <div class="g-wrap">
+    ${gintro("Other routes", "Moving somewhere else?",
+      "Every run below is a direct line haul on the same terms.")}
+    <ul class="g-sub-list g-sub-list--wide g-rise">
+      ${ROUTES.filter((x) => x.slug !== r.slug).slice(0, 12)
+        .map((x) => `<li><a href="/moving/${x.slug}/">${x.a.name} to ${x.b.name}</a></li>`).join("\n      ")}
+    </ul>
+    ${back ? `<p class="g-body">Going the other way? <a href="/moving/${back.slug}/">${back.a.name} to ${back.b.name}</a>${back.local ? "" : ` is $${back.rate.toLocaleString("en-AU")}`}.</p>` : ""}
+  </div>
+</section>`,
+
+    faq(routeFaq(r), `${r.a.name} to ${r.b.name}: your questions, answered`, "light"),
+    ctaBand({ cyan: true }),
+  ].join("\n");
+}
+
+/* ---- Suburb pages (SEO build sheet, batches 3 to 5) ----
+
+   43 suburbs on the sheet, 39 built. The four it marks CHECK FIRST are left
+   alone: each name exists in more than one state and the sheet says to
+   confirm before building, or the page lands under the wrong hub.
+
+   Every one carries the real road distance from the depot that serves it,
+   from build/suburb-data.json — coordinates looked up once against
+   OpenStreetMap and distance computed with the same arithmetic the quote
+   engine charges by, so the number on the page agrees with the quote.
+
+   Two of the five fields the sheet asks for are not here, because Portabox
+   has not supplied them: the delivery lead time and whether the council
+   wants a kerbside permit. Both are answered honestly on the page rather
+   than guessed — the lead time is confirmed when you book, and the permit
+   depends on the council and on whether the container goes on your driveway
+   or the road. */
+
+const SUBURBS = (() => {
+  let data = {};
+  try { data = require("./suburb-data.json"); } catch (e) { /* not geocoded yet */ }
+  const out = [];
+  C.REGIONS.forEach((r) => {
+    r.suburbs.forEach((s) => {
+      const d = data[r.slug + "/" + s.slug];
+      if (!d) return;
+      out.push({
+        ...s, ...d, region: r, url: "/self-storage/" + r.slug + "/" + s.slug + "/",
+      });
+    });
+  });
+  return out;
+})();
+
+/* Nearest neighbours by road distance from the same depot, which is what
+   somebody checking coverage actually wants to see next. */
+function nearbySuburbs(s, n) {
+  return SUBURBS
+    .filter((x) => x.region.slug === s.region.slug && x.slug !== s.slug)
+    .sort((a, b) => Math.abs(a.km - s.km) - Math.abs(b.km - s.km))
+    .slice(0, n);
+}
+
+function suburbFaq(s) {
+  const d = C.DEPOTS[s.region.depot];
+  return [
+    [`How much does self storage in ${s.name} cost?`,
+     `<p>From <strong>$209 a month</strong> for the 10 m³ container, $219 for the 19 m³ and the 25 m³ — the same rate anywhere we deliver, because you are paying for the container rather than for the postcode.</p>
+      <p>${s.name} is ${s.km} km from the ${d.suburb} depot${s.km <= 35 ? ", inside the radius where delivery is included" : ", so the delivery leg is costed by distance"}. The <a href="${C.CONTACT.quote}">instant quote</a> gives you the figure before you commit, and the <a href="${url("pricing")}">pricing page</a> shows the arithmetic per cubic metre.</p>`],
+
+    [`Do you deliver to ${s.name}?`,
+     `<p>Yes. ${s.name} is served from our ${d.name} at ${d.addr}, ${s.km} km away by road. Put your postcode into the box at the top of this page and it will confirm it.</p>`],
+
+    [`How long before you can deliver?`,
+     `<p>It depends on what is free on the ${d.suburb} run that week, so the honest answer is that we confirm the date and the window with you before the truck is booked rather than promising one here. Ring <a href="${d.tel}">${d.phone}</a> and they will tell you what is open.</p>`],
+
+    [`Do I need a council permit in ${s.name}?`,
+     `<p>On your own driveway or in your yard, no. If the container has to sit on the road or the nature strip, most councils want a permit and the rules differ council by council — tell us the address when you book and we will tell you what applies at yours.</p>`],
+
+    [`What size container do I need?`,
+     `<p>A 10 m³ holds roughly a one-bedroom flat, a 19 m³ a two-bedroom home, and a 25 m³ a three-bedroom house including the shed. The <a href="${url("container-sizes")}">container sizes page</a> lists the internal dimensions and door clearances.</p>`],
+
+    [`Can I keep it at my place instead of your yard?`,
+     `<p>Yes, and most people in ${s.name} do. It sits on your driveway with your own lock on it and you open it whenever you like. If you would rather it went away, we collect it into ${d.suburb} — <a href="${url("facility-" + s.region.depot)}">see the facility</a>.</p>`],
+  ];
+}
+
+function suburbPage(s) {
+  const d = C.DEPOTS[s.region.depot];
+  const near = nearbySuburbs(s, 8);
+  const inRadius = s.km <= 35;
+
+  return [
+    hero({
+      short: true, img: s.region.img, alt: `A Portabox container delivered in ${s.name}`,
+      crumb: crumb([
+        ["Home", url("index")],
+        [`Self storage ${s.region.name}`, url(s.region.slug)],
+        [s.name],
+      ]),
+      h1: `Self Storage ${s.name}`,
+      sub: `A container delivered to your door in ${s.name}, ${s.km} km from our ${d.suburb} depot. From $209 a month, set down level, and you keep the only key.`,
+      form: true,
+      btns: traceBtn(C.CONTACT.quote, "Book now", "Pick your date", "primary") +
+            traceBtn(d.tel, `Call ${d.phone}`, `${s.region.name} depot`, "outline"),
+    }),
+    trust(),
+
+    simpleSteps({
+      band: "light", h: `How it works in ${s.name}`,
+      items: [
+        { img: "step-deliver.jpg", t: "We deliver",
+          b: `The container comes out from ${d.suburb}, ${s.km} km away, and sets down <strong>level</strong> on your driveway.` },
+        { img: "step-pack.jpg", t: "You pack",
+          b: "At ground level, in your own time. You fit the <strong>lock</strong> and keep the keys." },
+        { img: "step-move.jpg", t: "We store or move it",
+          b: `Leave it at your place in ${s.name}, or we <strong>collect</strong> it — to our yard or your new address.` },
+      ],
+    }),
+
+    `
+<section class="g-band g-band--grey">
+  <div class="g-wrap">
+    ${gintro("Delivery to " + s.name, `${s.km} km from the ${d.suburb} depot`,
+      inRadius
+        ? `That is inside the ${C.ZONE1_KM || 35} km radius where the delivery leg is included in the monthly rate, so what you see on the quote is what you pay.`
+        : `Past the ${C.ZONE1_KM || 35} km included radius, so the delivery leg is costed by distance — the quote shows that figure before you commit, not after.`)}
+    <ul class="g-perks g-rise">
+      <li class="g-perk">
+        <span class="g-perk-ico" aria-hidden="true">${ICON.pin}</span>
+        <div><h3 class="g-perk-t">Your depot</h3>
+        <p class="g-perk-b"><a href="${url("facility-" + s.region.depot)}">${d.name}</a><br>${d.addr}<br><a href="${d.tel}">${d.phone}</a></p></div>
+      </li>
+      <li class="g-perk">
+        <span class="g-perk-ico" aria-hidden="true">${ICON.clock}</span>
+        <div><h3 class="g-perk-t">When we can come</h3>
+        <p class="g-perk-b">We confirm the date and the window with you before the truck is booked, rather than promising one here. Ring the depot for this week.</p></div>
+      </li>
+      <li class="g-perk">
+        <span class="g-perk-ico" aria-hidden="true">${ICON.wall}</span>
+        <div><h3 class="g-perk-t">Where it sits</h3>
+        <p class="g-perk-b">A driveway or yard needs no permit. On the road or the nature strip most councils do want one, and it differs council by council — tell us the address and we will say.</p></div>
+      </li>
+      <li class="g-perk">
+        <span class="g-perk-ico" aria-hidden="true">${ICON.key}</span>
+        <div><h3 class="g-perk-t">Who holds the key</h3>
+        <p class="g-perk-b">You do, and only you. You fit your own lock before it leaves ${s.name}, whether it stays on your driveway or comes back to ${d.suburb}.</p></div>
+      </li>
+    </ul>
+  </div>
+</section>`,
+
+    pricing({ band: "light" }),
+
+    near.length ? `
+<section class="g-band g-band--grey">
+  <div class="g-wrap">
+    ${gintro("Nearby", `We also deliver around ${s.name}`,
+      `Same container, same rate, same run out of ${d.suburb}.`)}
+    <ul class="g-sub-list g-sub-list--wide g-rise">
+      ${near.map((x) => `<li><a href="${x.url}">Self storage ${x.name}</a></li>`).join("\n      ")}
+    </ul>
+    <p class="g-body"><a href="${url(s.region.slug)}">See everywhere we cover in ${s.region.name}</a></p>
+  </div>
+</section>` : "",
+
+    faq(suburbFaq(s), `Self storage in ${s.name}: your questions, answered`, "light"),
+    ctaBand({ cyan: true }),
+  ].filter(Boolean).join("\n");
+}
+
 /* ---- Storage facility pages ----
    Laid out after the reference site's location page: a light card with the
    yard photographed on one side and the address, numbers and map on the
@@ -1387,6 +1829,332 @@ Object.keys(C.DEPOTS).forEach((k) => {
     desc: `The Portabox yard at ${d.addr}. Containers for ${regions.map((r) => r.name).join(", ")} are delivered from here, and stored here if you store with us.`,
     body: facilityPage(k),
   });
+});
+
+/* ---- Batch 6: format pages ---- */
+PAGES.push({
+  file: outFile("storage-pods"), active: "storage-services.html",
+  title: "Storage Pods Australia | Delivered to Your Door | Portabox",
+  desc: "Storage pods delivered to your address and left there, or collected into a monitored yard. From $209 a month, priced per cubic metre. You keep the only key.",
+  faqs: C.FAQ_GENERAL,
+  body: formatPage({
+    key: "storage-pods", img: "delivery-home.jpg", alt: "A storage pod delivered to a suburban home",
+    h1: "Storage Pods", crumb: "Storage pods",
+    sub: "A pod on your driveway instead of a unit across town. Delivered level, loaded at ground height, and the only key stays with you. From $209 a month.",
+    chip: "What you get", bodyH: "A pod is just a container that comes to you",
+    body: `<p class="g-body">The idea behind a pod is that the storage arrives rather than you driving to it. No trolley, no lift, no access hours, no counter staff with a spare key.</p>
+      <p class="g-body">Ours come in three sizes — 10, 19 and 25 m³ — and the rate is per cubic metre, which is the only honest way to compare storage. <a href="${url("pricing")}">See the arithmetic</a>.</p>`,
+    faqH: "Questions about storage pods",
+  }),
+});
+
+PAGES.push({
+  file: outFile("mobile-storage"), active: "storage-services.html",
+  title: "Mobile Storage | Containers Delivered Australia-wide | Portabox",
+  desc: "Mobile storage containers delivered to your address across Brisbane, Sydney, Melbourne, Adelaide and the Gold Coast. From $209 a month, you keep the only key.",
+  faqs: C.FAQ_GENERAL,
+  body: formatPage({
+    key: "mobile-storage", img: "couple-driveway.jpg", alt: "A mobile storage container on a driveway",
+    h1: "Mobile Storage", crumb: "Mobile storage",
+    sub: "Storage that moves. It comes to your address, stays as long as you need, and goes wherever you are going next — without being unpacked in between.",
+    chip: "Why mobile", bodyH: "Load it once, and only once",
+    body: `<p class="g-body">The expensive part of storage is not the space. It is the double handling — into a van, out of a van, into a unit, and all of it again at the other end.</p>
+      <p class="g-body">A mobile container is loaded once at your place. If it later needs to go interstate, it goes as it is — see the <a href="${url("interstate-moves")}">interstate routes</a>.</p>`,
+    faqH: "Questions about mobile storage",
+  }),
+});
+
+PAGES.push({
+  file: outFile("portable-storage-containers"), active: "storage-services.html",
+  title: "Portable Storage Containers | 10, 19 and 25 m³ | Portabox",
+  desc: "Portable storage containers in three sizes, delivered level on a hydraulic frame. From $209 a month, priced per cubic metre, with the only key in your hand.",
+  faqs: C.FAQ_GENERAL,
+  body: formatPage({
+    key: "portable-storage-containers", img: "sizes-three.jpg", alt: "Three sizes of portable storage container",
+    h1: "Portable Storage Containers", crumb: "Portable storage containers",
+    sub: "Australia's largest portable storage containers, in three sizes. Delivered level on the EARL hydraulic frame — never tipped, never dragged.",
+    chip: "The containers", bodyH: "Three sizes, and the measurements to prove it",
+    body: `<p class="g-body">10 m³, 19 m³ and 25 m³, measured inside, because the inside is what you load. A lot of comparisons quote the outside of the box.</p>
+      <p class="g-body">The 25 m³ holds a three bedroom house including the shed. <a href="${url("container-sizes")}">All the dimensions are here</a>.</p>`,
+    img2: "sizes-internal.jpg", img2alt: "Internal dimensions of the three container sizes",
+    faqH: "Questions about the containers",
+  }),
+});
+
+PAGES.push({
+  file: outFile("moving-pods"), active: "moving-services.html",
+  title: "Moving Pods | Load Once, Move Once | Portabox",
+  desc: "Moving pods delivered to your door, loaded at ground level and driven to the new address. Local, interstate or regional. From $209 a month plus the run.",
+  faqs: C.FAQ_GENERAL,
+  body: formatPage({
+    key: "moving-pods", img: "step-move.jpg", alt: "A Portabox moving pod on the highway",
+    h1: "Moving Pods", crumb: "Moving pods",
+    sub: "A pod for moving, not just storing. You load it once on your driveway and it is not opened again until it reaches the new address.",
+    chip: "Moving with a pod", bodyH: "No removalist standing over you",
+    body: `<p class="g-body">A removalist charges for the hours they are at your house, which is why everybody packs in a panic the night before. A pod sits there for as long as you need.</p>
+      <p class="g-body">When it is full, we drive it. <a href="${url("interstate-moves")}">Interstate</a>, <a href="${url("local-moves")}">local</a>, or <a href="${url("regional-remote")}">anywhere regional</a>.</p>`,
+    stepsH: "How a move with a pod works",
+    faqH: "Questions about moving pods",
+  }),
+});
+
+PAGES.push({
+  file: outFile("storage-size-calculator"), active: "container-sizes.html",
+  title: "Storage Size Calculator | Which Container Do I Need? | Portabox",
+  desc: "Work out which container size you need by room and by furniture, with the internal dimensions of the 10, 19 and 25 m³ Portabox containers beside it.",
+  faqs: C.FAQ_GENERAL,
+  body: formatPage({
+    key: "storage-size-calculator", img: "sizes-internal.jpg", alt: "Internal dimensions of the three container sizes",
+    h1: "Storage Size Calculator", crumb: "Storage size calculator",
+    sub: "Count the rooms you are emptying and we will point at the smallest container that holds them. The calculator is built into the quote — it runs on the same volumes.",
+    chip: "Sizing it", bodyH: "Rough is good enough",
+    body: `<p class="g-body">A bedroom is about 6 m³, a living room 7, a garage 8. Add them up and round up — a 10 m³ suits a one bedroom flat, a 19 m³ a two bedroom home, a 25 m³ a three bedroom house with the shed.</p>
+      <p class="g-body">The <a href="${C.CONTACT.quote}">instant quote</a> has the room-by-room estimator in step three, and <a href="${url("container-sizes")}">every internal dimension is published</a>.</p>`,
+    stepsH: "Not sure? Start here",
+    faqH: "Questions about sizing",
+  }),
+});
+
+/* ---- Batch 8: box shop ---- */
+PAGES.push({
+  file: outFile("moving-boxes"), active: "pricing.html",
+  title: "Moving Boxes | Delivered With Your Container | Portabox",
+  desc: "Moving boxes from $2.50 each, or 100 for $70, delivered with your container. Blanket rental too. No separate delivery fee and no separate trip.",
+  faqs: C.FAQ_GENERAL,
+  body: boxShopPage({
+    h1: "Moving Boxes", crumb: "Moving boxes",
+    sub: "Boxes delivered with the container, not in a separate van on a separate day. From $2.50 each, or 100 for $70.",
+  }),
+});
+
+PAGES.push({
+  file: outFile("moving-boxes-brisbane"), active: "pricing.html",
+  title: "Moving Boxes Brisbane | Delivered With Your Container | Portabox",
+  desc: "Moving boxes delivered across Brisbane with your Portabox container, from our Gilberton depot. From $2.50 each, or 100 for $70, with blanket rental available.",
+  faqs: C.FAQ_GENERAL,
+  body: boxShopPage({
+    h1: "Moving Boxes Brisbane", crumb: "Moving boxes Brisbane",
+    sub: "Boxes across Brisbane, delivered with the container from our Gilberton depot. From $2.50 each, or 100 for $70.",
+    priceH: "Boxes and blankets, delivered in Brisbane",
+    extra: `
+<section class="g-band g-band--light">
+  <div class="g-wrap">
+    ${gintro("Where we deliver", "Boxes go out on the Brisbane run",
+      "Same truck, same day as the container, right across the region.")}
+    <ul class="g-sub-list g-sub-list--wide g-rise">
+      ${C.REGIONS.filter((r) => r.depot === "brisbane").flatMap((r) => r.suburbs.map((s) => `<li><a href="/self-storage/${r.slug}/${s.slug}/">${s.name}</a></li>`)).join("\n      ")}
+    </ul>
+    <p class="g-body"><a href="${url("brisbane")}">See everywhere we cover in Brisbane</a></p>
+  </div>
+</section>`,
+  }),
+});
+
+PAGES.push({
+  file: outFile("packing-supplies"), active: "pricing.html",
+  title: "Packing Supplies | Boxes, Blankets and Tape | Portabox",
+  desc: "Packing supplies delivered with your container — moving boxes from $2.50 each and blanket rental from $2. Ordered on the quote, delivered on the same truck.",
+  faqs: C.FAQ_GENERAL,
+  body: boxShopPage({
+    h1: "Packing Supplies", crumb: "Packing supplies",
+    sub: "Everything that goes in the container, delivered with the container. Boxes to keep, blankets to borrow.",
+    priceH: "What the supplies cost",
+  }),
+});
+
+PAGES.push({
+  file: outFile("box-shop"), active: "pricing.html",
+  title: "Box Shop | Moving Boxes and Packing Supplies | Portabox",
+  desc: "The Portabox box shop — moving boxes from $2.50, bundles of 100 for $70, and blanket rental, all delivered with your container rather than separately.",
+  faqs: C.FAQ_GENERAL,
+  body: boxShopPage({
+    h1: "Box Shop", crumb: "Box shop",
+    sub: "Boxes, blankets and the bits you forget. Added to the quote and delivered on the same truck as the container.",
+    priceH: "The shop, in two tables",
+  }),
+});
+
+/* ---- Batch 9: comparison and trust ---- */
+PAGES.push({
+  file: outFile("compare-mobile-vs-self"), active: "pricing.html",
+  title: "Mobile Storage vs Self Storage | Which Is Cheaper? | Portabox",
+  desc: "Mobile storage against a self storage unit — what each one costs you in trips, handling and access, and how to compare them honestly per cubic metre.",
+  faqs: C.FAQ_PRICE,
+  body: comparePage({
+    short: "Mobile vs self storage", h1: "Mobile Storage vs Self Storage",
+    sub: "One comes to you. One you drive to. The difference shows up in handling and in trips, not just in the monthly rate.",
+    tableH: "What actually differs", tableSub: "Our figures are ours to state. For a unit, go and check the ones you are quoted — especially the cubic metres.",
+    colA: "Portabox mobile storage", colB: "A self storage unit",
+    rows: [
+      ["Getting your things there", "It arrives at your door, level, on a hydraulic frame", "You drive them there, usually more than once"],
+      ["Handling", "Loaded once, at ground height", "Van, trolley, lift, unit — then again in reverse"],
+      ["Access", "On your driveway, whenever you like", "Facility hours, and somebody holds a spare key"],
+      ["What you rent", "A whole container, measured inside", "A space, often quoted in square feet"],
+      ["Our rate", "From $209 a month, 10 m³", "Ask for theirs per cubic metre, not per week"],
+    ],
+    note: `The comparison worth making is dollars per cubic metre per month. Divide whatever you are quoted by the cubic metres you actually get — the <a href="${url("pricing")}">pricing page</a> does ours.`,
+  }),
+});
+
+PAGES.push({
+  file: outFile("compare-pods-vs-unit"), active: "pricing.html",
+  title: "Storage Pods vs a Storage Unit | Portabox",
+  desc: "Storage pods against a traditional storage unit — access, handling, security and how the two compare once you work it out per cubic metre.",
+  faqs: C.FAQ_PRICE,
+  body: comparePage({
+    short: "Pods vs unit", h1: "Storage Pods vs a Storage Unit",
+    sub: "A pod is storage that turns up. A unit is storage you commute to. Here is where that actually costs or saves you.",
+    tableH: "Pod against unit", tableSub: "Stated plainly, with our own numbers and none of anybody else's.",
+    colA: "A Portabox pod", colB: "A storage unit",
+    rows: [
+      ["Where it is", "Your driveway, or our monitored yard", "A facility, on their schedule"],
+      ["Who has a key", "You, and nobody else", "You, plus whoever runs the counter"],
+      ["Loading", "Ground level, no ramp, no lift", "Trolley, corridor, lift"],
+      ["Moving house later", "The same container goes on the truck", "Unpack it all and start again"],
+      ["Our rate", "From $209 a month", "Compare theirs per cubic metre"],
+    ],
+  }),
+});
+
+PAGES.push({
+  file: outFile("compare-pods-vs-truck"), active: "pricing.html",
+  title: "Moving Pods vs Truck Hire | Which Works Out Better? | Portabox",
+  desc: "Moving pods against hiring a truck — who does the driving, who does the lifting, what each costs, and when a truck is genuinely the better call.",
+  faqs: C.FAQ_PRICE,
+  body: comparePage({
+    short: "Pods vs truck hire", h1: "Moving Pods vs Truck Hire",
+    sub: "A truck is cheaper on the day and dearer in everything else. Sometimes it is still the right answer — here is when.",
+    img: "step-move.jpg", alt: "A Portabox container on the highway",
+    tableH: "Pod against a hire truck", tableSub: "Both are worth considering. This is the honest split.",
+    colA: "A Portabox pod", colB: "Hiring a truck",
+    rows: [
+      ["Who drives", "We do, including interstate", "You do, both ways"],
+      ["How long you have", "Days, at your own pace", "The hire window, with the clock running"],
+      ["Lifting", "Ground level, once", "Up into the tray, down again, twice"],
+      ["Interstate", `From $1,500 a container on the Adelaide–Melbourne run`, "Your licence, your fuel, your two days"],
+      ["Better when", "You are moving house, or storing either side", "It is a short local shift and you have help"],
+    ],
+    note: `If it is a one-room move across town with a mate and a ute, hire the truck. If it is a house, a pod usually wins once the second trip is counted — the <a href="${C.CONTACT.quote}">quote</a> will tell you in a minute.`,
+  }),
+});
+
+PAGES.push({
+  file: outFile("compare-portabox-vs-taxibox"), active: "pricing.html",
+  title: "Portabox vs TAXIBOX | How to Compare Them | Portabox",
+  desc: "Comparing Portabox with TAXIBOX — the questions worth asking about container size, the per-cubic-metre rate, delivery and access, with our own figures stated.",
+  faqs: C.FAQ_PRICE,
+  body: comparePage({
+    short: "Portabox vs TAXIBOX", h1: "Portabox vs TAXIBOX",
+    sub: "We are not going to quote somebody else's prices at you — they change, and we would get them wrong. These are the questions to ask both of us, with our answers filled in.",
+    tableH: "What to ask, and our answer", tableSub: "Take the right-hand column to whoever else you are quoting and ask them the same thing.",
+    colA: "Portabox", colB: "The question to ask",
+    rows: [
+      ["Container sizes", "10 m³, 19 m³ and 25 m³, measured inside", "How many cubic metres, measured where?"],
+      ["Monthly rate", "From $209 for the 10 m³, $219 for the 25 m³", "What is the rate per cubic metre per month?"],
+      ["Delivery", `Included inside 35 km of the depot, costed by distance past it`, "What is included, and what is extra?"],
+      ["Keys", "You fit the lock. We have no key", "Who else can open it?"],
+      ["Interstate", "Published line haul per route", "Is the interstate price published or quoted?"],
+    ],
+    note: `Divide any monthly rate by the cubic metres it buys. That one number is the comparison, and ours is on the <a href="${url("pricing")}">pricing page</a> in full.`,
+  }),
+});
+
+PAGES.push({
+  file: outFile("reviews"), active: "about-us.html",
+  title: "Portabox Reviews | What Customers Say | Portabox",
+  desc: "What Portabox customers say about delivery, access and the per-cubic-metre price, in their own words.",
+  body: [
+    hero({
+      short: true, img: "couple-driveway.jpg", alt: "Portabox customers beside their container",
+      crumb: crumb([["Home", url("index")], ["Reviews"]]),
+      h1: "What our customers say",
+      sub: "Three of them, in their own words, from the Portabox site. We would rather show you a handful we can stand behind than a number we cannot.",
+      form: true,
+    }),
+    trust(),
+    testimonials({ band: "light" }),
+    `
+<section class="g-band g-band--grey">
+  <div class="g-wrap">
+    ${gintro("About these", "Why there are only three",
+      "These are the reviews Portabox has published. We have not been given a star rating, a review count or a feed to pull from, so this page does not show one — a made-up number is worth less than three real sentences.")}
+    <p class="g-body">If you have stored or moved with us and would put your name to it, ring <a href="${C.CONTACT.tel}">${C.CONTACT.phone}</a> or <a href="${C.CONTACT.mailto}">email us</a> and we will add it.</p>
+  </div>
+</section>`,
+    faq(C.FAQ_GENERAL, "Common questions", "light"),
+    ctaBand({ cyan: true }),
+  ].join("\n"),
+});
+
+PAGES.push({
+  file: outFile("formerly-pods-australia"), active: "about-us.html",
+  title: "Formerly PODS Australia and AusPods | Now Portabox",
+  desc: "AusPods and PODS Australia are now Portabox. Same containers, same depots in Brisbane, Sydney, Melbourne and Adelaide, same team — a new name and a new site.",
+  faqs: [
+    ["Is Portabox the same company as AusPods?",
+     "<p>Yes. The name changed; the containers, the depots and the people did not.</p>"],
+    ["I had a container with AusPods. Does anything change?",
+     `<p>No. Your container, your lock and your rate are unchanged. If anything is unclear, ring <a href="${C.CONTACT.tel}">${C.CONTACT.phone}</a> and the depot will sort it out.</p>`],
+    ["Where did auspods.com.au go?",
+     "<p>Here. The old pages redirect to their equivalents on this site, so a bookmark or a search result still lands somewhere useful.</p>"],
+  ],
+  body: [
+    hero({
+      short: true, img: "yard-office.jpg", alt: "The Portabox office at a container yard",
+      crumb: crumb([["Home", url("index")], ["Formerly PODS Australia"]]),
+      h1: "AusPods is now Portabox",
+      sub: "Same containers, same four depots, same people. A new name, and a site that finally says what the thing costs.",
+      form: true,
+    }),
+    trust(),
+    split({
+      band: "light", img: "yard-stacked.jpg", alt: "Portabox containers in a monitored yard", flip: true,
+      chip: "What changed", h: "The name, and not much else",
+      body: `<p class="g-body">If you knew us as AusPods or as PODS Australia, you are in the right place. The containers are the same containers and they still come out of Gilberton, Blacktown, Laverton North and Edinburgh North.</p>
+        <p class="g-body">What has changed is that the pricing is now published per cubic metre rather than quoted on request — <a href="${url("pricing")}">the whole thing is here</a>.</p>`,
+      btns: traceBtn(C.CONTACT.quote, "Get a price", "Takes a minute", "primary") +
+            traceBtn(url("facilities"), "See the depots", "All four", "outline"),
+    }),
+    featureGrid({
+      band: "grey", chip: "Still the same", h: "What carried over",
+      items: [
+        { ico: "truck", t: "The same four depots", b: "Brisbane, Sydney, Melbourne and Adelaide, at the same addresses." },
+        { ico: "cube", t: "The same containers", b: "10, 19 and 25 m³, delivered level on the EARL hydraulic frame." },
+        { ico: "key", t: "The same arrangement", b: "You fit the lock, you keep the only key, and nobody opens it but you." },
+        { ico: "globe", t: "The same coverage", b: "Metro delivery from each depot, and regional runs anywhere in Australia." },
+      ],
+    }),
+    ctaBand({ cyan: true }),
+  ].join("\n"),
+});
+
+ROUTES.forEach((r) => {
+  PAGES.push({
+    file: outFile("moving/" + r.slug), active: "moving-services.html",
+    /* A same-hub run has no line haul to name, so it does not claim one. */
+    title: r.local
+      ? `Removalists ${r.a.name} to ${r.b.name} | Local Container Move | Portabox`
+      : `Removalists ${r.a.name} to ${r.b.name} | From $${r.rate.toLocaleString("en-AU")} | Portabox`,
+    desc: r.local
+      ? `Moving ${r.a.name} to ${r.b.name} in a container you load once. A local run priced on distance, delivery legs $149 each, container from $209 a month.`
+      : `Moving ${r.a.name} to ${r.b.name} in a container you load once. Line haul from $${r.rate.toLocaleString("en-AU")}, delivery legs $149 each, container from $209 a month.`,
+    faqs: routeFaq(r),
+    body: routePage(r),
+  });
+});
+
+/* Suburb pages first, because emitting one marks it built, and the region
+   hub below prints a suburb as plain text until its page exists. */
+SUBURBS.forEach((s) => {
+  PAGES.push({
+    file: outFile("self-storage/" + s.region.slug + "/" + s.slug), active: "locations.html",
+    title: `Self Storage ${s.name} | Containers Delivered | Portabox`,
+    desc: `Portable storage and moving containers delivered to ${s.name}, ${s.km} km from our ${C.DEPOTS[s.region.depot].suburb} depot. From $209 a month. You keep the only key.`,
+    faqs: suburbFaq(s),
+    body: suburbPage(s),
+  });
+  const hit = s.region.suburbs.find((x) => x.slug === s.slug);
+  if (hit) hit.built = true;
 });
 
 C.REGIONS.forEach((r) => {
