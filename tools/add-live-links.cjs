@@ -79,17 +79,44 @@ const cellText = (attrs, inner) => {
 };
 
 const headerRow = xml.match(/<row r="1"[^>]*>([\s\S]*?)<\/row>/);
-let urlCol = -1, lastCol = -1;
+let urlCol = -1, batchCol = -1, typeCol = -1, lastCol = -1;
 for (const cm of headerRow[1].matchAll(/<c r="([A-Z]+\d+)"([^>]*?)(?:\/>|>([\s\S]*?)<\/c>)/g)) {
   const i = colIndex(cm[1]);
+  const text = cellText(cm[2], cm[3] || '').trim();
+  /* Columns this run adds are not part of the original layout, so a re-run
+     measures the sheet before them and writes over the same three. */
+  if (['Full link', 'Status', 'Notes'].includes(text)) continue;
   lastCol = Math.max(lastCol, i);
-  if (cellText(cm[2], cm[3] || '').trim() === 'New URL') urlCol = i;
+  if (text === 'New URL') urlCol = i;
+  else if (text === 'Batch') batchCol = i;
+  else if (text === 'Page type') typeCol = i;
 }
 if (urlCol < 0) throw new Error('could not find the "New URL" column');
 
 const letter = (i) => { let s = ''; for (i += 1; i > 0; i = Math.floor((i - 1) / 26)) s = String.fromCharCode(65 + ((i - 1) % 26)) + s; return s; };
 const LINK_COL = lastCol + 1;
 const STATUS_COL = lastCol + 2;
+const NOTE_COL = lastCol + 3;
+
+/* Anything not live says why, and what would unblock it. A status column on
+   its own invites the question; this answers it on the row. */
+function noteFor(url, batch, pageType, status) {
+  if (status === 'Live') return '';
+
+  if (/Google Business Profile/i.test(pageType || '')) {
+    return 'Not a page on this site. These are Google listings and the SEO team said to leave them for now.';
+  }
+  if (/JSON-LD/i.test(url)) {
+    return 'BUILT, but not as a page: the schema is generated into the head of all 105 pages — Organization everywhere, SelfStorage on each region hub and facility, FAQPage and BreadcrumbList where they apply.';
+  }
+  if (/\/CHECK\//.test(url)) {
+    return 'BLOCKED, needs one decision: this suburb name exists in more than one state, so the page would land under the wrong region hub. Confirm the state and it is a few minutes to build.';
+  }
+  if (/^10\./.test(batch || '')) {
+    return 'NOT A BUILD: the sheet says decide merge or rebuild per page and do not migrate as-is. Each of these needs a call on whether it folds into its region hub or gets rebuilt — that is your decision, not a page to generate.';
+  }
+  return 'Not built yet.';
+}
 
 /* ---- add the two cells to every row ---- */
 let live = 0, planned = 0, notPage = 0;
@@ -104,12 +131,16 @@ xml = xml.replace(/<row r="(\d+)"([^>]*)>([\s\S]*?)<\/row>/g, (whole, rNum, rAtt
     return `<row r="1"${rAttrs}>${body}` +
       `<c r="${letter(LINK_COL)}1"${s} t="inlineStr"><is><t>Full link</t></is></c>` +
       `<c r="${letter(STATUS_COL)}1"${s} t="inlineStr"><is><t>Status</t></is></c>` +
+      `<c r="${letter(NOTE_COL)}1"${s} t="inlineStr"><is><t>Notes</t></is></c>` +
       `</row>`;
   }
 
-  let url = '';
+  let url = '', batch = '', pageType = '';
   for (const cm of body.matchAll(/<c r="([A-Z]+\d+)"([^>]*?)(?:\/>|>([\s\S]*?)<\/c>)/g)) {
-    if (colIndex(cm[1]) === urlCol) { url = cellText(cm[2], cm[3] || '').trim(); break; }
+    const ci = colIndex(cm[1]);
+    if (ci === urlCol) url = cellText(cm[2], cm[3] || '').trim();
+    else if (ci === batchCol) batch = cellText(cm[2], cm[3] || '').trim();
+    else if (ci === typeCol) pageType = cellText(cm[2], cm[3] || '').trim();
   }
   if (!url) return whole;                       // spacer rows keep their shape
 
@@ -126,9 +157,12 @@ xml = xml.replace(/<row r="(\d+)"([^>]*)>([\s\S]*?)<\/row>/g, (whole, rNum, rAtt
     notPage++;
   }
 
+  const note = noteFor(url, batch, pageType, status);
+
   return `<row r="${rNum}"${rAttrs}>${body}` +
     (link ? `<c r="${letter(LINK_COL)}${rNum}" t="inlineStr"><is><t>${encode(link)}</t></is></c>` : '') +
     `<c r="${letter(STATUS_COL)}${rNum}" t="inlineStr"><is><t>${status}</t></is></c>` +
+    (note ? `<c r="${letter(NOTE_COL)}${rNum}" t="inlineStr"><is><t>${encode(note)}</t></is></c>` : '') +
     `</row>`;
 });
 
@@ -137,7 +171,8 @@ xml = xml.replace(/<row r="(\d+)"([^>]*)>([\s\S]*?)<\/row>/g, (whole, rNum, rAtt
 xml = xml.replace(/<col customWidth="1" min="14" max="26" width="[^"]*"\/>/,
   `<col customWidth="1" min="${LINK_COL + 1}" max="${LINK_COL + 1}" width="62.0"/>` +
   `<col customWidth="1" min="${STATUS_COL + 1}" max="${STATUS_COL + 1}" width="14.0"/>` +
-  `<col customWidth="1" min="${STATUS_COL + 2}" max="26" width="8.71"/>`);
+  `<col customWidth="1" min="${NOTE_COL + 1}" max="${NOTE_COL + 1}" width="86.0"/>` +
+  `<col customWidth="1" min="${NOTE_COL + 2}" max="26" width="8.71"/>`);
 
 /* The declared dimension has to cover the new columns or some readers clip. */
 xml = xml.replace(/<dimension ref="([A-Z]+)(\d+):([A-Z]+)(\d+)"\/>/,
