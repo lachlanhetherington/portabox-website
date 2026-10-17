@@ -1,0 +1,278 @@
+{
+ "belmont": {
+  "name": "Belmont",
+  "action": "ambiguous",
+  "options": [
+   "Brisbane (37 km, Queensland)",
+   "Sydney (137 km, New South Wales)",
+   "Melbourne (71 km, Victoria)"
+  ]
+ },
+ "fremantle": {
+  "name": "Fremantle",
+  "action": "out-of-network"
+ },
+ "eastern-suburbs": {
+  "name": "Eastern Suburbs",
+  "action": "out-of-network"
+ },
+ "kensington": {
+  "name": "Kensington",
+  "action": "ambiguous",
+  "options": [
+   "Sydney (42 km, New South Wales)",
+   "Melbourne (15 km, Victoria)",
+   "Adelaide (30 km, South Australia)"
+  ]
+ },
+ "unanderra": {
+  "name": "Unanderra",
+  "action": "rebuild",
+  "region": "wollongong",
+  "km": 97,
+  "depot": "sydney",
+  "lat": -34.4569444,
+  "lng": 150.8441667,
+  "state": "New South Wales",
+  "display": "Unanderra, Wollongong, New South Wales, Australia"
+ },
+ "north-melbourne": {
+  "name": "North Melbourne",
+  "action": "rebuild",
+  "region": "melbourne",
+  "km": 16,
+  "depot": "melbourne",
+  "lat": -37.7985747,
+  "lng": 144.9451741,
+  "state": "Victoria",
+  "display": "North Melbourne, Melbourne, Victoria, 3051, Australia"
+ },
+ "chermside": {
+  "name": "Chermside",
+  "action": "rebuild",
+  "region": "brisbane",
+  "km": 58,
+  "depot": "brisbane",
+  "lat": -27.384991,
+  "lng": 153.033322,
+  "state": "Queensland",
+  "display": "Chermside, Brisbane, Queensland, 4032, Australia"
+ },
+ "gladesville": {
+  "name": "Gladesville",
+  "action": "rebuild",
+  "region": "sydney",
+  "km": 27,
+  "depot": "sydney",
+  "lat": -33.8275,
+  "lng": 151.1263889,
+  "state": "New South Wales",
+  "display": "Gladesville, Sydney, New South Wales, 2111, Australia"
+ },
+ "altona": {
+  "name": "Altona",
+  "action": "rebuild",
+  "region": "melbourne",
+  "km": 5,
+  "depot": "melbourne",
+  "lat": -37.8602151,
+  "lng": 144.813703,
+  "state": "Victoria",
+  "display": "Altona, Melbourne, Victoria, 3018, Australia"
+ },
+ "ormeau": {
+  "name": "Ormeau",
+  "action": "rebuild",
+  "region": "gold-coast",
+  "km": 8,
+  "depot": "brisbane",
+  "lat": -27.774813,
+  "lng": 153.2520815,
+  "state": "Queensland",
+  "display": "Ormeau, Queensland, Australia"
+ },
+ "aspley": {
+  "name": "Aspley",
+  "action": "rebuild",
+  "region": "brisbane",
+  "km": 62,
+  "depot": "brisbane",
+  "lat": -27.3656925,
+  "lng": 153.0169605,
+  "state": "Queensland",
+  "display": "Aspley, Brisbane, Queensland, Australia"
+ },
+ "brendale": {
+  "name": "Brendale",
+  "action": "rebuild",
+  "region": "brisbane",
+  "km": 70,
+  "depot": "brisbane",
+  "lat": -27.3173155,
+  "lng": 152.9811617,
+  "state": "Queensland",
+  "display": "Brendale, Brisbane, Queensland, Australia"
+ },
+ "hawthorn": {
+  "name": "Hawthorn",
+  "action": "ambiguous",
+  "options": [
+   "Melbourne (25 km, Victoria)",
+   "Adelaide (38 km, South Australia)"
+  ]
+ },
+ "rozelle": {
+  "name": "Rozelle",
+  "action": "rebuild",
+  "region": "sydney",
+  "km": 34,
+  "depot": "sydney",
+  "lat": -33.8645002,
+  "lng": 151.1743543,
+  "state": "New South Wales",
+  "display": "Rozelle, Inner West, Sydney, New South Wales, 2039, Australia"
+ },
+ "balmain": {
+  "name": "Balmain",
+  "action": "rebuild",
+  "region": "sydney",
+  "km": 34,
+  "depot": "sydney",
+  "lat": -33.8583992,
+  "lng": 151.1807353,
+  "state": "New South Wales",
+  "display": "Balmain, Inner West, Sydney, New South Wales, 2041, Australia"
+ },
+ "mornington": {
+  "name": "Mornington",
+  "action": "rebuild",
+  "region": "melbourne",
+  "km": 61,
+  "depot": "melbourne",
+  "lat": -38.2202151,
+  "lng": 145.0411089,
+  "state": "Victoria",
+  "display": "Mornington, Melbourne, Victoria, 3931, Australia"
+ },
+ "penrith": {
+  "name": "Penrith",
+  "action": "rebuild",
+  "region": "sydney",
+  "km": 25,
+  "depot": "sydney",
+  "lat": -33.7511954,
+  "lng": 150.6941711,
+  "state": "New South Wales",
+  "display": "Penrith, Sydney, New South Wales, 2750, Australia"
+ },
+ "burleigh": {
+  "name": "Burleigh",
+  "action": "rebuild",
+  "region": "gold-coast",
+  "km": 56,
+  "depot": "brisbane",
+  "lat": -28.1021343,
+  "lng": 153.4395799,
+  "state": "Queensland",
+  "display": "Burleigh Heads, Gold Coast, Queensland, Australia"
+ },
+ "port-melbourne": {
+  "name": "Port Melbourne",
+  "action": "rebuild",
+  "region": "melbourne",
+  "km": 13,
+  "depot": "melbourne",
+  "lat": -37.8333613,
+  "lng": 144.9219203,
+  "state": "Victoria",
+  "display": "Port Melbourne, Melbourne, Victoria, 3207, Australia"
+ },
+ "south-melbourne": {
+  "name": "South Melbourne",
+  "action": "rebuild",
+  "region": "melbourne",
+  "km": 18,
+  "depot": "melbourne",
+  "lat": -37.83344,
+  "lng": 144.9570533,
+  "state": "Victoria",
+  "display": "South Melbourne, Melbourne, Victoria, 3205, Australia"
+ },
+ "tullamarine": {
+  "name": "Tullamarine",
+  "action": "rebuild",
+  "region": "melbourne",
+  "km": 19,
+  "depot": "melbourne",
+  "lat": -37.704658,
+  "lng": 144.8717732,
+  "state": "Victoria",
+  "display": "Tullamarine, Melbourne, Victoria, 3043, Australia"
+ },
+ "moorabbin": {
+  "name": "Moorabbin",
+  "action": "rebuild",
+  "region": "melbourne",
+  "km": 33,
+  "depot": "melbourne",
+  "lat": -37.9414646,
+  "lng": 145.0578383,
+  "state": "Victoria",
+  "display": "Moorabbin, Melbourne, Victoria, 3189, Australia"
+ },
+ "yatala": {
+  "name": "Yatala",
+  "action": "rebuild",
+  "region": "brisbane",
+  "km": 8,
+  "depot": "brisbane",
+  "lat": -27.7352654,
+  "lng": 153.2252177,
+  "state": "Queensland",
+  "display": "Yatala, Logan City, Queensland, 4207, Australia"
+ },
+ "capalaba": {
+  "name": "Capalaba",
+  "action": "rebuild",
+  "region": "brisbane",
+  "km": 32,
+  "depot": "brisbane",
+  "lat": -27.522037,
+  "lng": 153.1918063,
+  "state": "Queensland",
+  "display": "Capalaba, Logan City, Brisbane, Redland City, Queensland, Australia"
+ },
+ "north-sydney": {
+  "name": "North Sydney",
+  "action": "rebuild",
+  "region": "sydney",
+  "km": 37,
+  "depot": "sydney",
+  "lat": -33.8354519,
+  "lng": 151.2083011,
+  "state": "New South Wales",
+  "display": "North Sydney, New South Wales, 2060, Australia"
+ },
+ "brookvale": {
+  "name": "Brookvale",
+  "action": "rebuild",
+  "region": "sydney",
+  "km": 43,
+  "depot": "sydney",
+  "lat": -33.7628854,
+  "lng": 151.2707024,
+  "state": "New South Wales",
+  "display": "Brookvale, Northern Beaches, Sydney, New South Wales, Australia"
+ },
+ "marrickville": {
+  "name": "Marrickville",
+  "action": "rebuild",
+  "region": "sydney",
+  "km": 36,
+  "depot": "sydney",
+  "lat": -33.9104,
+  "lng": 151.1560775,
+  "state": "New South Wales",
+  "display": "Marrickville, Inner West, Sydney, New South Wales, 2204, Australia"
+ }
+}

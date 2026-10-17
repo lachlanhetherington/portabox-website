@@ -74,6 +74,246 @@
       "source": "/locations/central-coast/",
       "destination": "/self-storage/central-coast/",
       "permanent": true
+    },
+    {
+      "source": "/locations/unanderra",
+      "destination": "/self-storage/wollongong/unanderra/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/unanderra/",
+      "destination": "/self-storage/wollongong/unanderra/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/north-melbourne",
+      "destination": "/self-storage/melbourne/north-melbourne/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/north-melbourne/",
+      "destination": "/self-storage/melbourne/north-melbourne/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/chermside",
+      "destination": "/self-storage/brisbane/chermside/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/chermside/",
+      "destination": "/self-storage/brisbane/chermside/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/gladesville",
+      "destination": "/self-storage/sydney/gladesville/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/gladesville/",
+      "destination": "/self-storage/sydney/gladesville/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/altona",
+      "destination": "/self-storage/melbourne/altona/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/altona/",
+      "destination": "/self-storage/melbourne/altona/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/ormeau",
+      "destination": "/self-storage/gold-coast/ormeau/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/ormeau/",
+      "destination": "/self-storage/gold-coast/ormeau/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/aspley",
+      "destination": "/self-storage/brisbane/aspley/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/aspley/",
+      "destination": "/self-storage/brisbane/aspley/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/brendale",
+      "destination": "/self-storage/brisbane/brendale/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/brendale/",
+      "destination": "/self-storage/brisbane/brendale/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/rozelle",
+      "destination": "/self-storage/sydney/rozelle/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/rozelle/",
+      "destination": "/self-storage/sydney/rozelle/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/balmain",
+      "destination": "/self-storage/sydney/balmain/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/balmain/",
+      "destination": "/self-storage/sydney/balmain/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/mornington",
+      "destination": "/self-storage/melbourne/mornington/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/mornington/",
+      "destination": "/self-storage/melbourne/mornington/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/penrith",
+      "destination": "/self-storage/sydney/penrith/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/penrith/",
+      "destination": "/self-storage/sydney/penrith/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/burleigh",
+      "destination": "/self-storage/gold-coast/burleigh/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/burleigh/",
+      "destination": "/self-storage/gold-coast/burleigh/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/port-melbourne",
+      "destination": "/self-storage/melbourne/port-melbourne/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/port-melbourne/",
+      "destination": "/self-storage/melbourne/port-melbourne/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/south-melbourne",
+      "destination": "/self-storage/melbourne/south-melbourne/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/south-melbourne/",
+      "destination": "/self-storage/melbourne/south-melbourne/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/tullamarine",
+      "destination": "/self-storage/melbourne/tullamarine/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/tullamarine/",
+      "destination": "/self-storage/melbourne/tullamarine/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/moorabbin",
+      "destination": "/self-storage/melbourne/moorabbin/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/moorabbin/",
+      "destination": "/self-storage/melbourne/moorabbin/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/yatala",
+      "destination": "/self-storage/brisbane/yatala/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/yatala/",
+      "destination": "/self-storage/brisbane/yatala/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/capalaba",
+      "destination": "/self-storage/brisbane/capalaba/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/capalaba/",
+      "destination": "/self-storage/brisbane/capalaba/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/north-sydney",
+      "destination": "/self-storage/sydney/north-sydney/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/north-sydney/",
+      "destination": "/self-storage/sydney/north-sydney/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/brookvale",
+      "destination": "/self-storage/sydney/brookvale/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/brookvale/",
+      "destination": "/self-storage/sydney/brookvale/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/marrickville",
+      "destination": "/self-storage/sydney/marrickville/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/marrickville/",
+      "destination": "/self-storage/sydney/marrickville/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/eastern-suburbs",
+      "destination": "/self-storage/sydney/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/eastern-suburbs/",
+      "destination": "/self-storage/sydney/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/fremantle",
+      "destination": "/locations/regional-australia/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/fremantle/",
+      "destination": "/locations/regional-australia/",
+      "permanent": true
     }
   ],
   "headers": [

@@ -196,6 +196,11 @@ const REGIONS = [
     img:"r-brisbane.jpg", old:"/locations/brisbane/",
     blurb:"Our Gilberton depot covers Brisbane, Ipswich, Logan and the bay suburbs, and runs south to the Gold Coast.",
     suburbs:[
+      { name:"Capalaba", slug:"capalaba", imp:1165, built:false },
+      { name:"Yatala", slug:"yatala", imp:1286, built:false },
+      { name:"Brendale", slug:"brendale", imp:308, built:false },
+      { name:"Aspley", slug:"aspley", imp:370, built:false },
+      { name:"Chermside", slug:"chermside", imp:542, built:false },
       { name:"Ipswich", slug:"ipswich", imp:8336, built:false },
       { name:"Browns Plains", slug:"browns-plains", imp:6465, built:false },
       { name:"Logan", slug:"logan", imp:1768, built:false },
@@ -209,6 +214,13 @@ const REGIONS = [
     img:"r-sydney.jpg", old:"/locations/sydney/",
     blurb:"Our Blacktown depot covers greater Sydney, from the northern beaches through the inner west to the Hills and out to Penrith.",
     suburbs:[
+      { name:"Marrickville", slug:"marrickville", imp:966, built:false },
+      { name:"Brookvale", slug:"brookvale", imp:1008, built:false },
+      { name:"North Sydney", slug:"north-sydney", imp:1115, built:false },
+      { name:"Penrith", slug:"penrith", imp:2528, built:false },
+      { name:"Balmain", slug:"balmain", imp:17, built:false },
+      { name:"Rozelle", slug:"rozelle", imp:20, built:false },
+      { name:"Gladesville", slug:"gladesville", imp:528, built:false },
       { name:"Blacktown", slug:"blacktown", imp:8149, built:false },
       { name:"Castle Hill", slug:"castle-hill", imp:6527, built:false },
       { name:"Artarmon", slug:"artarmon", imp:4467, built:false },
@@ -230,6 +242,13 @@ const REGIONS = [
     img:"r-melbourne.jpg", old:"/locations/melbourne/",
     blurb:"Our Laverton North depot covers metropolitan Melbourne, the bayside suburbs, the east and the south-east growth corridor.",
     suburbs:[
+      { name:"Moorabbin", slug:"moorabbin", imp:1492, built:false },
+      { name:"Tullamarine", slug:"tullamarine", imp:1564, built:false },
+      { name:"South Melbourne", slug:"south-melbourne", imp:1909, built:false },
+      { name:"Port Melbourne", slug:"port-melbourne", imp:2387, built:false },
+      { name:"Mornington", slug:"mornington", imp:3948, built:false },
+      { name:"Altona", slug:"altona", imp:522, built:false },
+      { name:"North Melbourne", slug:"north-melbourne", imp:730, built:false },
       { name:"Hoppers Crossing", slug:"hoppers-crossing", imp:12151, built:false },
       { name:"Box Hill", slug:"box-hill", imp:11933, built:false },
       { name:"Pakenham", slug:"pakenham", imp:5039, built:false },
@@ -250,6 +269,8 @@ const REGIONS = [
     img:"r-gold-coast.jpg", old:"/locations/gold-coast/",
     blurb:"The Gold Coast is served from our Gilberton depot, north to Hope Island and south across the border to Tweed Heads.",
     suburbs:[
+      { name:"Burleigh", slug:"burleigh", imp:2432, built:false },
+      { name:"Ormeau", slug:"ormeau", imp:503, built:false },
       { name:"Tweed Heads", slug:"tweed-heads", imp:7062, built:false },
       { name:"Robina", slug:"robina", imp:4409, built:false },
       { name:"Currumbin", slug:"currumbin", imp:2881, built:false },
@@ -277,7 +298,9 @@ const REGIONS = [
   { slug:"wollongong", name:"Wollongong", kw:"self storage wollongong", searches:0, depot:"sydney", isNew:true,
     img:"r-wollongong.jpg",
     blurb:"Wollongong and the Illawarra sit inside our Blacktown delivery radius, down the coast through Thirroul and Port Kembla.",
-    suburbs:[] },
+    suburbs:[
+      { name:"Unanderra", slug:"unanderra", imp:736, built:false },
+    ] },
 ];
 
 const LOCATIONS = [
