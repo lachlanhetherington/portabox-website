@@ -41,7 +41,7 @@ const built = new Set();
   }
 })(SITE);
 
-/* ---- which old URLs were answered with a 301 ---- */
+/* ---- which old URLs are answered with a permanent redirect ---- */
 /* A row whose page was rebuilt at a new address is not "not built": the old
    URL still resolves, it just resolves somewhere else. Read the redirects so
    the sheet says that rather than reporting a page as missing. */
@@ -119,26 +119,26 @@ const NOTE_COL = lastCol + 3;
 function noteFor(url, batch, pageType, status, dest) {
   if (status === 'Live') return '';
 
-  if (status === 'Live (301)') {
+  if (status === 'Live (308 redirect)') {
     const slug = (url.match(/^\/locations\/([^/]+)\/$/) || [, ''])[1];
     const v = BATCH10[slug];
     if (v && v.action === 'rebuild') {
       const d = DEPOTS[v.depot];
-      return `DONE — rebuilt, not migrated as-is. The old URL 301s to ${dest}, a suburb page written from scratch. ` +
+      return `DONE — rebuilt, not migrated as-is. The old URL permanently redirects to ${dest}, a suburb page written from scratch. ` +
         `Which hub it belongs under was settled by geocoding the name: ${v.display} — ${v.km} km by road from the ${d.name} at ${d.suburb}.`;
     }
     if (slug === 'eastern-suburbs') {
       return 'DONE — merged, not rebuilt. "Eastern Suburbs" is a region, not a suburb, so there is nothing to geocode and no single page it maps to. ' +
-        `The old URL 301s to ${dest}, which lists every Sydney suburb page beneath it, Bondi Junction among them.`;
+        `The old URL permanently redirects to ${dest}, which lists every Sydney suburb page beneath it, Bondi Junction among them.`;
     }
     if (slug === 'fremantle') {
       return 'DONE — dropped as a service page. Fremantle is in WA and the nearest depot is Adelaide, well past the 200 km standard-delivery range, ' +
-        `so a page promising service there would not be true. The old URL 301s to ${dest}, which is where a WA enquiry should land.`;
+        `so a page promising service there would not be true. The old URL permanently redirects to ${dest}, which is where a WA enquiry should land.`;
     }
     if (/^10\./.test(batch || '')) {
-      return `DONE — merged into its region hub. The hub already covers this ground, so the old URL 301s to ${dest} rather than running a second page against it.`;
+      return `DONE — merged into its region hub. The hub already covers this ground, so the old URL permanently redirects to ${dest} rather than running a second page against it.`;
     }
-    return `DONE — the old URL 301s to ${dest}.`;
+    return `DONE — the old URL permanently redirects to ${dest}.`;
   }
 
   if (BATCH10[(url.match(/^\/locations\/([^/]+)\/$/) || [, ''])[1]]) {
@@ -194,7 +194,7 @@ xml = xml.replace(/<row r="(\d+)"([^>]*)>([\s\S]*?)<\/row>/g, (whole, rNum, rAtt
   if (url.startsWith('/')) {
     link = ORIGIN + url;
     if (built.has(url)) { status = 'Live'; live++; }
-    else if (redirect.has(url)) { dest = redirect.get(url); status = 'Live (301)'; moved++; }
+    else if (redirect.has(url)) { dest = redirect.get(url); status = 'Live (308 redirect)'; moved++; }
     else { status = 'Not built yet'; planned++; }
   } else if (/^(robots\.txt|sitemap\.xml)$/.test(url)) {
     link = ORIGIN + '/' + url;
@@ -300,6 +300,6 @@ const OUT_WRITTEN = written;
 
 console.log(
   `Build sheet: added "${letter(LINK_COL)} Full link" and "${letter(STATUS_COL)} Status"\n` +
-  `  ${live} live, ${moved} live behind a 301, ${planned} not built yet, ${notPage} not a page\n` +
+  `  ${live} live, ${moved} live behind a redirect, ${planned} not built yet, ${notPage} not a page\n` +
   `  origin ${ORIGIN}  ->  ${path.basename(OUT_WRITTEN)}`
 );
