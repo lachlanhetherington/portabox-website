@@ -53,3 +53,9 @@ research
 
 # Excel owner/lock files, written while a workbook is open
 ~$*
+
+# The client Instant Quote source drops (V1/V2/V3). Reference material,
+# not part of the site build: build/quote-data.json is the extracted result
+# and is committed. They were also making Vercel detect three Vite apps in
+# this repo and refuse to deploy, and they carry live Google API keys.
+website-changes/
