@@ -7,12 +7,12 @@
   "redirects": [
     {
       "source": "/get-a-quote",
-      "destination": "https://portabox-instant-quote.vercel.app/",
+      "destination": "https://portabox-instant-quote-dun.vercel.app/",
       "permanent": false
     },
     {
       "source": "/get-a-quote/",
-      "destination": "https://portabox-instant-quote.vercel.app/",
+      "destination": "https://portabox-instant-quote-dun.vercel.app/",
       "permanent": false
     },
     {

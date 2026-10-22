@@ -78,7 +78,7 @@ const ROUTES = {
    vercel.json, and from the quote app's own back arrow. Keeping it in one
    overridable place means the move is a setting, not a hunt through strings.
    verify-site.cjs checks vercel.json still agrees with this. */
-const QUOTE_APP = (process.env.QUOTE_APP_URL || "https://portabox-instant-quote.vercel.app")
+const QUOTE_APP = (process.env.QUOTE_APP_URL || "https://portabox-instant-quote-dun.vercel.app")
   .replace(/\/+$/, "") + "/";
 
 const CONTACT = {
@@ -89,7 +89,7 @@ const CONTACT = {
   /* Every "Instant Quote" CTA on the site lands here, and so does the page at
      ROUTES["instant-quote"], which redirects rather than serving a second
      quote flow of its own. The client's own app, deployed from
-     github.com/manuelbiocva/portabox-instant-quote. It reads ?postcode=
+     github.com/lachlanhetherington/portabox-instant-quote. It reads ?postcode=
      so the hero boxes can hand over what the visitor already typed. */
   quoteApp: QUOTE_APP,
   quote: QUOTE_APP,
