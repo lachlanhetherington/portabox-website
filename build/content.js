@@ -72,6 +72,15 @@ const ROUTES = {
   "contact-us":            "/contact/",
 };
 
+/* Where the quote app lives. A free vercel.app subdomain belongs to whoever
+   owns the Vercel project, so this address changes the moment the project
+   moves accounts — and it is referenced from the CTAs, from the redirect in
+   vercel.json, and from the quote app's own back arrow. Keeping it in one
+   overridable place means the move is a setting, not a hunt through strings.
+   verify-site.cjs checks vercel.json still agrees with this. */
+const QUOTE_APP = (process.env.QUOTE_APP_URL || "https://portabox-instant-quote.vercel.app")
+  .replace(/\/+$/, "") + "/";
+
 const CONTACT = {
   phone: "1800 467 637",
   tel: "tel:1800467637",
@@ -82,8 +91,8 @@ const CONTACT = {
      quote flow of its own. The client's own app, deployed from
      github.com/manuelbiocva/portabox-instant-quote. It reads ?postcode=
      so the hero boxes can hand over what the visitor already typed. */
-  quoteApp: "https://portabox-instant-quote.vercel.app/",
-  quote: "https://portabox-instant-quote.vercel.app/",
+  quoteApp: QUOTE_APP,
+  quote: QUOTE_APP,
   quoteForm: "https://portabox.au/get-a-quote/",  // the live form on the old site
   book: "https://app.smartsheet.com/b/form/356f960443654f9fb2ca37f45c4e8ff6",
   priceMatch: "https://app.smartsheet.com/b/form/35c0f3d1f2ab4ddcb16f717266fd86c0",

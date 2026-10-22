@@ -20,8 +20,24 @@ function cssBalance() {
   return { stray, open: depth };
 }
 
+/* The quote app's address lives in build/content.js, but vercel.json cannot
+   read it — Vercel parses that file before any build runs, so the redirect
+   destination has to be a literal. Two copies of one address drift silently:
+   the CTAs would point at the new deployment while /get-a-quote/ still sent
+   people to the old one. Nothing in a page render would show it. */
+function quoteAppAgrees() {
+  const want = require('../build/content.js').CONTACT.quoteApp;
+  const red = JSON.parse(fs.readFileSync('vercel.json', 'utf8')).redirects
+    .filter((r) => /^\/get-a-quote\/?$/.test(r.source));
+  if (!red.length) return ['vercel.json has no /get-a-quote redirect'];
+  return red
+    .filter((r) => r.destination.replace(/\/+$/, '') !== want.replace(/\/+$/, ''))
+    .map((r) => `vercel.json sends ${r.source} to ${r.destination}, but the CTAs point at ${want}`);
+}
+
 (async () => {
   const braces = cssBalance();
+  const quoteDrift = quoteAppAgrees();
   const b = await chromium.launch();
   const p = await b.newPage({ viewport:{width:1440,height:1000} });
   const bad404 = new Set(), errs = [];
@@ -42,9 +58,25 @@ function cssBalance() {
       continue;
     }
 
+    /* loading="lazy" means an image below the fold has deliberately not been
+       fetched yet, so checking straight after load reports half the page as
+       missing. Walk the page down first and give the fetches a moment. */
+    const pageH = await p.evaluate(() => document.body.scrollHeight);
+    for (let y = 0; y < pageH; y += 600) {
+      await p.evaluate((v) => window.scrollTo(0, v), y);
+      await p.waitForTimeout(120);
+    }
+    await p.evaluate(() => window.scrollTo(0, 0));
+    await p.waitForTimeout(600);
+
     const r = await p.evaluate(() => {
       const ov = document.documentElement.scrollWidth - document.documentElement.clientWidth;
-      const imgs = [...document.querySelectorAll('img')].filter(i=>!i.complete||i.naturalWidth===0).map(i=>i.getAttribute('src'));
+      /* An image in a collapsed menu has no box and will not have loaded.
+         That is correct, not a fault, so only laid-out images count. */
+      const imgs = [...document.querySelectorAll('img')]
+        .filter(i => i.getBoundingClientRect().width > 0)
+        .filter(i => !i.complete || i.naturalWidth === 0)
+        .map(i => i.getAttribute('src'));
       const links = [...document.querySelectorAll('a[href]')].map(a=>a.getAttribute('href'))
         .filter(h=>h && !/^(https?:|tel:|mailto:|sms:|#)/.test(h));
       return { ov, imgs, links:[...new Set(links)] };
@@ -72,6 +104,7 @@ function cssBalance() {
     ? `UNBALANCED — ${braces.stray} stray close(s), ${braces.open} left open`
     : 'balanced');
   console.log('stale paths in js  :', jsStale.length ? [...new Set(jsStale)].join(', ') : 'none');
+  console.log('quote app address  :', quoteDrift.length ? quoteDrift.join('\n                     ') : 'vercel.json agrees with the CTAs');
   console.log('desktop overflow   :', overflow.length?overflow.join(', '):'none');
   console.log('mobile overflow    :', movf.length?movf.join(', '):'none');
   console.log('broken local links :', brokenLinks.size?[...brokenLinks].join('\n                     '):'none');
