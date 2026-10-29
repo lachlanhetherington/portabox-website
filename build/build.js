@@ -2685,12 +2685,23 @@ function gNav() {
       items: C.MOVING_SERVICES.map((s) => [s.title, url(s.slug), s.blurb]),
       promo: ["sizes-three.jpg", "Moving soon?", "Local, interstate or regional &mdash; see how a container move runs."] },
     { id: "locations", label: "Locations", href: url("locations"), all: "All locations",
-      /* The eight region hubs the SEO build is organised around, plus the
-         facilities page, which otherwise had nothing linking to it. */
-      items: C.REGIONS.map((r) => [`Self storage ${r.name}`, url(r.slug),
-        `${C.DEPOTS[r.depot].suburb} depot${r.suburbs.length ? " &middot; " + r.suburbs.length + " suburbs" : ""}`])
-        .concat([["Our storage facilities", url("facilities"), "All four yards, with addresses and direct numbers"],
-                 ["Regional & Remote", url("regional-remote"), "Large parts of regional Australia, quoted per job."]]),
+      /* Grouped by depot rather than listed. This started as eight region
+         hubs in two columns of two-line cards; at twenty-two it ran off the
+         bottom of a laptop screen and the panel covered the page. The same
+         grouping as the footer band, with plain links, fits in four short
+         columns and tells you which depot serves you at a glance. */
+      groups: ["brisbane", "sydney", "melbourne", "adelaide"].map((d) => {
+        const mine = C.REGIONS.filter((r) => r.depot === d);
+        const head = mine.find((r) => r.slug === d);
+        return {
+          name: head.name,
+          href: url(head.slug),
+          items: mine.filter((r) => r !== head).map((r) => [r.name, url(r.slug)]),
+        };
+      }),
+      extra: [["Our storage facilities", url("facilities")],
+              ["Regional & Remote", url("regional-remote")]],
+      items: [],
       promo: ["step-move.jpg", "Check your postcode", "Four depots, 150&ndash;200 km each, plus regional runs beyond that."] },
   ];
 
@@ -2709,13 +2720,21 @@ function gNav() {
           <div class="g-mega-in">
             <div class="g-mega-col">
               <p class="g-mega-h">${g.label}</p>
-              <div class="g-mega-links">
+              ${g.groups ? `<div class="g-mega-areas">
+                ${g.groups.map((col) => `<div>
+                  <h3><a href="${col.href}">${col.name}</a></h3>
+                  <ul>${col.items.map(([t, h]) => `<li><a href="${h}">${t}</a></li>`).join("")}</ul>
+                </div>`).join("\n                ")}
+              </div>
+              <p class="g-mega-extra">
+                ${g.extra.map(([t, h]) => `<a href="${h}">${t}</a>`).join("\n                ")}
+              </p>` : `<div class="g-mega-links">
                 ${g.items.map(([t, h, b]) => `<a class="g-mega-l" href="${h}">
                   <b>${t}</b>
                   <span>${b || ""}</span>
                   <i aria-hidden="true">${gArrow}</i>
                 </a>`).join("\n                ")}
-              </div>
+              </div>`}
               <a class="g-mega-all" href="${g.href}">${g.all}<span aria-hidden="true">${gArrow}</span></a>
             </div>
             <a class="g-mega-promo" href="${g.href}">
@@ -3242,7 +3261,11 @@ function gStoreWithUs() {
         <div class="g-btns" style="margin-top:2rem">${gBtn(url("store-with-us"), "Learn more", "yellow")}</div>
       </div>
       <div class="g-rise" style="--d:110ms">
-        <img src="${IMG}yard-stacked.jpg" alt="Portabox containers at a secure monitored facility" loading="lazy" style="width:100%;aspect-ratio:4/5;object-fit:cover">
+        ${/* Was an office interior: a branded wall, a window and a pot plant.
+              It said nothing about the three things listed beside it. This one
+              carries all of them at once — the monitored yard behind her, the
+              key in her hand, the container she can get to. */ ""}
+        <img src="${IMG}facility-keys-yard.jpg" alt="A customer holding her own key outside her container in a Portabox depot yard" loading="lazy" style="width:100%;aspect-ratio:4/5;object-fit:cover">
       </div>
     </div>
   </div>
@@ -3310,7 +3333,7 @@ ${/* Service areas, lifted out of the footer into a band of its own.
       actually scan, and the grouping is the client's own — their existing
       footer lists coverage the same way. Cyan on navy is also the house
       alternation rather than a one-off colour. */ ""}
-<section class="g-band g-band--cyan g-areas">
+<section class="g-band g-areas">
   <div class="g-wrap">
     <div class="g-areas-head">
       <p class="g-label">Where we deliver</p>
