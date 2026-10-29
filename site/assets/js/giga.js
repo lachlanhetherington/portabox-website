@@ -1103,9 +1103,9 @@
     if (hit([[3000,3999],[8000,8999]])) return { hub: "Melbourne", href: at("/locations/melbourne/"), regional: false };
     if (hit([[4000,4999],[9000,9999]])) return { hub: "Brisbane", href: at("/locations/brisbane/"), regional: false };
     if (hit([[5000,5999]]))             return { hub: "Adelaide", href: at("/locations/adelaide/"), regional: false };
-    if (hit([[6000,6999]])) return { hub: "Western Australia", href: at("/locations/regional-australia/"), regional: true };
-    if (hit([[7000,7999]])) return { hub: "Tasmania",          href: at("/locations/regional-australia/"), regional: true };
-    if (hit([[800,999]]))   return { hub: "Northern Territory", href: at("/locations/regional-australia/"), regional: true };
+    if (hit([[6000,6999]])) return { hub: "Western Australia", href: at("/moving/regional-solution/"), regional: true };
+    if (hit([[7000,7999]])) return { hub: "Tasmania",          href: at("/moving/regional-solution/"), regional: true };
+    if (hit([[800,999]]))   return { hub: "Northern Territory", href: at("/moving/regional-solution/"), regional: true };
     return null;
   }
 

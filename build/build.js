@@ -116,7 +116,7 @@ function nav(active) {
     [url("moving-services")]: { img: "sizes-three.jpg", t: "Moving soon?",
       b: "Local, interstate or regional — see how a container move runs." },
     [url("locations")]: { img: "step-move.jpg", t: "Check your postcode",
-      b: "Four depots, 150–200 km each, plus regional runs anywhere." },
+      b: "Four depots, 150–200 km each, plus regional runs beyond that." },
   };
 
   const groups = C.NAV.map((g) => {
@@ -553,11 +553,11 @@ function locationList(o) {
 <section class="g-band g-band--${bandOf((o && o.band) || "light")}" id="regions">
   <div class="g-wrap">
     ${gintro("Coverage", "Four depots, and a long way past them",
-      "Standard runs reach 150&ndash;200 km from each depot. Past that, the Regional Solution goes anywhere in Australia.")}
+      "Standard runs reach 150&ndash;200 km from each depot. Past that, the Regional Solution covers large parts of regional Australia.")}
     <div class="g-regions">
       ${C.LOCATIONS.map((l, n) => `<a class="g-region g-rise" style="--d:${n * 70}ms" href="${url(l.slug)}">
         <b>${l.regional ? l.title : l.hub}</b>
-        <p>${l.regional ? "Anywhere in Australia, quoted per run" : l.sats.join(" &middot; ")}</p>
+        <p>${l.regional ? "Quoted per job" : l.sats.join(" &middot; ")}</p>
         <span class="g-link" style="pointer-events:none">Learn more<span>${ARROW}</span></span>
       </a>`).join("\n      ")}
     </div>
@@ -1500,7 +1500,7 @@ PAGES.push({
 PAGES.push({
   file: outFile("moving-services"), active: "moving-services.html",
   title: "Moving Services | Portabox",
-  desc: "Door-to-door moving between Brisbane, Sydney, Melbourne and Adelaide, or anywhere in Australia on a regional quote. Load once, at your own pace.",
+  desc: "Door-to-door moving between Brisbane, Sydney, Melbourne and Adelaide, or to large parts of regional Australia on a regional quote. Load once, at your own pace.",
   body: [
     hero({
       form: true,
@@ -1517,7 +1517,7 @@ PAGES.push({
       band: "light", chip: "How a move runs", h: "Load once. That is the whole trick.",
       items: [
         ["Load at the old address", "Same level placement, same unhurried loading. Take the week if you need it — the container is yours while it sits there."],
-        ["We carry it across", "Door to door between the capitals, or anywhere in Australia on a regional quote. It travels sealed and it travels level."],
+        ["We carry it across", "Door to door between the capitals, or to large parts of regional Australia on a regional quote. It travels sealed and it travels level."],
         ["It comes down at the new place", "Lowered flat at the other end, on your schedule. Unload straight into the house, or leave it on site while you work through it."],
       ],
     }),
@@ -1530,14 +1530,14 @@ PAGES.push({
 PAGES.push({
   file: outFile("locations"), active: "locations.html",
   title: "Locations & Coverage | Portabox",
-  desc: "Portabox delivers from depots in Brisbane, Sydney, Melbourne and Adelaide, 150–200 km out, plus regional jobs anywhere in Australia.",
+  desc: "Portabox delivers from depots in Brisbane, Sydney, Melbourne and Adelaide, 150–200 km out, plus regional jobs across large parts of the country.",
   body: [
     hero({
       form: true,
       short: true, img: "step-move.jpg", alt: "A Portabox truck on a coastal road",
       crumb: crumb([["Home", url("index")], ["Locations"]]),
       h1: "Where we go",
-      sub: "Four depots covering the capitals and 150–200 km around each of them — and regional runs anywhere else in the country.",
+      sub: "Four depots covering the capitals and 150–200 km around each of them — and regional runs to large parts of the country beyond that.",
     }),
     trust(),
     cards({ band: "light", chip: "Coverage", h: "Pick your region", items: C.LOCATIONS, cols: "g-3", more: "See coverage" }),
@@ -1756,7 +1756,7 @@ const SERVICE_DETAIL = {
   "regional-remote": {
     hero: "outback.jpg", heroAlt: "A Portabox truck on an outback highway",
     h1: "Regional & remote",
-    sub: "Anywhere in Australia, quoted individually. Give us the two postcodes and we will price the run.",
+    sub: "Large parts of regional Australia, quoted individually. Give us the two postcodes and we will price the run.",
     chip: "Moving", parent: ["Moving Services", url("moving-services")],
     body: `<p class="muted">Outside the 150–200 km depot radii we quote every job on its own merits rather than pretending a metro rate applies. That is more honest than a surcharge table, and usually cheaper than you expect.</p>
       <p class="muted">Remote and regional work is also where leaving the container on site matters most — there is rarely a facility within an hour, so a box that stays at the property is the only sensible option.</p>`,
@@ -2121,7 +2121,7 @@ PAGES.push({
         { ico: "truck", t: "The same four depots", b: "Brisbane, Sydney, Melbourne and Adelaide, at the same addresses." },
         { ico: "cube", t: "The same containers", b: "10, 19 and 25 m³, delivered level on the EARL hydraulic frame." },
         { ico: "key", t: "The same arrangement", b: "You fit the lock, you keep the only key, and nobody opens it but you." },
-        { ico: "globe", t: "The same coverage", b: "Metro delivery from each depot, and regional runs anywhere in Australia." },
+        { ico: "globe", t: "The same coverage", b: "Metro delivery from each depot, and regional runs well beyond them." },
       ],
     }),
     ctaBand({ cyan: true }),
@@ -2188,7 +2188,7 @@ C.LOCATIONS.filter((l) => l.regional).forEach((l) => {
       trust(),
       split({
         band: "light", img: "delivery-home.jpg", alt: "A Portabox container delivered to a home", flip: true,
-        chip: l.regional ? "Anywhere in Australia" : `${l.hub} depot`,
+        chip: l.regional ? "Regional" : `${l.hub} depot`,
         h: l.regional ? "Past the radius, we still go" : `Delivering across ${l.title}`,
         body: `<p class="muted">${depotLine} ${l.regional ? "" : `We cover ${l.sats.slice(0, -1).join(", ")} and ${l.sats[l.sats.length - 1]}.`}</p>
         <p class="muted">The container comes down level on the EARL hydraulic frame, you load it at your own pace, and you fit your own lock. Leave it at your place, or have us store it — the rate is the same per cubic metre either way.</p>`,
@@ -2690,8 +2690,8 @@ function gNav() {
       items: C.REGIONS.map((r) => [`Self storage ${r.name}`, url(r.slug),
         `${C.DEPOTS[r.depot].suburb} depot${r.suburbs.length ? " &middot; " + r.suburbs.length + " suburbs" : ""}`])
         .concat([["Our storage facilities", url("facilities"), "All four yards, with addresses and direct numbers"],
-                 ["Regional Australia", url("regional-australia"), "Anywhere in Australia, quoted per run."]]),
-      promo: ["step-move.jpg", "Check your postcode", "Four depots, 150&ndash;200 km each, plus regional runs anywhere."] },
+                 ["Regional & Remote", url("regional-remote"), "Large parts of regional Australia, quoted per job."]]),
+      promo: ["step-move.jpg", "Check your postcode", "Four depots, 150&ndash;200 km each, plus regional runs beyond that."] },
   ];
 
   const FLAT = [
@@ -3272,9 +3272,9 @@ function gFinal() {
   return `
 <section class="g-band g-band--deep">
   <div class="g-wrap">
-    ${gIntro("Regional moving", "Moving regionally? We can get you anywhere in Australia.",
+    ${gIntro("Regional moving", "Moving outside our service areas? We have options.",
       `Call ${C.CONTACT.phone} or email ${C.CONTACT.email} to see how we can get you there and save thousands on traditional moving companies.`,
-      gBtn(url("regional-australia"), "Portabox Regional Solution", "yellow"))}
+      gBtn(url("regional-remote"), "Portabox Regional Solution", "yellow"))}
   </div>
 </section>
 
@@ -3303,6 +3303,38 @@ function gFooter() {
   const col = (h, links) =>
     `<div><h4>${h}</h4><ul>${links.map(([t, u]) => `<li><a href="${u}">${t}</a></li>`).join("")}</ul></div>`;
   return `
+${/* Service areas, lifted out of the footer into a band of its own.
+      Twenty-three regions in one footer column ran taller than everything
+      beside it; grouped by depot they fit, but they still read as small
+      print. On cyan above the navy footer they are a section someone can
+      actually scan, and the grouping is the client's own — their existing
+      footer lists coverage the same way. Cyan on navy is also the house
+      alternation rather than a one-off colour. */ ""}
+<section class="g-band g-band--cyan g-areas">
+  <div class="g-wrap">
+    <div class="g-areas-head">
+      <p class="g-label">Where we deliver</p>
+      <h2>Four depots, and a long way around each of them</h2>
+    </div>
+    <div class="g-areas-grid">
+      ${["brisbane", "sydney", "melbourne", "adelaide"].map((d) => {
+        const mine = C.REGIONS.filter((r) => r.depot === d);
+        const head = mine.find((r) => r.slug === d);
+        const rest = mine.filter((r) => r !== head);
+        return `<div class="g-areas-col">
+        <h3><span class="g-areas-pin">${ICON.pin}</span><a href="${url(head.slug)}">${head.name}</a></h3>
+        <ul>${rest.map((r) => `<li><a href="${url(r.slug)}">${r.name}</a></li>`).join("")}</ul>
+      </div>`;
+      }).join("\n      ")}
+    </div>
+    <p class="g-areas-more">
+      <a href="${url("locations")}">All locations</a>
+      <a href="${url("facilities")}">Storage facilities</a>
+      <a href="${url("regional-remote")}">Outside these areas?</a>
+    </p>
+  </div>
+</section>
+
 <footer class="g-foot">
   <div class="g-wrap">
     <div class="g-foot-grid">
@@ -3339,30 +3371,6 @@ function gFooter() {
       ${col("Moving services", C.MOVING_SERVICES.map((s) => [s.title, url(s.slug)]))}
     </div>
 
-    ${/* Twenty-three regions in one column ran taller than everything beside
-          it and left the rest of the footer empty. Grouped by the depot that
-          serves them instead, in a band of its own — which is also how the
-          client's own footer lists them, so it reads the way they already
-          think about coverage. The city heads its own group and links to its
-          hub rather than repeating underneath. */ ""}
-    <div class="g-foot-areas">
-      <h4>Service areas</h4>
-      <div class="g-foot-areas-grid">
-        ${["brisbane", "sydney", "melbourne", "adelaide"].map((d) => {
-          const mine = C.REGIONS.filter((r) => r.depot === d);
-          const head = mine.find((r) => r.slug === d);
-          const rest = mine.filter((r) => r !== head);
-          return `<div>
-          <h5><a href="${url(head.slug)}">${head.name}</a></h5>
-          <ul>${rest.map((r) => `<li><a href="${url(r.slug)}">${r.name}</a></li>`).join("")}</ul>
-        </div>`;
-        }).join("\n        ")}
-      </div>
-      <p class="g-foot-areas-more">
-        <a href="${url("locations")}">All locations</a>
-        <a href="${url("facilities")}">Storage facilities</a>
-      </p>
-    </div>
     <div class="g-foot-legal">
       <p>&copy; <span class="yr">2026</span> portabox.au. All rights reserved.</p>
       <p style="display:flex;gap:1.5rem;flex-wrap:wrap">

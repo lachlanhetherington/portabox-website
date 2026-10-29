@@ -57,7 +57,6 @@ const ROUTES = {
   "barossa":              "/self-storage/barossa/",
   "gawler":               "/self-storage/gawler/",
   "adelaide-hills":       "/self-storage/adelaide-hills/",
-  "regional-australia":    "/locations/regional-australia/",
   /* One page per depot. A depot serves more than one region — Blacktown
      covers Sydney, the Central Coast, Newcastle and Wollongong — so these
      are keyed by depot rather than by region. */
@@ -197,7 +196,7 @@ const MOVING_SERVICES = [
   { slug:"interstate-moves", title:"Interstate Moves",
     blurb:"Brisbane, Sydney, Melbourne and Adelaide, door to door. It travels sealed and it travels level.", img:"sizes-three.jpg" },
   { slug:"regional-remote", title:"Regional & Remote",
-    blurb:"Anywhere in Australia, quoted individually. Give us the two postcodes and we will price the run.", img:"outback.jpg" },
+    blurb:"Moving outside our service areas? We have specialised options for large parts of regional Australia. Request a quote.", img:"outback.jpg" },
 ];
 
 /* The four depots, straight from the build sheet's "THE FOUR DEPOTS" block.
@@ -484,9 +483,6 @@ const LOCATIONS = [
   { slug:"south-australia", title:"South Australia", hub:"Adelaide",
     sats:["Victor Harbor","Murray Bridge","Barossa","Gawler","Adelaide Hills"], img:"delivery-home.jpg",
     intro:"Our Adelaide depot covers the metro area, the Hills, the Barossa, and south to Victor Harbor." },
-  { slug:"regional-australia", title:"Regional Australia", hub:"Anywhere", regional:true,
-    sats:["Western Australia","Tasmania","Northern Territory","Far North Queensland","Outback NSW & SA"], img:"outback.jpg",
-    intro:"Outside the four depot radii we quote every job individually — and we still go. Tell us the two postcodes and we will price the run." },
 ];
 
 /* `short` is the label in the top nav bar; `title` is still used for the mega

@@ -16,6 +16,16 @@
       "permanent": false
     },
     {
+      "source": "/locations/regional-australia",
+      "destination": "/moving/regional-solution/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/regional-australia/",
+      "destination": "/moving/regional-solution/",
+      "permanent": true
+    },
+    {
       "source": "/locations/brisbane",
       "destination": "/self-storage/brisbane/",
       "permanent": true

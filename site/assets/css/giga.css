@@ -715,25 +715,62 @@ body.g { box-sizing:border-box; font-family:var(--font, "Montserrat", Arial, san
 @media (min-width:700px){ .g .g-foot-grid { grid-template-columns:repeat(2,1fr); } }
 @media (min-width:1060px){ .g .g-foot-grid { grid-template-columns:1.5fr repeat(3,.9fr); } }
 
-/* Service areas: their own band under the main columns. Twenty-three in a
-   single column ran far taller than anything beside it. */
-.g .g-foot-areas { margin-top:3rem; padding-top:2rem; border-top:1px solid var(--g-rule-d); }
-.g .g-foot-areas h4 {
-  margin:0 0 1.5rem; font-size:.6875rem; font-weight:700;
-  letter-spacing:.14em; text-transform:uppercase; color:var(--g-cyan);
+/* ---- Service areas band -------------------------------------------------
+   Its own cyan section above the navy footer. In the footer these read as
+   small print; a band gives them the weight of coverage, which is the thing
+   people are actually checking for. Navy on cyan throughout — the footer's
+   white-on-navy would not survive the lighter background. */
+.g .g-areas { padding-block:clamp(3rem,6vw,4.5rem); }
+/* `.g a` sets colour only, so links here would carry the browser's default
+   underline. Everything underlines on hover instead, as elsewhere. */
+.g .g-areas a { text-decoration:none; }
+.g .g-areas-head { max-width:34ch; margin-bottom:clamp(2rem,4vw,2.75rem); }
+/* Same reason as the links below: .72 put this at 3.41:1 on the cyan. */
+.g .g-areas-head .g-label { color:var(--g-navy); opacity:1; }
+/* Deliberately smaller than a page-level g-h2: this is a closing band, not
+   the reason anyone is on the page, and at full size it swallowed the list
+   underneath — which is the part people came to read. */
+.g .g-areas-head h2 {
+  margin:0; color:var(--g-navy);
+  font-size:clamp(1.5rem,2.6vw,2rem); line-height:1.15; letter-spacing:-.02em;
 }
-.g .g-foot-areas-grid { display:grid; gap:2rem 1.5rem; grid-template-columns:1fr; }
-@media (min-width:560px){ .g .g-foot-areas-grid { grid-template-columns:repeat(2,1fr); } }
-@media (min-width:900px){ .g .g-foot-areas-grid { grid-template-columns:repeat(4,1fr); } }
-.g .g-foot-areas h5 { margin:0 0 .85rem; font-size:.9375rem; font-weight:700; }
-.g .g-foot-areas h5 a { color:#fff; }
-.g .g-foot-areas h5 a:hover { color:var(--g-cyan); }
-.g .g-foot-areas ul { list-style:none; margin:0; padding:0; display:grid; gap:.55rem; }
-.g .g-foot .g-foot-areas li { margin-bottom:0; }
-.g .g-foot-areas li a { font-size:.875rem; }
-.g .g-foot-areas-more {
-  margin:2rem 0 0; display:flex; flex-wrap:wrap; gap:1.5rem; font-size:.875rem; font-weight:700;
+
+.g .g-areas-grid { display:grid; gap:2rem 1.5rem; grid-template-columns:1fr; }
+@media (min-width:560px){ .g .g-areas-grid { grid-template-columns:repeat(2,1fr); } }
+@media (min-width:980px){ .g .g-areas-grid { grid-template-columns:repeat(4,1fr); } }
+
+/* A hairline between columns rather than a card each: the groups belong to
+   one list, and four boxes on cyan would fight the band itself. */
+@media (min-width:980px){
+  .g .g-areas-col + .g-areas-col { padding-left:1.5rem; border-left:1px solid rgba(14,56,93,.18); }
 }
+
+.g .g-areas-col h3 {
+  display:flex; align-items:center; gap:.5rem;
+  margin:0 0 1rem; padding-bottom:.85rem;
+  border-bottom:1px solid rgba(14,56,93,.18);
+  font-size:1.0625rem; font-weight:800; letter-spacing:-.01em;
+}
+.g .g-areas-pin { display:inline-flex; flex:none; color:var(--g-navy); opacity:.55; }
+.g .g-areas-pin svg { width:17px; height:17px; }
+.g .g-areas-col h3 a { color:var(--g-navy); }
+.g .g-areas-col h3 a:hover { text-decoration:underline; text-underline-offset:3px; }
+
+.g .g-areas-col ul { list-style:none; margin:0; padding:0; display:grid; gap:.6rem; }
+.g .g-areas-col li { margin:0; }
+/* Full navy, no opacity. At .82 these measured 4.15:1 on the cyan and
+   missed AA — the band's own colour leaves no headroom to fade text into. */
+.g .g-areas-col li a { color:var(--g-navy); font-size:.9375rem; }
+.g .g-areas-col li a:hover { text-decoration:underline; text-underline-offset:3px; }
+
+.g .g-areas-more {
+  margin:clamp(2rem,4vw,2.75rem) 0 0; padding-top:1.5rem;
+  border-top:1px solid rgba(14,56,93,.18);
+  display:flex; flex-wrap:wrap; gap:1.75rem;
+  font-size:.9375rem; font-weight:700;
+}
+.g .g-areas-more a { color:var(--g-navy); }
+.g .g-areas-more a:hover { text-decoration:underline; text-underline-offset:3px; }
 
 .g .g-foot-blurb { margin:1.25rem 0 0; max-width:38ch; font-size:.9375rem; line-height:1.6; color:var(--g-onnavy); }
 .g .g-foot ul.g-foot-contact {
