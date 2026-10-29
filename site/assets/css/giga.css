@@ -2126,3 +2126,11 @@ body.g { box-sizing:border-box; font-family:var(--font, "Montserrat", Arial, san
    body colour rather than fading out. */
 .g .g-fine { margin:1.25rem 0 0; font-size:.8125rem; line-height:1.55; }
 .g .g-fine sup { font-size:.9em; }
+
+/* A card holding a diagram rather than a photograph. The default card image
+   is cover-cropped to 4:3, which on a 16:9 dimension drawing cuts the arrows
+   and the end container off the sides — the two things the drawing exists to
+   show. These are contained and sit on white, the ground they were drawn on. */
+.g .g-card-img--fit { aspect-ratio:16/10; background:#fff; }
+.g .g-card-img--fit img { object-fit:contain; }
+.g .g-card:hover .g-card-img--fit img { transform:none; }

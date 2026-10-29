@@ -3215,10 +3215,15 @@ function gEarl() {
 
 /* ---- Build and specs ---- */
 function gSpecs() {
+  /* The client asked for the informational diagrams from their own homepage
+     here, not photographs: these carry the measurements and the callouts,
+     which is the point of the section. They were in the supplied content
+     library the whole time. Shown uncropped — a diagram with its dimension
+     arrows sliced off the edge is worse than no diagram. */
   const items = [
-    { img: "earl-raised.jpg", t: "External clearances", d: "See exactly how much space the Small, Medium or Large container needs on your driveway or street." },
-    { img: "yard-stacked.jpg", t: "Premium build", d: "Heavy duty security for your belongings, engineered to withstand the elements." },
-    { img: "size-l.jpg", t: "Internal dimensions", d: "Flat interior walls designed for floor to ceiling loading." },
+    { img: "spec-external-dimensions.jpg", t: "External dimensions", alt: "The Small, Medium and Large containers side by side with their external measurements", d: "See exactly how much space the Small, Medium or Large container needs on your driveway or street." },
+    { img: "spec-premium-build.jpg", t: "Premium build", alt: "A Portabox container with its construction features labelled", d: "Heavy duty security for your belongings, engineered to withstand the elements." },
+    { img: "spec-internal-dimensions.jpg", t: "Internal dimensions", alt: "The internal measurements of the three Portabox container sizes", d: "Flat interior walls designed for floor to ceiling loading." },
   ];
   return `
 <section class="g-band g-band--white">
@@ -3227,7 +3232,7 @@ function gSpecs() {
       "Explore our purpose built moving and storage containers.")}
     <div class="g-grid g-grid--3">
       ${items.map((i, n) => `<div class="g-card g-rise" style="--d:${n * 90}ms">
-        <span class="g-card-img"><img src="${IMG}${i.img}" alt="" loading="lazy"></span>
+        <span class="g-card-img g-card-img--fit"><img src="${IMG}${i.img}" alt="${i.alt || ""}" loading="lazy"></span>
         <h3 class="g-h3">${i.t}</h3>
         <p>${i.d}</p>
       </div>`).join("\n      ")}

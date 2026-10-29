@@ -175,7 +175,12 @@ const TESTIMONIALS = [
   { q:"The hydraulic system is the reason nothing arrived damaged. Everything stayed where I packed it. The staff answered every time I rang, which is not something I can say about the last mob.",
     n:"Dean", p:"Sydney to Brisbane", img:"person-dean.png" },
   { q:"Having the only key mattered more than I expected. It sat in the front yard and I sorted through it a box at a time instead of doing the whole lot in one weekend.",
-    n:"Steve", p:"Melbourne", img:"person-steve.png" },
+    n:"Steve", p:"Melbourne", img:"person-steve-v2.png" },
+  /* The first portrait read as the same grey-haired man who operates EARL in
+     the delivery photography, which the client's reviewer spotted: "isn't he
+     the guy who is delivering on the website". This one is from their own
+     supplied library rather than sourced online, so it is licensed the same
+     way the rest of the site's photography is. */
 ];
 
 /* ---- Navigation ------------------------------------------------- */
