@@ -165,7 +165,7 @@ const SIZES = [
   { id:"medium", name:"Medium", vol:19, rate:209, per:"11.00", suits:"Two-bedroom homes", flag:"Price drop",
     img:"size-m.jpg", holds:"Two bedrooms, a lounge, a full kitchen and the garage overflow." },
   { id:"large",  name:"Large",  vol:25, rate:219, per:"8.76",  suits:"Three-bedroom homes", flag:"Best value", best:true,
-    img:"size-l.jpg", holds:"A whole three-bedroom house, including the shed and the bikes." },
+    img:"size-l.jpg", holds:"A standard three-bedroom home, including the shed and the bikes." },
 ];
 
 const TESTIMONIALS = [
@@ -513,24 +513,24 @@ const WHY = [
 
 const FAQ_GENERAL = [
   ["Do I need to be home for delivery?",
-   "Not for a standard placement. We need clear access to the spot and somewhere level to set the container down — a driveway, a hardstand or firm ground. We confirm the details with you before the truck leaves."],
+   "Not for a standard placement. Our driver calls about half an hour before delivery, and as long as everything is cleared away from the spot — cars especially — there is no need for you to be there."],
   ["How much notice do you need?",
-   "Give us as much as you can, especially around settlement dates and end of month when everyone moves at once. Ring the depot and we will tell you honestly what is available."],
+   "Give us as much as you can, especially around settlement dates and end of month when everyone moves at once. Ring our team and we will tell you honestly what is available."],
   ["What if it does not all fit?",
    "Take a second container. Because you are charged by the cubic metre rather than by the unit, two Smalls and one Large are simple to compare on price — and our team will help you size it before you book."],
-  ["Is my stuff insured?",
-   "Contents insurance is arranged separately. Talk to us when you book and we will point you at the right cover for what you are storing."],
+  ["Is my stuff protected?",
+   "Contents protection is arranged separately. Talk to us when you book and we will point you at the right protection for what you are storing."],
   ["Can I change from storing to moving later?",
    "Yes. That is the main advantage of the container staying sealed — if your plans change, we move the same container rather than making you repack."],
 ];
 
 const FAQ_PRICE = [
   ["What does 'from' pricing mean?",
-   "Rates start at $209 a month for the Small and the Medium, and $219 for the Large. The final figure depends on your location and how long you need it. We give you the number before you commit."],
+   "Everybody's moving and storage needs are different, and we appreciate that. The monthly rental is a from figure because we still need to know where the container is going and where it is coming from. A quote gives you all the numbers. Remember, we are here to help if it all gets too much."],
   ["Do you really beat a cheaper quote?",
    "Yes — not just match it. Send us a written quote with the container volume on it and we will beat the per-cubic-metre rate. That comparison is the whole reason we publish ours."],
   ["Is there a minimum term?",
-   "Talk to your depot. Terms vary by location, and we would rather tell you the truth on the phone than print a number that does not apply to you."],
+   "The first month's rental is the minimum. After that it is month by month, and the day we deliver to you is the date you are billed every month."],
 ];
 
 module.exports = {

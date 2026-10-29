@@ -566,7 +566,7 @@ function locationList(o) {
 }
 
 /* details/summary so the accordion needs no JavaScript. */
-function faq(items, title, band) {
+function faq(items, title, band, intro) {
   return `
 <section class="g-band g-band--${bandOf(band || "light")}">
   <div class="g-wrap">
@@ -574,7 +574,7 @@ function faq(items, title, band) {
       <div class="g-rise">
         ${gl("Questions")}
         <h2 class="g-h2">${title || "Before you book"}</h2>
-        <p class="g-body" style="margin-top:1.25rem">Can&rsquo;t see yours? Ring the depot &mdash; someone who actually does the runs will answer.</p>
+        <p class="g-body" style="margin-top:1.25rem">${intro || "Can&rsquo;t see yours? Call one of our team &mdash; someone who actually does the runs will answer."}</p>
         <div class="g-btns" style="margin-top:1.75rem">${traceBtn(C.CONTACT.tel, "Call " + C.CONTACT.phone, "", "outline")}</div>
       </div>
       <div class="g-faq g-rise" style="--d:110ms">
@@ -751,9 +751,9 @@ function formatPage(o) {
     simpleSteps({
       band: "light", h: o.stepsH || "How does it work?",
       items: [
-        { img: "step-deliver.jpg", t: "We deliver", b: "It arrives on a hydraulic frame and sets down <strong>level</strong> on your driveway." },
+        { img: "step-deliver.jpg", t: "We deliver", b: "Your Portabox arrives on an agreed date, with <strong>EARL</strong> lowering the container to ground level." },
         { img: "step-pack.jpg", t: "You pack", b: "Ground level, your own time. You fit the <strong>lock</strong> and keep the keys." },
-        { img: "step-move.jpg", t: "We store or move it", b: "Leave it at your place, or we <strong>collect</strong> it — to our yard or your new address." },
+        { img: "step-move.jpg", t: "We store or move it", b: "We <strong>collect</strong> it on an agreed date — back to our depot, or straight to your new address." },
       ],
     }),
     split({
@@ -1132,7 +1132,7 @@ function suburbPage(s) {
       <li class="g-perk">
         <span class="g-perk-ico" aria-hidden="true">${ICON.clock}</span>
         <div><h3 class="g-perk-t">When we can come</h3>
-        <p class="g-perk-b">We confirm the date and the window with you before the truck is booked, rather than promising one here. Ring the depot for this week.</p></div>
+        <p class="g-perk-b">We confirm the date and the window with you before the truck is booked, rather than promising one here. Call our team for this week.</p></div>
       </li>
       <li class="g-perk">
         <span class="g-perk-ico" aria-hidden="true">${ICON.wall}</span>
@@ -1574,11 +1574,11 @@ PAGES.push({
     split({
       band: "light", img: "earl-raised.jpg", alt: "Clearance diagram for Portabox containers", flip: true,
       chip: "Will it fit?", h: "Check the clearance before you book",
-      body: `<p class="muted">You need a level spot — driveway, hardstand or firm ground — and a straight run for a rigid truck to reach it. Keep it clear of branches, eaves and service lines.</p>
-      <p class="muted"><strong>Indicative placement footprint for the Large is about 4.7 × 2.2 m.</strong> That figure is derived from the published 25 m³, not surveyed — your depot confirms the exact clearance when you book.</p>`,
+      body: `<p class="muted">The preference is a level spot — a driveway, hardstand or firm ground — and a straight run for the delivery truck to reach it and place the container. Keep it clear of overhanging branches, power lines and eaves.</p>
+      <p class="muted"><strong>Placement generally needs about 3.5 m wide and 12 m long</strong> for EARL to place the container. If you are unsure, contact one of our team and they can help you work it out.</p>`,
       btns: traceBtn(C.CONTACT.tel, "Call our team", C.CONTACT.phone, "outline"),
     }),
-    faq(C.FAQ_PRICE, "Pricing questions", "grey"),
+    faq(C.FAQ_PRICE, "Pricing questions", "grey", "Can’t see what you are looking for? Call one of our team — we have arranged a lot of moving and storage over the years, and we are here to help."),
     testimonials(),
     ctaBand(),
   ].join("\n"),
@@ -1657,7 +1657,7 @@ const SERVICE_DETAIL = {
       ["clock", "48 hours notice for access", "We retrieve your container and have it ready for you rather than making you climb through a warehouse."],
       ["cube", "Same per-cubic-metre rate", "Storing with us is priced on the same published volumes. No separate facility tariff."],
       ["truck", "Straight back out when you need it", "When you are ready, we deliver the same container to your new address and lower it level."],
-      ["lift", "Handled level, both ways", "It is loaded and unloaded from the truck on the EARL frame, so the contents never take a slope."],
+      ["lift", "Handled level, both ways", "It is loaded and unloaded from the truck with EARL, so the contents are never tilted."],
     ],
     steps: [
       ["We deliver, you load", "Exactly as if it were staying — container down level at your address, loaded at your own pace."],
@@ -1699,7 +1699,7 @@ const SERVICE_DETAIL = {
       ["clock", "Get to it mid-job", "Pull one thing out without booking anything. It is twenty steps from your back door."],
       ["shield", "Out of the dust", "Sealed and weather-proof, which is more than can be said for a tarp in the carport."],
       ["house", "Won't upset the street", "Plain white and unbranded. It reads as a delivery, not a building site."],
-      ["lift", "Set down level", "Lowered flat onto the driveway on hydraulics — no tilt, no scraping, no sliding load."],
+      ["lift", "Set down level", "Lowered flat onto your property using EARL — no tilt, no scraping, no sliding."],
       ["cube", "Only pay for the months you need", "Monthly rates. Renovations overrun; the billing follows the job rather than a fixed term."],
       ["truck", "Or have us take it away", "If the driveway is needed for a skip or a slab pour, we collect it and bring it back."],
     ],
@@ -1763,7 +1763,7 @@ const SERVICE_DETAIL = {
     img2: "step-move.jpg", img2alt: "A Portabox truck on a coastal road",
     points: [
       ["pin", "Anywhere in the country", "Western Australia, Tasmania, the Territory, Far North Queensland and everything between."],
-      ["phone", "Quoted by a person", "Ring the depot with both postcodes. You get a real figure, not an automated surcharge."],
+      ["phone", "Quoted by a person", "Call our team with both postcodes. You get a real figure, not an automated surcharge."],
       ["house", "It stays on the property", "No facility within an hour? Then the container staying on site is the only arrangement that works."],
       ["lift", "Level on rough ground", "Hydraulic placement matters more on gravel and uneven ground than it does on a suburban driveway."],
       ["shield", "Sealed and weather-proof", "It will be on the road a while. It is built for that."],
@@ -2433,17 +2433,17 @@ PAGES.push({
       alt: "Internal dimensions of the 10, 19 and 25 cubic metre Portabox containers",
       chip: "Side by side",
       h: "The three sizes, measured",
-      body: `<p class="g-body">Every figure on this page is an internal measurement, because that is the space you actually load. A lot of comparisons quote the outside of the box.</p>
+      body: `<p class="g-body">Every measurement here is internal, because that is the space you actually load. A lot of comparisons quote the outside of the box.</p>
         <p class="g-body">If you are between two sizes, take the larger one — the price per cubic metre falls as the container gets bigger, so the bigger box is usually the better buy. The <a href="${url("pricing")}">pricing page</a> shows that arithmetic.</p>`,
       btns: traceBtn(C.CONTACT.quote, "Get a price", "Takes a minute", "primary"),
     }),
     split({
       band: "light", img: "earl-raised.jpg", flip: true,
       alt: "A Portabox container being lowered onto a residential driveway",
-      chip: "Access",
+      chip: "Placement",
       h: "What the truck needs at your place",
-      body: `<p>The container is lowered straight down on the EARL hydraulic frame rather than tilted off a tray, so it needs clear space above and around the drop point, not a run-up.</p>
-        <p>A standard driveway, hardstand or firm level lawn works. If access is tight, send a photo of the spot when you book and the depot will confirm before the truck is scheduled.</p>`,
+      body: `<p>The container is lowered straight down with EARL rather than tilted off a tray, so the area needs clear space to place the container, not a run-up.</p>
+        <p>A standard driveway, hardstand or firm level lawn works. If access is tight, send a photo of the spot when you book and our team will confirm before the truck is scheduled.</p>`,
       btns: traceBtn(C.CONTACT.tel, "Check my access", C.CONTACT.phone, "outline"),
     }),
     featureGrid({
@@ -2537,7 +2537,7 @@ PAGES.push({
       chip: "Sizes",
       h: "Three sizes, published volumes",
       body: `<p>Small at 10 m&sup3; suits a one-bedroom flat or a single room plus whitegoods. Medium at 19 m&sup3; takes two bedrooms, a lounge, a full kitchen and the garage overflow. Large at 25 m&sup3; holds a whole three-bedroom house, including the shed and the bikes.</p>
-        <p>If you are between two of them, ring the depot and describe the house. It costs nothing and it is quicker than guessing.</p>`,
+        <p>If you are between two of them, call our team and describe the house. It costs nothing and it is quicker than guessing.</p>`,
     }),
     earl(),
     split({
@@ -2566,7 +2566,7 @@ PAGES.push({
     statement({
       band: "dark", chip: "Price match guarantee",
       h: "Found a better deal? Bring us the quote and we will beat it.",
-      sub: "Divide any competitor's monthly rate by the cubic metres they actually give you, then compare. We think the arithmetic speaks for itself.",
+      sub: "Divide any competitor's monthly rate by the cubic metres they actually give you, then compare. We think the maths speaks for itself.",
       btns: traceBtn(C.CONTACT.priceMatch, "Submit competitor quote", "We will beat it", "primary") +
             traceBtn(C.CONTACT.quote, "Instant Quote", "No email needed", "outline"),
     }),
