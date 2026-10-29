@@ -1,0 +1,142 @@
+{
+ "sunshine-coast": {
+  "name": "Sunshine Coast",
+  "state": "Queensland",
+  "lat": -26.6544338,
+  "lng": 153.0933668,
+  "km": 154,
+  "depot": "brisbane",
+  "inRange": true,
+  "display": "Sunshine Coast, Queensland, 4558, Australia"
+ },
+ "toowoomba": {
+  "name": "Toowoomba",
+  "state": "Queensland",
+  "lat": -27.5610193,
+  "lng": 151.953351,
+  "km": 169,
+  "depot": "brisbane",
+  "inRange": true,
+  "display": "Toowoomba, Queensland, 4350, Australia"
+ },
+ "byron-bay": {
+  "name": "Byron Bay",
+  "state": "New South Wales",
+  "lat": -28.6483333,
+  "lng": 153.6177778,
+  "km": 136,
+  "depot": "brisbane",
+  "inRange": true,
+  "display": "Byron Bay, New South Wales, Australia"
+ },
+ "blue-mountains": {
+  "name": "Blue Mountains",
+  "state": "New South Wales",
+  "lat": -33.609741,
+  "lng": 150.4052237,
+  "km": 64,
+  "depot": "sydney",
+  "inRange": true,
+  "display": "Blue Mountains, New South Wales, Australia"
+ },
+ "geelong": {
+  "name": "Geelong",
+  "state": "Victoria",
+  "lat": -38.1493248,
+  "lng": 144.3598241,
+  "km": 67,
+  "depot": "melbourne",
+  "inRange": true,
+  "display": "Geelong, Victoria, 3220, Australia"
+ },
+ "mornington-peninsula": {
+  "name": "Mornington Peninsula",
+  "state": "Victoria",
+  "lat": -38.3686597,
+  "lng": 144.9992665,
+  "km": 79,
+  "depot": "melbourne",
+  "inRange": true,
+  "display": "Mornington Peninsula, Melbourne, Victoria, 3937, Australia"
+ },
+ "morwell": {
+  "name": "Morwell",
+  "state": "Victoria",
+  "lat": -38.2363218,
+  "lng": 146.3977575,
+  "km": 187,
+  "depot": "melbourne",
+  "inRange": true,
+  "display": "Morwell, Victoria, Australia"
+ },
+ "ballarat": {
+  "name": "Ballarat",
+  "state": "Victoria",
+  "lat": -37.5623013,
+  "lng": 143.8605645,
+  "km": 112,
+  "depot": "melbourne",
+  "inRange": true,
+  "display": "Ballarat, Victoria, 3350, Australia"
+ },
+ "seymour": {
+  "name": "Seymour",
+  "state": "Victoria",
+  "lat": -37.0241543,
+  "lng": 145.1362432,
+  "km": 119,
+  "depot": "melbourne",
+  "inRange": true,
+  "display": "Seymour, Victoria, Australia"
+ },
+ "victor-harbor": {
+  "name": "Victor Harbor",
+  "state": "South Australia",
+  "lat": -35.5545579,
+  "lng": 138.6234743,
+  "km": 119,
+  "depot": "adelaide",
+  "inRange": true,
+  "display": "Victor Harbor, South Australia, Australia"
+ },
+ "murray-bridge": {
+  "name": "Murray Bridge",
+  "state": "South Australia",
+  "lat": -35.1309451,
+  "lng": 139.2651638,
+  "km": 90,
+  "depot": "adelaide",
+  "inRange": true,
+  "display": "Murray Bridge, South Australia, Australia"
+ },
+ "barossa": {
+  "name": "Barossa Valley",
+  "state": "South Australia",
+  "lat": -34.6009049,
+  "lng": 138.8908094,
+  "km": 28,
+  "depot": "adelaide",
+  "inRange": true,
+  "display": "Lyndoch Post Office, Barossa Valley Way, Lyndoch, South Australia, 5351, Australia"
+ },
+ "gawler": {
+  "name": "Gawler",
+  "state": "South Australia",
+  "lat": -34.5973311,
+  "lng": 138.7448933,
+  "km": 16,
+  "depot": "adelaide",
+  "inRange": true,
+  "display": "Gawler, South Australia, Australia"
+ },
+ "adelaide-hills": {
+  "name": "Adelaide Hills",
+  "state": "South Australia",
+  "lat": -34.901351,
+  "lng": 138.8293202,
+  "km": 32,
+  "depot": "adelaide",
+  "inRange": true,
+  "display": "Adelaide Hills Council, South Australia, Australia"
+ }
+}
