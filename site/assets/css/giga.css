@@ -2116,3 +2116,9 @@ body.g { box-sizing:border-box; font-family:var(--font, "Montserrat", Arial, san
 }
 .g .g-mega-extra a { color:#fff; text-decoration:none; }
 .g .g-mega-extra a:hover { color:var(--g-cyan); }
+
+/* Fine print — the client's asterisk on the Store at Yours savings. Smaller
+   and quieter than body copy, but it still has to clear AA, so it keeps the
+   body colour rather than fading out. */
+.g .g-fine { margin:1.25rem 0 0; font-size:.8125rem; line-height:1.55; }
+.g .g-fine sup { font-size:.9em; }

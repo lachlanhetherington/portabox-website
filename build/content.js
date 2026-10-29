@@ -15,6 +15,7 @@ const ROUTES = {
   "index":                 "/",
   "instant-quote":         "/get-a-quote/",
   "pricing":               "/pricing/",
+  "earl":                  "/earl/",
   "container-sizes":       "/container-sizes/",
   "how-it-works":          "/how-it-works/",
   "storage-services":      "/storage/",
@@ -531,6 +532,20 @@ const FAQ_PRICE = [
    "Yes — not just match it. Send us a written quote with the container volume on it and we will beat the per-cubic-metre rate. That comparison is the whole reason we publish ours."],
   ["Is there a minimum term?",
    "The first month's rental is the minimum. After that it is month by month, and the day we deliver to you is the date you are billed every month."],
+
+  /* Four questions the client wrote for this page. The savings figures in
+     them are their own and they check out against the rates above: Store at
+     Yours against Store With Us is $10, $80 and $110 a month across the three
+     sizes, so "up to $110" is the Large, and $110 less $50 to a neighbour is
+     the $60 quoted. */
+  ["What is the cheapest way to store with Portabox?",
+   "Store at Yours is our most affordable option. Keeping your Portabox at a suitable property can save you more per month again than our already low rate for storing it at our depot. It is worth exploring our Price Match Guarantee as well."],
+  ["No room at mine. Could I store it at Mum's?",
+   "Mum's place, a mate's property or a neighbour's driveway could all be an option. You will need the property owner's permission, suitable space and clear access for our delivery truck. Give us the proposed address and we will check it is suitable and confirm your quote."],
+  ["Could I pay a neighbour to use their driveway?",
+   "You could arrange that directly with your neighbour. If your Store at Yours quote saves you $110 a month, paying them $50 a month for the space still leaves you $60 ahead."],
+  ["How do I know whether the Portabox will fit?",
+   "Check the container dimensions, then talk to our team about the spot you have in mind. We will confirm the placement space and the truck access needed before delivery. There is more on EARL, our hydraulic Easylift system, on its own page."],
 ];
 
 module.exports = {

@@ -1480,7 +1480,7 @@ PAGES.push({
       short: true, img: "yard-stacked.jpg", alt: "Portabox containers lined up at a secure facility",
       crumb: crumb([["Home", url("index")], ["Storage Services"]]),
       h1: "Storage services",
-      sub: "Whether it sits in your driveway or in our facility, it is the same container, the same keys and the same per-cubic-metre rate.",
+      sub: "Whether it sits in your driveway or in our depot, it is the same container, the same keys, covered by the same Price Match Guarantee.",
       btns: traceBtn(url("pricing"), "See pricing", "From $209", "dark"),
     }),
     trust(),
@@ -1578,6 +1578,23 @@ PAGES.push({
       <p class="muted"><strong>Placement generally needs about 3.5 m wide and 12 m long</strong> for EARL to place the container. If you are unsure, contact one of our team and they can help you work it out.</p>`,
       btns: traceBtn(C.CONTACT.tel, "Call our team", C.CONTACT.phone, "outline"),
     }),
+    /* The client wrote this block. Their arithmetic holds against the rates
+       on this page: Store at Yours against Store With Us is $10, $80 and
+       $110 a month across the three sizes, so $110 is the Large and the $60
+       is what is left after paying a neighbour $50. The asterisk is theirs
+       too, and it earns its place — the saving depends on size, location and
+       term, and a borrowed driveway needs the owner's permission. */
+    split({
+      band: "white", img: "couple-driveway.jpg", fit: false,
+      alt: "A Portabox container on a suburban driveway beside the house",
+      chip: "Store at Yours",
+      h: "A little driveway space. A lot of storage savings.",
+      body: `<p class="g-body">Store at Yours is our most affordable storage option, saving you up to <strong>$110 a month</strong> compared with Store With Us.</p>
+        <p class="g-body">No room at your place? Think outside your own driveway. Mum, a mate or a neighbour might have the perfect spot for your Portabox.</p>
+        <p class="g-body">Even if you paid a neighbour $50 a month for the space, you could still be <strong>$60 a month</strong> ahead.<sup>*</sup></p>
+        <p class="g-fine"><sup>*</sup>Savings depend on container size, location and storage term, and delivery and collection charges still apply. Another address needs the property owner&rsquo;s permission, suitable truck access and room to place the container.</p>`,
+      btns: traceBtn(url("pricing"), "Find my most affordable option", "See the rates", "primary"),
+    }),
     faq(C.FAQ_PRICE, "Pricing questions", "grey", "Can’t see what you are looking for? Call one of our team — we have arranged a lot of moving and storage over the years, and we are here to help."),
     testimonials(),
     ctaBand(),
@@ -1591,10 +1608,10 @@ PAGES.push({
   body: [
     hero({
       form: true,
-      short: true, img: "delivery-truck-street.jpg", alt: "A Portabox truck with a container on a suburban driveway",
+      short: true, img: "earl-placing-container.jpg", alt: "EARL lowering a Portabox container level onto a driveway",
       crumb: crumb([["Home", url("index")], ["How it works"]]),
       h1: "How it works",
-      sub: "We bring the containers to you. The only part you do is the packing. The only part you do is the packing.",
+      sub: "We bring the containers to you. The only part you do is the packing.",
     }),
     trust(),
     // gJourney() cannot run here -- it uses consts the giga block initialises
@@ -1736,7 +1753,7 @@ const SERVICE_DETAIL = {
     h1: "Interstate moves",
     sub: "Brisbane, Sydney, Melbourne and Adelaide, door to door. It travels sealed and it travels level.",
     chip: "Moving", parent: ["Moving Services", url("moving-services")],
-    body: `<p class="muted">Interstate is where EARL earns his keep earns its keep. A load that gets tilted off a tray at both ends, after a thousand kilometres of highway, is a load that arrives rearranged. Ours is lowered flat at the old address and flat again at the new one.</p>
+    body: `<p class="muted">Interstate is where EARL earns his keep. A load that gets tilted off a tray at both ends, after a thousand kilometres of highway, is a load that arrives rearranged. Ours is lowered flat at the old address and flat again at the new one.</p>
       <p class="muted">It is also where the settlement gap is worst. The container can sit loaded at either end — or in a facility in between — while the dates sort themselves out.</p>`,
     img2: "step-move.jpg", img2alt: "A Portabox truck on a coastal highway",
     points: [
@@ -2409,6 +2426,76 @@ function ruledPricing() {
 
 
 
+/* ---- EARL ----
+   Asked for in the review sheet: "EARL Page as an update of this page - with
+   a link from the main pages / with a version of 'See how we place your
+   container'", against auspods' Podzilla page as the reference.
+
+   Everything here is already said somewhere on this site — level delivery,
+   no tilt, ground-level loading, the 3.5 m by 12 m placement, interstate.
+   The page gathers it in one place rather than adding claims. Nothing about
+   lift capacity, cycle time or mechanism is stated, because none of that has
+   been supplied and a spec invented here would be repeated by the client. */
+PAGES.push({
+  file: outFile("earl"), active: outFile("earl"),
+  title: "EARL, the Portabox hydraulic lift | Level delivery, every time | Portabox",
+  desc: "EARL is the hydraulic Easylift that puts your container on the ground flat, instead of tilting it off a tray. No tilt, no drag, and you load at ground level.",
+  body: [
+    hero({
+      form: true, short: true, img: "earl-hydraulic.png",
+      alt: "The EARL hydraulic lift lowering a Portabox container level onto a driveway",
+      crumb: "EARL",
+      h1: "Meet EARL",
+      sub: "Our hydraulic Easylift. It sets your container down flat on the ground, rather than tipping it off the back of a truck.",
+    }),
+
+    split({
+      band: "white", img: "earl-raised.jpg",
+      alt: "A Portabox container held level on the EARL hydraulic frame",
+      chip: "The difference",
+      h: "Down level, not tipped off a tray",
+      body: `<p class="g-body">Most portable storage arrives on a tilt tray: the truck lifts its bed and the container slides off at an angle. Whatever is inside leans with it, and whatever was stacked goes to the low end.</p>
+        <p class="g-body">EARL carries the container on a hydraulic frame and lowers it <strong>straight down</strong>, staying level the whole way. It comes back up the same way at collection, so the load is never tilted at either end.</p>`,
+      btns: traceBtn(C.CONTACT.quote, "Get a price", "Takes a minute", "primary"),
+    }),
+
+    featureGrid({
+      band: "mist", chip: "What that gets you",
+      h: "Why level matters more than it sounds",
+      items: [
+        { ico: "lift", t: "Nothing shifts on the way down", b: "The container is flat from the truck bed to the ground, so what you packed against the back wall stays against the back wall." },
+        { ico: "cube", t: "You load at ground level", b: "The floor sits on the ground. No ramp, no lifting up into a doorway, and a trolley rolls straight in." },
+        { ico: "shield", t: "Nothing drags", b: "It is placed rather than slid, so there is no scraping across your driveway and no load sliding inside the box." },
+        { ico: "truck", t: "It works at both ends", b: "Delivery, collection, and again at the far end on an interstate run. The container is only ever handled one way." },
+      ],
+    }),
+
+    split({
+      band: "white", img: "tilt-method.png", fit: true, flip: true,
+      alt: "A tilt tray delivery compared with the EARL hydraulic lift",
+      chip: "Placement",
+      h: "What EARL needs at your place",
+      body: `<p class="g-body">Because the container is lowered straight down rather than slid off a tray, EARL needs room around the drop point rather than a run-up behind it.</p>
+        <p class="g-body"><strong>Allow roughly 3.5 m wide and 12 m long</strong>, on a level spot — a driveway, hardstand or firm ground — clear of overhanging branches, power lines and eaves.</p>
+        <p class="g-body">If you are not sure, send a photo of the spot when you book. Our team will confirm it before the truck is scheduled.</p>`,
+      btns: traceBtn(C.CONTACT.tel, "Check my placement", C.CONTACT.phone, "outline"),
+    }),
+
+    faq([
+      ["Does the container ever tilt?",
+       "Not on the way down or the way up. EARL holds it level on the hydraulic frame for the whole lift, which is the point of it."],
+      ["Do I need to be there when it arrives?",
+       "Not for a standard placement. Our driver calls about half an hour before delivery, and as long as everything is cleared away from the spot — cars especially — there is no need for you to be there."],
+      ["Will it mark my driveway?",
+       "The container is placed on the ground rather than dragged onto it. It sits on its own bearers, and the driver will talk through the exact spot with you before setting it down."],
+      ["Can EARL get into a narrow driveway?",
+       "Often, but it depends on the width, the gradient and what is overhead. Send a photo of the access when you book and our team will tell you before the truck is scheduled, rather than on the day."],
+    ], "EARL questions", "grey", "Can’t see what you are looking for? Call one of our team — we have arranged a lot of moving and storage over the years, and we are here to help."),
+
+    ctaBand(),
+  ].join("\n"),
+});
+
 /* ---- Container sizes ---- */
 PAGES.push({
   file: outFile("container-sizes"), active: outFile("container-sizes"),
@@ -2583,7 +2670,7 @@ PAGES.push({
   desc: "Call 1800 467 637 or email sales@portabox.au. Quick actions for your next move, cancellations, accounts, photo requests and permit waivers.",
   body: [
     hero({
-      short: true, img: "delivery-truck-street.jpg",
+      short: true, img: "staff-handover.jpg",
       alt: "A Portabox team member talking with a customer",
       crumb: crumb([["Home", url("index")], ["Contact us"]]),
       h1: "Contact Portabox",
@@ -3121,6 +3208,7 @@ function gEarl() {
         <figcaption><span class="g-tagline g-tagline--good">Portabox with EARL</span>Lifted level. Nothing tilts, slides or shifts.</figcaption>
       </figure>
     </div>
+    <div class="g-btns" style="margin-top:2.5rem">${gBtn(url("earl"), "See how we place your container", "yellow")}</div>
   </div>
 </section>`;
 }
@@ -3390,6 +3478,7 @@ ${/* Service areas, lifted out of the footer into a band of its own.
         ["Home", url("index")],
         ["About us", url("about-us")],
         ["How it works", url("how-it-works")],
+        ["Meet EARL", url("earl")],
         ["Instant quote", C.CONTACT.quote],
         ["Contact us", url("contact-us")],
       ])}
