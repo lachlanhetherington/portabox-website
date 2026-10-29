@@ -713,7 +713,27 @@ body.g { box-sizing:border-box; font-family:var(--font, "Montserrat", Arial, san
 .g .g-foot { background:var(--g-navy-x); color:var(--g-onnavy); padding-block:clamp(3.5rem,6vw,5rem) 2rem; }
 .g .g-foot-grid { display:grid; gap:2.5rem; grid-template-columns:1fr; }
 @media (min-width:700px){ .g .g-foot-grid { grid-template-columns:repeat(2,1fr); } }
-@media (min-width:1060px){ .g .g-foot-grid { grid-template-columns:1.5fr repeat(4,.8fr); } }
+@media (min-width:1060px){ .g .g-foot-grid { grid-template-columns:1.5fr repeat(3,.9fr); } }
+
+/* Service areas: their own band under the main columns. Twenty-three in a
+   single column ran far taller than anything beside it. */
+.g .g-foot-areas { margin-top:3rem; padding-top:2rem; border-top:1px solid var(--g-rule-d); }
+.g .g-foot-areas h4 {
+  margin:0 0 1.5rem; font-size:.6875rem; font-weight:700;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--g-cyan);
+}
+.g .g-foot-areas-grid { display:grid; gap:2rem 1.5rem; grid-template-columns:1fr; }
+@media (min-width:560px){ .g .g-foot-areas-grid { grid-template-columns:repeat(2,1fr); } }
+@media (min-width:900px){ .g .g-foot-areas-grid { grid-template-columns:repeat(4,1fr); } }
+.g .g-foot-areas h5 { margin:0 0 .85rem; font-size:.9375rem; font-weight:700; }
+.g .g-foot-areas h5 a { color:#fff; }
+.g .g-foot-areas h5 a:hover { color:var(--g-cyan); }
+.g .g-foot-areas ul { list-style:none; margin:0; padding:0; display:grid; gap:.55rem; }
+.g .g-foot .g-foot-areas li { margin-bottom:0; }
+.g .g-foot-areas li a { font-size:.875rem; }
+.g .g-foot-areas-more {
+  margin:2rem 0 0; display:flex; flex-wrap:wrap; gap:1.5rem; font-size:.875rem; font-weight:700;
+}
 
 .g .g-foot-blurb { margin:1.25rem 0 0; max-width:38ch; font-size:.9375rem; line-height:1.6; color:var(--g-onnavy); }
 .g .g-foot ul.g-foot-contact {
@@ -723,6 +743,18 @@ body.g { box-sizing:border-box; font-family:var(--font, "Montserrat", Arial, san
    specificity, so this needs the extra `.g-foot` to win. */
 .g .g-foot .g-foot-contact li,
 .g .g-foot .g-foot-social li { margin-bottom:0; }
+
+/* Opening hours, supplied by the client Oct 2026. Same eyebrow treatment as
+   the column headings opposite, so it reads as part of the footer rather
+   than something bolted onto the brand block. */
+.g .g-foot-hours { margin:1.5rem 0 0; }
+.g .g-foot-hours h3 {
+  margin:0 0 .75rem; font-size:.6875rem; font-weight:700;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--g-cyan);
+}
+.g .g-foot-hours dl { margin:0; display:grid; gap:.5rem; }
+.g .g-foot-hours dt { font-size:.8125rem; color:var(--g-onnavy); opacity:.85; }
+.g .g-foot-hours dd { margin:0; font-size:.9375rem; font-weight:700; color:#fff; }
 
 .g .g-foot ul.g-foot-social {
   list-style:none; display:flex; flex-wrap:wrap; gap:.5rem; margin:1.5rem 0 0; padding:0;

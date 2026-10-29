@@ -107,6 +107,13 @@ const CONTACT = {
      so the hero boxes can hand over what the visitor already typed. */
   quoteApp: QUOTE_APP,
   quote: QUOTE_APP,
+  /* Supplied by the client in the review sheet, Oct 2026. These were left
+     off the site until now rather than guessed at — an opening time is the
+     sort of thing someone drives across town on. */
+  hours: [
+    ["Sydney, Melbourne, Brisbane", "8:00am – 5:00pm"],
+    ["Adelaide", "7:30am – 4:30pm"],
+  ],
   quoteForm: "https://portabox.au/get-a-quote/",  // the live form on the old site
   book: "https://app.smartsheet.com/b/form/356f960443654f9fb2ca37f45c4e8ff6",
   priceMatch: "https://app.smartsheet.com/b/form/35c0f3d1f2ab4ddcb16f717266fd86c0",
@@ -148,11 +155,15 @@ const CONTAINER_SPECS = [
    into the per-cubic-metre numbers the site advertises: $8.76 only comes out
    of $219 / 25, and $20.90 only out of $209 / 10. Every `per` below is now
    computed from its own rate, so the arithmetic on the page is checkable.
-   Awaiting the client's final confirmation — one edit here changes the site. */
+
+   Confirmed by the client in the review sheet (Oct 2026): "Update pricing
+   for Medium to $209 (instead of 219)", and the Store at Yours row reads
+   209 / 209 / 219. Medium moved accordingly, and its per-cubic-metre figure
+   with it — $11.53 was 219/19 and would have been quietly wrong. */
 const SIZES = [
   { id:"small",  name:"Small",  vol:10, rate:209, per:"20.90", suits:"Apartments and units",
     img:"size-s.jpg", holds:"A one-bedroom flat, or a single room plus whitegoods." },
-  { id:"medium", name:"Medium", vol:19, rate:219, per:"11.53", suits:"Two-bedroom homes", flag:"Price drop",
+  { id:"medium", name:"Medium", vol:19, rate:209, per:"11.00", suits:"Two-bedroom homes", flag:"Price drop",
     img:"size-m.jpg", holds:"Two bedrooms, a lounge, a full kitchen and the garage overflow." },
   { id:"large",  name:"Large",  vol:25, rate:219, per:"8.76",  suits:"Three-bedroom homes", flag:"Best value", best:true,
     img:"size-l.jpg", holds:"A whole three-bedroom house, including the shed and the bikes." },
@@ -519,7 +530,7 @@ const FAQ_GENERAL = [
 
 const FAQ_PRICE = [
   ["What does 'from' pricing mean?",
-   "Rates start at $209 a month for the Small and $219 for the Medium and Large. The final figure depends on your location and how long you need it. We give you the number before you commit."],
+   "Rates start at $209 a month for the Small and the Medium, and $219 for the Large. The final figure depends on your location and how long you need it. We give you the number before you commit."],
   ["Do you really beat a cheaper quote?",
    "Yes — not just match it. Send us a written quote with the container volume on it and we will beat the per-cubic-metre rate. That comparison is the whole reason we publish ours."],
   ["Is there a minimum term?",

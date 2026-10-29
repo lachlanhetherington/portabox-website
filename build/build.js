@@ -189,7 +189,7 @@ function nav(active) {
     <div class="grp"><a href="${url("pricing")}">Pricing</a><a href="${url("how-it-works")}">How it works</a><a href="${url("about-us")}">About us</a><a href="${url("contact-us")}">Contact us</a></div>
     <div class="cta-row">
       ${traceBtn(C.CONTACT.quote, "Instant Quote", "No email needed", "primary", "btn-trace--full")}
-      ${traceBtn(C.CONTACT.tel, "Call the depot", C.CONTACT.phone, "dark", "btn-trace--full")}
+      ${traceBtn(C.CONTACT.tel, "Call our team", C.CONTACT.phone, "dark", "btn-trace--full")}
     </div>
   </div>
 </div>
@@ -362,7 +362,7 @@ const trust = () => `
 <section class="g-trust">
   <div class="g-wrap g-trust-in">
     ${[["lift", "Lowered level, never tipped"], ["key", "You hold the only keys"],
-       ["cube", "Priced per cubic metre"], ["globe", "Four depots, Australia-wide"]]
+       ["cube", "Priced per cubic metre"], ["globe", "Four Depots In Four States"]]
       .map(([i, t]) => `<span class="g-trust-i">${ICON[i]}${t}</span>`).join("\n    ")}
   </div>
 </section>`;
@@ -514,7 +514,7 @@ function earl() {
   return `
 <section class="g-band g-band--deep" id="earl">
   <div class="g-wrap">
-    ${gintro("The hydraulic difference", "The hydraulic difference with EARL.",
+    ${gintro("The hydraulic difference", "EARL, meet our hydraulic difference.",
       "Most containers are dragged and tilted onto a truck. Ours stay perfectly level from your driveway to the destination.")}
     <div class="g-compare">
       <figure class="g-rise">
@@ -593,7 +593,7 @@ function ctaBand(o) {
   return `
 <section class="g-band g-band--${o.cyan ? "cyan" : "deep"}" id="quote">
   <div class="g-wrap">
-    ${gintro("Ready to get started?", o.h || "Put a postcode in and find out",
+    ${gintro("Ready to get started?", o.h || "Take a quick look to see if your postcode comes up",
       o.sub || "One field, no email address. If we cover you, you will see which depot you are on in about a second.")}
     <div class="g-rise">
       ${quoteForm()}
@@ -1310,7 +1310,7 @@ function facilityIndex() {
     `
 <section class="g-band g-band--light">
   <div class="g-wrap">
-    ${gintro("Where we are", "Four depots, Australia-wide",
+    ${gintro("Where we are", "Four Depots In Four States",
       "Each yard runs a standard delivery radius, and anything past it we quote as a regional run.")}
     <div class="g-fac-grid">
       ${keys.map((k) => {
@@ -1511,7 +1511,7 @@ PAGES.push({
       btns: traceBtn(url("locations"), "Where we go", "Four depots", "dark"),
     }),
     trust(),
-    cards({ band: "light", chip: "Moving", h: "Three kinds of run", items: C.MOVING_SERVICES }),
+    cards({ band: "light", chip: "Moving", h: "Three options we offer", items: C.MOVING_SERVICES }),
     earl(),
     steps({
       band: "light", chip: "How a move runs", h: "Load once. That is the whole trick.",
@@ -1544,7 +1544,7 @@ PAGES.push({
     statement({
       band: "dark", chip: "Regional Australia", h: "Outside the radius, we still go.",
       sub: "Past the depot radii every job is quoted individually. Tell us the two postcodes and we will price the run honestly — including the parts other operators will not drive.",
-      btns: traceBtn(C.CONTACT.tel, "Call the depot", C.CONTACT.phone, "primary"),
+      btns: traceBtn(C.CONTACT.tel, "Call our team", C.CONTACT.phone, "primary"),
     }),
     pricing({ band: "grey" }),
     ctaBand({ h: "Check your postcode" }),
@@ -1576,7 +1576,7 @@ PAGES.push({
       chip: "Will it fit?", h: "Check the clearance before you book",
       body: `<p class="muted">You need a level spot — driveway, hardstand or firm ground — and a straight run for a rigid truck to reach it. Keep it clear of branches, eaves and service lines.</p>
       <p class="muted"><strong>Indicative placement footprint for the Large is about 4.7 × 2.2 m.</strong> That figure is derived from the published 25 m³, not surveyed — your depot confirms the exact clearance when you book.</p>`,
-      btns: traceBtn(C.CONTACT.tel, "Ask the depot", C.CONTACT.phone, "outline"),
+      btns: traceBtn(C.CONTACT.tel, "Call our team", C.CONTACT.phone, "outline"),
     }),
     faq(C.FAQ_PRICE, "Pricing questions", "grey"),
     testimonials(),
@@ -1594,7 +1594,7 @@ PAGES.push({
       short: true, img: "staff-tablet.jpg", alt: "A Portabox team member handing over keys to a customer",
       crumb: crumb([["Home", url("index")], ["How it works"]]),
       h1: "How it works",
-      sub: "Three moves, and none of them are yours. The only part you do is the packing.",
+      sub: "We bring the containers to you. The only part you do is the packing. The only part you do is the packing.",
     }),
     trust(),
     // gJourney() cannot run here -- it uses consts the giga block initialises
@@ -1639,7 +1639,7 @@ const SERVICE_DETAIL = {
     ],
     steps: [
       ["We deliver and place it", "You tell us where it goes. We need a level spot and a straight run for the truck. A standard placement does not need you on site."],
-      ["You load it at your own pace", "Doors at waist height, no ramp, ground level. Take the weekend or take a month."],
+      ["You load it at your own pace", "Ground level, no ramp needed. Take the weekend or take a month."],
       ["It stays as long as you need", "Monthly. When you are done, tell us — we collect it, or we move it to your new address."],
     ],
   },
@@ -1736,7 +1736,7 @@ const SERVICE_DETAIL = {
     h1: "Interstate moves",
     sub: "Brisbane, Sydney, Melbourne and Adelaide, door to door. It travels sealed and it travels level.",
     chip: "Moving", parent: ["Moving Services", url("moving-services")],
-    body: `<p class="muted">Interstate is where the EARL lift earns its keep. A load that gets tilted off a tray at both ends, after a thousand kilometres of highway, is a load that arrives rearranged. Ours is lowered flat at the old address and flat again at the new one.</p>
+    body: `<p class="muted">Interstate is where EARL earns his keep earns its keep. A load that gets tilted off a tray at both ends, after a thousand kilometres of highway, is a load that arrives rearranged. Ours is lowered flat at the old address and flat again at the new one.</p>
       <p class="muted">It is also where the settlement gap is worst. The container can sit loaded at either end — or in a facility in between — while the dates sort themselves out.</p>`,
     img2: "step-move.jpg", img2alt: "A Portabox truck on a coastal highway",
     points: [
@@ -1790,7 +1790,7 @@ Object.keys(SERVICE_DETAIL).forEach((slug) => {
         short: true, img: d.hero, alt: d.heroAlt,
         crumb: crumb([["Home", url("index")], d.parent, [d.h1]]),
         h1: d.h1, sub: d.sub,
-        btns: traceBtn(C.CONTACT.tel, "Call the depot", C.CONTACT.phone, "dark"),
+        btns: traceBtn(C.CONTACT.tel, "Call our team", C.CONTACT.phone, "dark"),
       }),
       trust(),
       split({
@@ -2192,7 +2192,7 @@ C.LOCATIONS.filter((l) => l.regional).forEach((l) => {
         h: l.regional ? "Past the radius, we still go" : `Delivering across ${l.title}`,
         body: `<p class="muted">${depotLine} ${l.regional ? "" : `We cover ${l.sats.slice(0, -1).join(", ")} and ${l.sats[l.sats.length - 1]}.`}</p>
         <p class="muted">The container comes down level on the EARL hydraulic frame, you load it at your own pace, and you fit your own lock. Leave it at your place, or have us store it — the rate is the same per cubic metre either way.</p>`,
-        btns: traceBtn(C.CONTACT.quote, "Get a price", "Let\u2019s go", "primary") + traceBtn(C.CONTACT.tel, "Call the depot", C.CONTACT.phone, "outline"),
+        btns: traceBtn(C.CONTACT.quote, "Get a price", "Let\u2019s go", "primary") + traceBtn(C.CONTACT.tel, "Call our team", C.CONTACT.phone, "outline"),
       }),
       featureGrid({
         band: "grey", chip: "Areas covered",
@@ -2202,7 +2202,7 @@ C.LOCATIONS.filter((l) => l.regional).forEach((l) => {
       cards({
         band: "light", chip: "Services here", h: "What you can book in this region",
         items: [
-          { slug: "storage-at-your-place", title: "Storage at Your Place", img: "delivery-home.jpg", blurb: "Delivered to your address and left there, with access whenever you like.", more: "Read more" },
+          { slug: "storage-at-your-place", title: "Storage at Your Place", img: "delivery-home.jpg", blurb: "Ideal for renos, decluttering or parties.", more: "Read more" },
           { slug: "store-with-us", title: "Store With Us", img: "yard-keys.jpg", blurb: "We collect the loaded container and keep it in a monitored facility.", more: "Read more" },
           { slug: "interstate-moves", title: "Moving", img: "sizes-three.jpg", blurb: "Local, interstate or regional — door to door, sealed and level.", more: "Read more" },
         ],
@@ -2452,7 +2452,7 @@ PAGES.push({
       items: [
         { ico: "wall", t: "Flat interior walls", b: "No ribs or wheel arches to pack around, so you stack square to the wall and use the full height." },
         { ico: "cube", t: "Full height usable", b: "2.40 m internal height on every size. Stack to the ceiling rather than losing the top third." },
-        { ico: "lift", t: "Ground level loading", b: "The floor sits on the ground, so there is no ramp and no lifting above waist height." },
+        { ico: "lift", t: "Ground level loading", b: "The floor sits on the ground, so there is no ramp and nothing to lift up into." },
       ],
     }),
     pricing({ band: "grey" }),
@@ -2544,7 +2544,7 @@ PAGES.push({
       band: "light", img: "keys-handover.jpg",
       alt: "A Portabox team member handing the container keys to a customer",
       chip: "Access and security",
-      h: "You fit the lock. We never hold a copy.",
+      h: "You fit the lock, you hold the keys.",
       body: `<p>When the container is delivered you put your own lock on it. Nobody at Portabox keeps a duplicate, and that stays true while it is sitting in one of our monitored facilities.</p>
         <p>If your container is stored with us and you want to get into it, give us 48 hours notice and bring your keys. If it is at your place, there is nothing to arrange and nobody to sign in with.</p>`,
     }),
@@ -2597,7 +2597,7 @@ PAGES.push({
       h: "Three ways to get in touch",
       items: [
         { ico: "phone", t: C.CONTACT.phone,
-          b: "Talk to the depot that covers your postcode. Quickest way to get a price or check a delivery date." },
+          b: "Talk to our team that covers your postcode. Quickest way to get a price or check a delivery date." },
         { ico: "globe", t: C.CONTACT.email,
           b: "Email the team for quotes, invoices and anything that needs a paper trail." },
         { ico: "check", t: "Contact form",
@@ -2781,7 +2781,7 @@ function gHero() {
       <div class="g-hero-grid">
         <h1 class="g-display g-rise" style="--d:80ms">Storage that stays at your place.</h1>
         <div class="g-rise" style="--d:160ms">
-          <p class="g-hero-body">Australia&rsquo;s largest portable storage containers. Delivered to your door. No stressful facility trips, no inflated prices.</p>
+          <p class="g-hero-body">Australia&rsquo;s largest portable storage containers. Delivered to your door. No stressful depot trips, no inflated prices.</p>
           <div class="g-hero-form">${quoteForm()}</div>
         </div>
       </div>
@@ -2798,12 +2798,12 @@ function gServices() {
       f: ["Delivered to your door", "Access day or night", "Discreet white design", "Ideal for renos and house sales"],
       cta: "Explore storage" },
     { slug: "store-with-us", img: "yard-keys.jpg", t: "Store With Us",
-      d: "Pack at home, then we collect it and keep it at our secure facility until you need it.",
+      d: "Pack at home, then we collect it and keep it at our secure depot until you need it.",
       f: ["Pack once, no double handling", "24 hour facility security", "Access with 48 hours notice", "Short or long term"],
       cta: "Store with us" },
     { slug: "moving-services", img: "sizes-three.jpg", t: "Moving &amp; Regional",
       d: "Load at your old place and unload at your new one. Across town, interstate or regional.",
-      f: ["Local and interstate moves", "Regional Solution Australia wide", "Store between homes", "EARL keeps it level on the road"],
+      f: ["Local and interstate moves", "Regional Solution Australia wide", "Store between homes", "EARL keeps it level on pick up and drop off"],
       cta: "Plan my move" },
   ];
   return `
@@ -2837,7 +2837,7 @@ function gJourney() {
 <section class="g-band g-band--cyan g-pj" id="how">
   <div class="g-wrap">
     ${gIntro("How it works", "Three steps. You only do one of them.",
-      "The only part you do is the packing, and you do that standing on your own driveway with the doors at waist height.")}
+      "The only part you do is the packing. We deliver to your property, so the container is right there at your convenience, at ground level. Ready when you are!")}
     <div class="g-pj-tabs g-rise" role="group" aria-label="What do you need?">
       <button type="button" aria-pressed="true" data-mode="storage">Storage</button>
       <button type="button" aria-pressed="false" data-mode="moving">Moving</button>
@@ -3064,7 +3064,7 @@ function gJourney() {
 function gWhy() {
   const rows = [
     ["Largest moving containers in Australia", "20 to 30% larger than competitors. Fewer containers, lower cost.", "25 m³ largest"],
-    ["The hydraulic difference with EARL", "Perfectly level loading and unloading. No tilting, no sliding, no damage.", "EARL"],
+    ["EARL, meet our hydraulic difference", "Perfectly level loading and unloading. No tilting, no sliding, no damage.", "EARL"],
     ["Best value per cubic metre", "The cheapest in the market once you calculate cost per cubic metre.", "$8.76 / m³"],
     ["Discreet white design", "No neon colours or massive logos on your front yard.", "Unbranded"],
     ["You control access", "You get the only keys. Your belongings, your control.", "One key"],
@@ -3073,7 +3073,7 @@ function gWhy() {
 <section class="g-band g-band--stone">
   <div class="g-wrap">
     ${gIntro("Why we're different", "Don&rsquo;t just compare monthly rates.",
-      "Compare what you&rsquo;re actually getting. Five things that change the arithmetic.")}
+      "Compare what you&rsquo;re actually getting. Five things that change the bottom dollar.")}
     <div class="g-index g-index--plain">
       ${rows.map((r, n) => `<div class="g-row g-rise" style="--d:${n * 70}ms">
         <span class="g-row-t">${r[0]}</span>
@@ -3090,7 +3090,7 @@ function gEarl() {
   return `
 <section class="g-band g-band--deep" id="earl">
   <div class="g-wrap">
-    ${gIntro("The hydraulic difference", "The hydraulic difference with EARL.",
+    ${gIntro("The hydraulic difference", "EARL, meet our hydraulic difference.",
       "Most containers are dragged and tilted onto a truck. Ours stay perfectly level from your driveway to the destination.")}
     <div class="g-compare">
       <figure class="g-rise">
@@ -3316,6 +3316,13 @@ function gFooter() {
           <li><a href="${C.CONTACT.tel}">${gPhone}<span>${C.CONTACT.phone}</span></a></li>
           <li><a href="${C.CONTACT.mailto}">${gMail}<span>${C.CONTACT.email}</span></a></li>
         </ul>
+        <div class="g-foot-hours">
+          <h3>Opening hours</h3>
+          <dl>
+            ${C.CONTACT.hours.map(([where, when]) =>
+              `<div><dt>${where}</dt><dd>${when}</dd></div>`).join("\n            ")}
+          </dl>
+        </div>
         <ul class="g-foot-social">
           ${C.CONTACT.social.map(([name, url]) =>
             `<li><a href="${url}" aria-label="Portabox on ${name}" rel="noopener">${gSocial[name] || ""}</a></li>`).join("\n          ")}
@@ -3330,7 +3337,31 @@ function gFooter() {
       ])}
       ${col("Storage services", C.STORAGE_SERVICES.map((s) => [s.title, url(s.slug)]).concat([["Container sizes", url("container-sizes")], ["Pricing &amp; sizes", url("pricing")]]))}
       ${col("Moving services", C.MOVING_SERVICES.map((s) => [s.title, url(s.slug)]))}
-      ${col("Locations", C.REGIONS.map((r) => [r.name, url(r.slug)]).concat([["Storage facilities", url("facilities")]]))}
+    </div>
+
+    ${/* Twenty-three regions in one column ran taller than everything beside
+          it and left the rest of the footer empty. Grouped by the depot that
+          serves them instead, in a band of its own — which is also how the
+          client's own footer lists them, so it reads the way they already
+          think about coverage. The city heads its own group and links to its
+          hub rather than repeating underneath. */ ""}
+    <div class="g-foot-areas">
+      <h4>Service areas</h4>
+      <div class="g-foot-areas-grid">
+        ${["brisbane", "sydney", "melbourne", "adelaide"].map((d) => {
+          const mine = C.REGIONS.filter((r) => r.depot === d);
+          const head = mine.find((r) => r.slug === d);
+          const rest = mine.filter((r) => r !== head);
+          return `<div>
+          <h5><a href="${url(head.slug)}">${head.name}</a></h5>
+          <ul>${rest.map((r) => `<li><a href="${url(r.slug)}">${r.name}</a></li>`).join("")}</ul>
+        </div>`;
+        }).join("\n        ")}
+      </div>
+      <p class="g-foot-areas-more">
+        <a href="${url("locations")}">All locations</a>
+        <a href="${url("facilities")}">Storage facilities</a>
+      </p>
     </div>
     <div class="g-foot-legal">
       <p>&copy; <span class="yr">2026</span> portabox.au. All rights reserved.</p>
@@ -3351,7 +3382,7 @@ PAGES.push({
   css: "giga.css",
   js: "giga.js",
   title: "Portabox — Storage That Stays at Your Place",
-  desc: "Australia's largest portable storage containers. Delivered to your door. No stressful facility trips, no inflated prices. From $209 per month.",
+  desc: "Australia's largest portable storage containers. Delivered to your door. No stressful depot trips, no inflated prices. From $209 per month.",
   body: [
     gNav(),
     `<main id="main">`,
