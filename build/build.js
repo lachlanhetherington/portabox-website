@@ -3312,11 +3312,20 @@ function gPriceMatch() {
 
 /* ---- Testimonials ---- */
 function gQuotes() {
-  const items = [
-    ["Finally, a storage company that doesn&rsquo;t rip you off. Worked out the maths and Portabox was 40% cheaper per cubic metre.", "Bridget", "Adelaide", "person-bridget-avatar.jpg"],
-    ["The hydraulic system is brilliant. My furniture arrived without a scratch. Wendy and the team were brilliant.", "Dean", "Sydney to Brisbane", "person-dean-avatar.jpg"],
-    ["Love that I have the only keys. My stuff in my front yard and I can jump in to sort it out whenever I need to.", "Steve", "Melbourne", "person-steve-avatar.jpg"],
-  ];
+  /* Read from content.js rather than kept here. This list was a second,
+     hardcoded copy of the same three testimonials, so changing the data
+     changed every page except the homepage — which is the one page that
+     matters most and the one the client was looking at. Quotes stay as this
+     section had them; the names, places and portraits now come from one
+     place, so the next change lands everywhere. */
+  const items = C.TESTIMONIALS.map((t, n) => [
+    [
+      "Finally, a storage company that doesn&rsquo;t rip you off. Worked out the maths and Portabox was 40% cheaper per cubic metre.",
+      "The hydraulic system is brilliant. My furniture arrived without a scratch. Wendy and the team were brilliant.",
+      "Love that I have the only keys. My stuff in my front yard and I can jump in to sort it out whenever I need to.",
+    ][n] || t.q,
+    t.n, t.p, t.img.replace(".png", "-avatar.jpg"),
+  ]);
   return `
 <section class="g-band g-band--stone">
   <div class="g-wrap">
