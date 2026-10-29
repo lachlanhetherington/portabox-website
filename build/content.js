@@ -192,7 +192,7 @@ const STORAGE_SERVICES = [
 
 const MOVING_SERVICES = [
   { slug:"local-moves", title:"Local Moves",
-    blurb:"Door to door within your metro area. Load once, at your own pace, with no removalist clock running.", img:"staff-tablet.jpg" },
+    blurb:"Door to door within your metro area. Load once, at your own pace, with no removalist clock running.", img:"delivery-truck-street.jpg" },
   { slug:"interstate-moves", title:"Interstate Moves",
     blurb:"Brisbane, Sydney, Melbourne and Adelaide, door to door. It travels sealed and it travels level.", img:"sizes-three.jpg" },
   { slug:"regional-remote", title:"Regional & Remote",

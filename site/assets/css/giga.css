@@ -715,6 +715,43 @@ body.g { box-sizing:border-box; font-family:var(--font, "Montserrat", Arial, san
 @media (min-width:700px){ .g .g-foot-grid { grid-template-columns:repeat(2,1fr); } }
 @media (min-width:1060px){ .g .g-foot-grid { grid-template-columns:1.5fr repeat(3,.9fr); } }
 
+/* Footer brand column. These were lost when the service-areas rules
+   were rewritten in place and the replacement range swallowed them:
+   the blurb lost its top margin and sat flush against the logo. */
+.g .g-foot-blurb { margin:1.25rem 0 0; max-width:38ch; font-size:.9375rem; line-height:1.6; color:var(--g-onnavy); }
+.g .g-foot ul.g-foot-contact {
+  list-style:none; margin:1.5rem 0 0; padding:0; display:grid; gap:.75rem;
+}
+/* `.g-foot li` sets its own margin and is declared later at the same
+   specificity, so this needs the extra `.g-foot` to win. */
+.g .g-foot .g-foot-contact li,
+.g .g-foot .g-foot-social li { margin-bottom:0; }
+
+/* Opening hours, supplied by the client Oct 2026. Same eyebrow treatment as
+   the column headings opposite, so it reads as part of the footer rather
+   than something bolted onto the brand block. */
+.g .g-foot-hours { margin:1.5rem 0 0; }
+.g .g-foot-hours h3 {
+  margin:0 0 .75rem; font-size:.6875rem; font-weight:700;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--g-cyan);
+}
+.g .g-foot-hours dl { margin:0; display:grid; gap:.5rem; }
+.g .g-foot-hours dt { font-size:.8125rem; color:var(--g-onnavy); opacity:.85; }
+.g .g-foot-hours dd { margin:0; font-size:.9375rem; font-weight:700; color:#fff; }
+
+.g .g-foot ul.g-foot-social {
+  list-style:none; display:flex; flex-wrap:wrap; gap:.5rem; margin:1.5rem 0 0; padding:0;
+}
+.g .g-foot-social a {
+  display:inline-flex; align-items:center; justify-content:center;
+  width:40px; height:40px; border:1px solid var(--g-rule-d); color:var(--g-onnavy);
+  transition:background-color var(--g-t) var(--g-hover), border-color var(--g-t) var(--g-hover), color var(--g-t) var(--g-hover);
+}
+.g .g-foot-social a:hover { background:var(--g-cyan); border-color:var(--g-cyan); color:var(--g-navy); }
+.g .g-foot-social svg { width:18px; height:18px; }
+.g .g-foot-contact a { display:inline-flex; align-items:center; gap:.6rem; font-size:.9375rem; }
+.g .g-foot-contact svg { width:16px; height:16px; flex:none; color:var(--g-cyan); }
+
 /* ---- Service areas band -------------------------------------------------
    Sits between the cyan quote CTA and the navy footer. Cyan here too made
    one unbroken wall of it down the whole page end, so this takes the dark

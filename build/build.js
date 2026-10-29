@@ -1591,7 +1591,7 @@ PAGES.push({
   body: [
     hero({
       form: true,
-      short: true, img: "staff-tablet.jpg", alt: "A Portabox team member handing over keys to a customer",
+      short: true, img: "delivery-truck-street.jpg", alt: "A Portabox truck with a container on a suburban driveway",
       crumb: crumb([["Home", url("index")], ["How it works"]]),
       h1: "How it works",
       sub: "We bring the containers to you. The only part you do is the packing. The only part you do is the packing.",
@@ -1710,7 +1710,7 @@ const SERVICE_DETAIL = {
     ],
   },
   "local-moves": {
-    hero: "staff-tablet.jpg", heroAlt: "A Portabox team member helping a customer",
+    hero: "delivery-truck-street.jpg", heroAlt: "A Portabox truck delivering a container to a suburban street",
     h1: "Local moves",
     sub: "Door to door within your metro area. Load once, at your own pace, with no removalist clock running.",
     chip: "Moving", parent: ["Moving Services", url("moving-services")],
@@ -2583,7 +2583,7 @@ PAGES.push({
   desc: "Call 1800 467 637 or email sales@portabox.au. Quick actions for your next move, cancellations, accounts, photo requests and permit waivers.",
   body: [
     hero({
-      short: true, img: "staff-tablet.jpg",
+      short: true, img: "delivery-truck-street.jpg",
       alt: "A Portabox team member talking with a customer",
       crumb: crumb([["Home", url("index")], ["Contact us"]]),
       h1: "Contact Portabox",
@@ -2753,7 +2753,7 @@ function gNav() {
 <header class="g-nav">
   <div class="g-nav-in">
     <a class="g-brand" href="${url("index")}" aria-label="Portabox home">
-      <img class="on-dark-logo" src="${IMG}logo-white.png" alt="Portabox" width="120" height="26">
+      <img class="on-dark-logo" src="${IMG}logo-multicolour.png" alt="Portabox" width="132" height="30">
       <img class="on-cyan-logo" src="${IMG}logo.png" alt="" aria-hidden="true" width="120" height="34">
     </a>
     <nav class="g-menu" aria-label="Primary">
@@ -2813,8 +2813,8 @@ function gHero() {
 function gServices() {
   const items = [
     { slug: "storage-at-your-place", img: "delivery-home.jpg", t: "Storage at Your Place",
-      d: "We deliver the container to your driveway. You load it whenever suits you.",
-      f: ["Delivered to your door", "Access day or night", "Discreet white design", "Ideal for renos and house sales"],
+      d: "We deliver the container to your home. You load it whenever suits you.",
+      f: ["Delivered to your door", "Access day or night", "Discreet white design", "Ideal for renos, decluttering or parties"],
       cta: "Explore storage" },
     { slug: "store-with-us", img: "yard-keys.jpg", t: "Store With Us",
       d: "Pack at home, then we collect it and keep it at our secure depot until you need it.",
@@ -3362,7 +3362,10 @@ ${/* Service areas, lifted out of the footer into a band of its own.
   <div class="g-wrap">
     <div class="g-foot-grid">
       <div class="g-foot-brand">
-        <img src="${IMG}logo-white.png" alt="Portabox" width="150" height="33" style="height:33px;width:auto">
+        ${/* The multicolour mark, as the review sheet asks: "Dark version of the
+      logo / Please utilise the multicolour version". White portabox on
+      navy loses the cyan half of the wordmark entirely. */ ""}
+        <img src="${IMG}logo-multicolour.png" alt="Portabox" width="166" height="38" style="height:38px;width:auto">
         <p class="g-foot-blurb">
           Australia&rsquo;s largest portable storage containers. Better value per cubic metre.
           Hydraulic lift system. You keep the only keys.
