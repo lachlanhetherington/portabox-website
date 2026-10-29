@@ -51,7 +51,7 @@
   --g-out:      cubic-bezier(0.19, 1, 0.22, 1); /* giga's easing: scroll reveals */
   --g-hover:    cubic-bezier(0.33, 1, 0.68, 1); /* easeOutCubic: hover states */
   --g-t:        .45s;   /* hover duration; scroll reveals keep their own */
-  --g-nav:      64px;
+  --g-nav:      84px;
 
   --font: "Montserrat", "Helvetica Neue", Arial, sans-serif;
 
@@ -233,8 +233,8 @@ body.g { box-sizing:border-box; font-family:var(--font, "Montserrat", Arial, san
    plate with padding around the wordmark, so it needs more height to read
    the same size as the transparent one. The 1.31 ratio between them is what
    keeps the logo from jumping when the bar sticks and they swap. */
-.g .g-brand .on-dark-logo { height:36px; }
-.g .g-brand .on-cyan-logo { height:47px; display:none; }
+.g .g-brand .on-dark-logo { height:48px; }
+.g .g-brand .on-cyan-logo { height:63px; display:none; }
 .g .g-nav.is-stuck .on-dark-logo { display:none; }
 .g .g-nav.is-stuck .on-cyan-logo { display:block; }
 
