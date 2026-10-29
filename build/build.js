@@ -2840,8 +2840,8 @@ function gNav() {
 <header class="g-nav">
   <div class="g-nav-in">
     <a class="g-brand" href="${url("index")}" aria-label="Portabox home">
-      <img class="on-dark-logo" src="${IMG}logo-multicolour.png" alt="Portabox" width="132" height="30">
-      <img class="on-cyan-logo" src="${IMG}logo.png" alt="" aria-hidden="true" width="120" height="34">
+      <img class="on-dark-logo" src="${IMG}logo-multicolour.png" alt="Portabox" width="158" height="36">
+      <img class="on-cyan-logo" src="${IMG}logo.png" alt="" aria-hidden="true" width="130" height="47">
     </a>
     <nav class="g-menu" aria-label="Primary">
       ${GROUPS.map(group).join("\n      ")}
@@ -3453,7 +3453,7 @@ ${/* Service areas, lifted out of the footer into a band of its own.
         ${/* The multicolour mark, as the review sheet asks: "Dark version of the
       logo / Please utilise the multicolour version". White portabox on
       navy loses the cyan half of the wordmark entirely. */ ""}
-        <img src="${IMG}logo-multicolour.png" alt="Portabox" width="166" height="38" style="height:38px;width:auto">
+        <img src="${IMG}logo-multicolour.png" alt="Portabox" width="228" height="52" style="height:52px;width:auto">
         <p class="g-foot-blurb">
           Australia&rsquo;s largest portable storage containers. Better value per cubic metre.
           Hydraulic lift system. You keep the only keys.

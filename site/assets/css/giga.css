@@ -229,8 +229,12 @@ body.g { box-sizing:border-box; font-family:var(--font, "Montserrat", Arial, san
 }
 .g .g-brand { display:flex; align-items:center; flex:none; text-decoration:none; }
 .g .g-brand img { display:block; width:auto; }
-.g .g-brand .on-dark-logo { height:26px; }
-.g .g-brand .on-cyan-logo { height:34px; display:none; }
+/* The two marks are not the same artwork: the cyan one carries a coloured
+   plate with padding around the wordmark, so it needs more height to read
+   the same size as the transparent one. The 1.31 ratio between them is what
+   keeps the logo from jumping when the bar sticks and they swap. */
+.g .g-brand .on-dark-logo { height:36px; }
+.g .g-brand .on-cyan-logo { height:47px; display:none; }
 .g .g-nav.is-stuck .on-dark-logo { display:none; }
 .g .g-nav.is-stuck .on-cyan-logo { display:block; }
 
