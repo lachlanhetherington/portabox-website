@@ -2161,6 +2161,37 @@ body.g { box-sizing:border-box; font-family:var(--font, "Montserrat", Arial, san
 .g .g-price-note {
   margin:0 0 1.75rem; font-size:.9375rem; color:var(--g-muted);
 }
+/* On a phone the three stacked boxes read as a menu of links rather than a
+   set of choices — nothing says only one is on, and the selected one is
+   only distinguishable by colour. So: a label above saying what the choice
+   is, the options joined into one segmented control with a shared border,
+   and a tick on the selected one so it does not rely on colour alone. */
 @media (max-width:560px){
-  .g .g-price-tabs button { flex:1 1 100%; text-align:left; }
+  .g .g-price-tabs {
+    display:grid; grid-template-columns:1fr; gap:0;
+    border:1px solid var(--g-ctrl); margin-bottom:.75rem;
+  }
+  .g .g-price-tabs::before {
+    content:"Choose how you want to store"; display:block;
+    padding:.6rem .9rem; font-size:.6875rem; font-weight:700;
+    letter-spacing:.12em; text-transform:uppercase;
+    color:var(--g-navy); background:var(--g-stone);
+    border-bottom:1px solid var(--g-ctrl);
+  }
+  .g .g-price-tabs button {
+    border:0; border-bottom:1px solid var(--g-rule);
+    text-align:left; padding:.85rem .9rem; font-size:.9375rem;
+    display:flex; align-items:center; justify-content:space-between; gap:.75rem;
+  }
+  .g .g-price-tabs button:last-child { border-bottom:0; }
+  .g .g-price-tabs button::after {
+    content:""; width:18px; height:18px; flex:none;
+    border:1px solid var(--g-ctrl); border-radius:50%;
+  }
+  .g .g-price-tabs button[aria-selected="true"]::after {
+    border-color:#fff;
+    background:#fff;
+    box-shadow:inset 0 0 0 3px var(--g-navy);
+  }
+  .g .g-price-note { margin-bottom:1.5rem; }
 }
