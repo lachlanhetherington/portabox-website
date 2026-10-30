@@ -3274,20 +3274,34 @@ function gPricing() {
   <div class="g-wrap">
     ${gIntro("Pricing", "Have space at yours?<br>Save a bucket-load.",
       "Simple, upfront pricing with more space for your money. Here&rsquo;s what you pay per cubic metre.")}
-    <div class="g-price">
-      ${C.SIZES.map((s, n) => `<div class="g-price-row g-rise${s.best ? " is-best" : ""}" style="--d:${n * 80}ms">
+    ${/* Same toggle as the pricing page, over the same RATE_SETS. Its own id
+          prefix so the two can coexist on a page without colliding, and the
+          per-cubic-metre figure is divided here too rather than read from
+          SIZES — SIZES only knows the Store at Yours rate. */ ""}
+    <div class="g-price-tabs g-rise" role="tablist" aria-label="Pricing option">
+      ${C.RATE_SETS.map((set, i) => `<button type="button" role="tab" id="gh-price-tab-${set.id}"
+        aria-controls="gh-price-${set.id}" aria-selected="${i ? "false" : "true"}"
+        tabindex="${i ? "-1" : "0"}" data-panel="gh-price-${set.id}" data-note="${set.note}">${set.name}</button>`).join("")}
+    </div>
+    <p class="g-price-note g-rise" id="gh-price-note">${C.RATE_SETS[0].note}</p>
+    ${C.RATE_SETS.map((set, i) => `<div class="g-price" id="gh-price-${set.id}"${i ? " hidden" : ""}>
+      ${C.SIZES.map((sz, n) => {
+        const rate = set.rates[n];
+        const per = (rate / sz.vol).toFixed(2);
+        return `<div class="g-price-row g-rise${sz.best ? " is-best" : ""}" style="--d:${n * 80}ms">
         <div>
-          <div class="g-price-name"><b>${s.name}</b>${s.flag ? `<span class="g-badge">${s.flag}</span>` : ""}</div>
-          <p class="g-price-feats">${feats[s.id].join(" &middot; ")}</p>
+          <div class="g-price-name"><b>${sz.name}</b>${sz.flag ? `<span class="g-badge">${sz.flag}</span>` : ""}</div>
+          <p class="g-price-feats">${feats[sz.id].join(" &middot; ")}</p>
         </div>
         <div class="g-price-figs">
-          <span><b>$${s.rate}</b><i>per month</i></span>
-          <span><b>${s.vol} m³</b><i>total capacity</i></span>
-          <span><b class="big">$${s.per}</b><i>cost per m³</i></span>
+          <span><b>$${rate}</b><i>per month</i></span>
+          <span><b>${sz.vol} m³</b><i>total capacity</i></span>
+          <span><b class="big">$${per}</b><i>cost per m³</i></span>
         </div>
-        ${gBtn(C.CONTACT.quote, "Select " + s.name, s.best ? "yellow" : "line")}
-      </div>`).join("\n      ")}
-    </div>
+        ${gBtn(C.CONTACT.quote, "Select " + sz.name, sz.best ? "yellow" : "line")}
+      </div>`;
+      }).join("")}
+    </div>`).join("")}
     <p class="g-body g-rise" style="margin-top:1.75rem;max-width:none">Not sure which size? ${gLink(url("pricing"), "Use the space calculator")}</p>
   </div>
 </section>`;

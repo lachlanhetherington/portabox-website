@@ -1338,12 +1338,17 @@
    Without JS every panel is still in the HTML; only the first is visible,
    and the rest are reachable because `hidden` is the only thing hiding them. */
 (function () {
-  var tabs = document.querySelector(".g-price-tabs");
-  if (!tabs) return;
+  /* Every group on the page, not just the first: the homepage and the
+     pricing page each carry one, and a page could show both. */
+  [].slice.call(document.querySelectorAll(".g-price-tabs")).forEach(initTabs);
+
+  function initTabs(tabs) {
   var buttons = [].slice.call(tabs.querySelectorAll("button"));
-  var note = document.getElementById("g-price-note");
-  var notes = {};
-  buttons.forEach(function (b) { notes[b.dataset.panel] = b.getAttribute("data-note"); });
+  /* The note belongs to this group, so find it from the group's own ids
+     rather than a fixed one shared across the page. */
+  var note = document.getElementById(
+    (buttons[0] && buttons[0].dataset.panel || "").replace(/-[^-]+$/, "-note")
+  );
 
   function show(btn) {
     buttons.forEach(function (b) {
@@ -1372,4 +1377,5 @@
     buttons[next].focus();
     show(buttons[next]);
   });
+  }
 })();
