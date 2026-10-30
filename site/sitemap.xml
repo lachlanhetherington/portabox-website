@@ -251,6 +251,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://portabox.au/privacy-policy/</loc>
+    <lastmod>2026-10-30</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://portabox.au/reviews/</loc>
     <lastmod>2026-10-30</lastmod>
     <priority>0.6</priority>
@@ -697,6 +702,11 @@
   </url>
   <url>
     <loc>https://portabox.au/storage/store-with-us/</loc>
+    <lastmod>2026-10-30</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://portabox.au/terms-and-conditions/</loc>
     <lastmod>2026-10-30</lastmod>
     <priority>0.6</priority>
   </url>

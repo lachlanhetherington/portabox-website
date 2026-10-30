@@ -16,6 +16,8 @@ const ROUTES = {
   "instant-quote":         "/get-a-quote/",
   "pricing":               "/pricing/",
   "earl":                  "/earl/",
+  "terms":                 "/terms-and-conditions/",
+  "privacy":               "/privacy-policy/",
   "container-sizes":       "/container-sizes/",
   "how-it-works":          "/how-it-works/",
   "storage-services":      "/storage/",

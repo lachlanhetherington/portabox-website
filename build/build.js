@@ -2517,6 +2517,178 @@ PAGES.push({
   ].join("\n"),
 });
 
+/* ---- Terms and Privacy ----
+   Written for this site rather than copied from the old one, as asked.
+   Everything factual in them comes from what the site already states or
+   what the build can see: the four depot addresses, the contact details,
+   the opening hours, the rates and billing terms on the pricing page, the
+   lock-and-keys arrangement, and the fact that this site itself sets no
+   cookies, loads no third-party scripts and runs no analytics — which is
+   checkable and was checked before the privacy page claimed it.
+
+   Two things are deliberately marked rather than invented: the trading
+   entity and its ABN, and the governing state. Neither has been supplied,
+   and guessing either on a legal page is worse than leaving it visible.
+   Grep for NEEDS CONFIRMING. */
+const LEGAL_PLACEHOLDER = '<mark class="g-todo">[NEEDS CONFIRMING]</mark>';
+
+function legalPage(o) {
+  const sec = (s) => `
+    <section class="g-legal-s">
+      <h2 class="g-h3">${s.h}</h2>
+      <div class="g-prose">${s.p.map((t) => `<p>${t}</p>`).join("")}</div>
+    </section>`;
+  return `
+<section class="g-band g-band--white">
+  <div class="g-wrap g-legal">
+    <p class="g-legal-date">Last updated ${o.updated}</p>
+    <div class="g-prose g-legal-intro">${o.intro.map((t) => `<p>${t}</p>`).join("")}</div>
+    ${o.sections.map(sec).join("")}
+    <section class="g-legal-s">
+      <h2 class="g-h3">Contact us</h2>
+      <div class="g-prose">
+        <p>Call <a class="g-link" href="${C.CONTACT.tel}">${C.CONTACT.phone}</a>,
+           email <a class="g-link" href="${C.CONTACT.mailto}">${C.CONTACT.email}</a>,
+           or write to any of our depots:</p>
+        <p>${Object.values(C.DEPOTS).map((d) => d.addr).join("<br>")}</p>
+        <p>We answer ${C.CONTACT.hours.map(([w, t]) => `${t} in ${w}`).join(", and ")}.</p>
+      </div>
+    </section>
+  </div>
+</section>`;
+}
+
+PAGES.push({
+  file: outFile("terms"), active: "terms.html",
+  title: "Terms and Conditions | Portabox",
+  desc: "The terms you agree to when you hire a Portabox container, including delivery, access, billing, your lock and keys, and what we are and are not responsible for.",
+  body: [
+    hero({
+      short: true, img: "yard-stacked.jpg", alt: "",
+      crumb: "Terms and Conditions",
+      h1: "Terms and Conditions",
+      sub: "What you agree to when you hire a container from us, in plain terms.",
+    }),
+    legalPage({
+      updated: "30 October 2026",
+      intro: [
+        `These terms apply when you hire a Portabox container, whether it stays at your address or at one of our depots. They sit alongside the quote we give you, and where a written quote says something different, the quote applies.`,
+        `Portabox is operated by ${LEGAL_PLACEHOLDER} (ABN ${LEGAL_PLACEHOLDER}). &ldquo;We&rdquo; and &ldquo;us&rdquo; mean that entity; &ldquo;you&rdquo; means the person or business named on the quote.`,
+      ],
+      sections: [
+        { h: "Quotes and prices", p: [
+          `Rates shown on this site are &ldquo;from&rdquo; prices. The figure you pay depends on the container size, where it is delivered, how far it travels and how long you keep it. We give you that figure before you commit.`,
+          `Your quote holds for the period stated on it. If the job changes &mdash; a different address, a different size, a different date &mdash; the price may change, and we will tell you before anything moves.`,
+          `Our Price Match Guarantee applies to a written quote from another provider that states the container volume. We compare on price per cubic metre, because that is the only comparison that holds when containers are different sizes.`,
+        ]},
+        { h: "Billing and term", p: [
+          `The first month&rsquo;s rental is the minimum term. After that the hire continues month to month until you tell us to collect the container.`,
+          `You are billed on the date we deliver, and on the same date each month after that. Delivery and collection are charged separately from the monthly rental.`,
+          `If payment is overdue we may decline to deliver, collect or release a container until the account is settled. We will contact you before taking any such step.`,
+        ]},
+        { h: "Delivery and placement", p: [
+          `You are responsible for telling us where the container is to go, and for making sure the spot is suitable: level ground &mdash; a driveway, hardstand or firm surface &mdash; clear of overhanging branches, power lines and eaves, with room for the truck to reach it. Placement generally needs about 3.5 metres wide and 12 metres long.`,
+          `You are responsible for any permission needed to place a container, including a permit if it will sit on a road, nature strip or other public land, and the property owner&rsquo;s permission if the address is not yours.`,
+          `Our driver will call about half an hour before delivery. Provided the spot is clear, you do not need to be there for a standard placement.`,
+          `If the site turns out to be unsuitable on the day, or access is blocked, we may not be able to place the container, and a further delivery fee may apply. Tell us about tight access when you book and we will check it first.`,
+        ]},
+        { h: "Your lock and your keys", p: [
+          `You fit your own lock. We do not hold a key or a copy of one, and we cannot open your container.`,
+          `That is the point of the arrangement, and it has a consequence worth stating plainly: if you lose your key, getting into your own container becomes your problem to solve, and any cost of doing so is yours.`,
+        ]},
+        { h: "Access when we are storing it", p: [
+          `Containers stored at a depot are in a monitored yard, often stacked. We need 48 hours&rsquo; notice to bring yours to ground level where you can reach it.`,
+          `Access is during our opening hours and by arrangement. We cannot offer unsupervised access to the yard.`,
+        ]},
+        { h: "What you may not store", p: [
+          `You may not store anything illegal, stolen, alive, perishable, or anything that is a hazard to people or property &mdash; including fuel, gas bottles, explosives, fireworks, chemicals, asbestos and ammunition.`,
+          `Do not store cash, jewellery, documents or anything whose value is hard to replace. A sealed container in a yard is not a safe.`,
+          `If we reasonably believe a container holds something on this list, we may refuse to move or store it, and we may be required to report it.`,
+        ]},
+        { h: "Condition, packing and damage", p: [
+          `How your belongings travel depends mostly on how they are packed, which is the part you do. Pack tight, fill gaps, and do not leave heavy items loose.`,
+          `We deliver and collect the container level on the EARL hydraulic lift rather than tilting it off a tray. We are responsible for handling the container itself with reasonable care. We are not responsible for damage caused by the way the contents were packed, by the nature of the goods, or by weather conditions the container is not designed to exclude.`,
+          `Tell us about damage within a reasonable time of delivery or collection so we can look into it while the facts are fresh.`,
+        ]},
+        { h: "Contents protection", p: [
+          `We do not insure your goods. Contents protection is arranged separately &mdash; talk to us when you book and we will point you at the right cover for what you are storing.`,
+          `Nothing in these terms limits rights you have under the Australian Consumer Law that cannot be excluded.`,
+        ]},
+        { h: "Ending the hire", p: [
+          `Tell us when you want the container collected and we will book a date. Rental runs until collection.`,
+          `We may end a hire by giving you reasonable notice, or immediately if the container is being used in a way these terms do not allow.`,
+        ]},
+        { h: "Changes to these terms", p: [
+          `We may update these terms. The version that applies to your hire is the one in force when you accepted your quote, and the date at the top of this page tells you when this version was published.`,
+        ]},
+        { h: "Governing law", p: [
+          `These terms are governed by the law of ${LEGAL_PLACEHOLDER}, and the courts there have jurisdiction.`,
+        ]},
+      ],
+    }),
+    ctaBand(),
+  ].join("\n"),
+});
+
+PAGES.push({
+  file: outFile("privacy"), active: "privacy.html",
+  title: "Privacy Policy | Portabox",
+  desc: "What personal information Portabox collects, why, who it is shared with, and how to get a copy of yours or ask us to correct it.",
+  body: [
+    hero({
+      short: true, img: "staff-handover.jpg", alt: "",
+      crumb: "Privacy Policy",
+      h1: "Privacy Policy",
+      sub: "What we collect, why we collect it, and what you can ask us to do with it.",
+    }),
+    legalPage({
+      updated: "30 October 2026",
+      intro: [
+        `This policy covers personal information handled by ${LEGAL_PLACEHOLDER} (ABN ${LEGAL_PLACEHOLDER}) trading as Portabox, and it follows the Australian Privacy Principles in the Privacy Act 1988 (Cth).`,
+        `It covers this website, our Instant Quote tool, and the ordinary business of quoting, delivering, storing and collecting containers.`,
+      ],
+      sections: [
+        { h: "This website sets no cookies", p: [
+          `Worth saying first, because most policies bury it: this site does not set cookies, does not use local storage, loads no third-party scripts, and runs no analytics or advertising trackers. Nothing here follows you between sites.`,
+          `The only outbound links are to our own social media pages. Following one takes you to that company&rsquo;s site, where their privacy policy applies, not ours.`,
+        ]},
+        { h: "What we collect, and when", p: [
+          `<strong>When you ask for a quote.</strong> The pickup and delivery postcodes or addresses, the container size and dates, and your name, phone number and email address so we can send the quote and talk to you about it.`,
+          `<strong>When you book.</strong> The delivery address and access details, and payment details. Card payments are handled by our payment provider; we do not store your full card number.`,
+          `<strong>When you call or email us.</strong> What you tell us, and a record of the conversation so the next person who picks up your job knows what has already been said.`,
+          `We do not collect sensitive information, and we do not ask what is inside your container.`,
+        ]},
+        { h: "Why we collect it", p: [
+          `To price a job, to deliver and collect a container, to bill you, to answer you when you get in touch, and to keep records we are required to keep.`,
+          `We do not sell personal information, and we do not share it with anyone for their own marketing.`,
+        ]},
+        { h: "Who else sees it", p: [
+          `Only the people who need to in order to do the job: our drivers and depot staff, our payment provider, and the services that run our quoting and communications. Those providers may store data outside Australia, and we use them on terms that require them to protect it.`,
+          `We may also disclose information where the law requires it.`,
+        ]},
+        { h: "How long we keep it", p: [
+          `For as long as we need it for the purpose it was collected, and then for as long as the law requires &mdash; tax and business records generally have to be kept for several years. After that we delete it or de-identify it.`,
+        ]},
+        { h: "Keeping it secure", p: [
+          `We take reasonable steps to protect personal information from loss, misuse and unauthorised access. No system is perfect, and we will tell you and the Office of the Australian Information Commissioner if a breach happens that is likely to cause you serious harm, as the law requires.`,
+        ]},
+        { h: "Getting a copy, or correcting it", p: [
+          `You can ask us for a copy of the personal information we hold about you, and ask us to correct it if it is wrong. Email <a class="g-link" href="${C.CONTACT.mailto}">${C.CONTACT.email}</a> or call <a class="g-link" href="${C.CONTACT.tel}">${C.CONTACT.phone}</a>.`,
+          `We will ask you to verify who you are, and we will respond within a reasonable time. If we cannot give you access, we will tell you why.`,
+        ]},
+        { h: "Marketing", p: [
+          `If we send you anything promotional, every message will have a way to stop it, and we will stop when you ask. Telling us to stop marketing does not stop us contacting you about a job you have booked.`,
+        ]},
+        { h: "Complaints", p: [
+          `If you think we have mishandled your personal information, tell us first &mdash; the contact details are below &mdash; and we will look into it.`,
+          `If you are not satisfied with how we deal with it, you can complain to the Office of the Australian Information Commissioner at oaic.gov.au.`,
+        ]},
+      ],
+    }),
+    ctaBand(),
+  ].join("\n"),
+});
+
 /* ---- Container sizes ---- */
 PAGES.push({
   file: outFile("container-sizes"), active: outFile("container-sizes"),
@@ -3538,8 +3710,8 @@ ${/* Service areas, lifted out of the footer into a band of its own.
     <div class="g-foot-legal">
       <p>&copy; <span class="yr">2026</span> portabox.au. All rights reserved.</p>
       <p style="display:flex;gap:1.5rem;flex-wrap:wrap">
-        <a href="https://portabox.au/terms-and-conditions/">Terms and Conditions</a>
-        <a href="https://portabox.au/privacy-policy/">Privacy Policy</a>
+        <a href="${url("terms")}">Terms and Conditions</a>
+        <a href="${url("privacy")}">Privacy Policy</a>
       </p>
     </div>
   </div>

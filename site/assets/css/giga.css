@@ -2195,3 +2195,20 @@ body.g { box-sizing:border-box; font-family:var(--font, "Montserrat", Arial, san
   }
   .g .g-price-note { margin-bottom:1.5rem; }
 }
+
+/* ---- Legal pages --------------------------------------------------------
+   A single measured column. These are read in a hurry by someone looking
+   for one clause, so the headings carry the weight and the text stays at a
+   comfortable measure rather than running the full width. */
+.g .g-legal { max-width:46rem; }
+.g .g-legal-date { margin:0 0 2rem; font-size:.8125rem; color:var(--g-muted); }
+.g .g-legal-intro { margin-bottom:2.5rem; }
+.g .g-legal-s { margin-top:2.5rem; }
+.g .g-legal-s .g-h3 { margin:0 0 .25rem; }
+.g .g-legal-s + .g-legal-s { padding-top:2.5rem; border-top:1px solid var(--g-rule); }
+/* Anything still waiting on the client. Deliberately loud: a legal page
+   that ships with a guessed trading name is worse than one with a gap. */
+.g .g-todo {
+  background:var(--g-yellow); color:var(--g-navy);
+  padding:.1em .4em; font-weight:700; font-size:.875em;
+}
