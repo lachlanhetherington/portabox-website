@@ -169,6 +169,21 @@ const SIZES = [
     img:"size-l.jpg", holds:"A standard three-bedroom home, including the shed and the bikes." },
 ];
 
+/* The four rate sets the client listed in the review sheet. Store at Yours
+   is the one SIZES carries, repeated here so the toggle has a single shape
+   to read. Across Town is listed in the sheet as "X. Y. Z." — no figures
+   were given, so it is not offered rather than guessed at; add rates here
+   and it appears on its own.
+
+   per is the monthly rate over the container volume, computed below rather
+   than typed, because the whole argument of this table is that the division
+   is checkable. */
+const RATE_SETS = [
+  { id: "yours",      name: "Store at Yours",   note: "The container stays at your address.",            rates: [209, 209, 219] },
+  { id: "withus",     name: "Store With Us",    note: "We collect it and keep it at our depot.",          rates: [219, 289, 329] },
+  { id: "interstate", name: "Interstate Moves", note: "Loaded once, carried between capitals.",           rates: [229, 309, 349] },
+];
+
 const TESTIMONIALS = [
   { q:"Finally, a storage company that doesn't rip you off. When I actually did the sums it worked out about 40% cheaper per cubic metre than the quote I had.",
     n:"Bridget", p:"Adelaide", img:"person-bridget.png" },
@@ -189,7 +204,7 @@ const STORAGE_SERVICES = [
   { slug:"storage-at-your-place", title:"Storage at Your Place",
     blurb:"The container is delivered to your address and stays there. Access it whenever you like.", img:"delivery-home.jpg" },
   { slug:"store-with-us", title:"Store With Us",
-    blurb:"We collect the loaded container and keep it in a monitored facility. You still hold the only keys.", img:"yard-keys.jpg" },
+    blurb:"We collect the loaded container and keep it in a monitored depot. You hold the only keys.", img:"yard-keys.jpg" },
   { slug:"business-storage", title:"Business & Inventory Storage",
     blurb:"Stock overflow, site equipment and seasonal inventory, stored at your premises or ours.", img:"yard-stacked.jpg" },
   { slug:"renovation-storage", title:"Renovation Storage",
@@ -508,13 +523,13 @@ const WHY = [
   { ico:"cube",  t:"Priced by volume, not by footprint",
     b:"Self-storage sells you a floor area and lets you guess the rest. We publish cubic metres and the rate per cubic metre, so the comparison is arithmetic." },
   { ico:"key",   t:"You hold the only keys",
-    b:"Including while the container sits in one of our facilities. Nobody at Portabox keeps a spare, and nobody opens it without you." },
+    b:"Including while the container sits in one of our depots. Nobody at Portabox keeps a spare, and nobody opens it without you." },
   { ico:"wall",  t:"Flat interior walls",
     b:"No ribs, no wheel arches, nothing to pack around. A flat wall is the difference between stacking cleanly to the ceiling and losing room on every side." },
   { ico:"house", t:"Plain white, by design",
     b:"Built to sit in a suburban driveway for a month without becoming the thing the neighbours talk about. No livery, no hoarding, no site-yellow." },
   { ico:"globe", t:"Four depots, and well past them",
-    b:"Standard delivery runs 150–200 km out from Brisbane, Sydney, Melbourne and Adelaide. Past that we quote it as a regional job, and we still go." },
+    b:"Standard delivery runs 150–200 km out from Brisbane, Sydney, Melbourne and Adelaide. Past that we quote it as a regional job — call us and we will tell you what is possible." },
 ];
 
 const FAQ_GENERAL = [
@@ -554,6 +569,7 @@ const FAQ_PRICE = [
 ];
 
 module.exports = {
+  RATE_SETS,
   ROUTES, CONTACT, SIZES, CONTAINER_SPECS, TESTIMONIALS, NAV,
   DEPOTS, REGIONS,
   STORAGE_SERVICES, MOVING_SERVICES, LOCATIONS,

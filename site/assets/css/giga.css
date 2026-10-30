@@ -571,6 +571,10 @@ body.g { box-sizing:border-box; font-family:var(--font, "Montserrat", Arial, san
 /* ---------- Pricing ---------- */
 
 .g .g-price { display:grid; gap:0; border-top:1px solid var(--g-rule); }
+/* `display:grid` above out-specifies the browser's own [hidden] rule, so a
+   hidden pricing panel kept rendering and the toggle looked dead: the tab
+   and the note changed, the table did not. */
+.g .g-price[hidden] { display:none; }
 .g .g-price-row {
   --row-bleed:0px;   /* hover must align with the heading and the rules */
   position:relative; isolation:isolate;
@@ -2134,3 +2138,29 @@ body.g { box-sizing:border-box; font-family:var(--font, "Montserrat", Arial, san
 .g .g-card-img--fit { aspect-ratio:16/10; background:#fff; }
 .g .g-card-img--fit img { object-fit:contain; }
 .g .g-card:hover .g-card-img--fit img { transform:none; }
+
+/* ---- Pricing toggle ------------------------------------------------------
+   Square, hairlined and navy-on-selected, like the rest of the system. The
+   selected state carries a border as well as a fill, so it does not rely on
+   colour alone to say which one is on. */
+.g .g-price-tabs {
+  display:flex; flex-wrap:wrap; gap:.5rem;
+  margin-bottom:1rem;
+}
+.g .g-price-tabs button {
+  appearance:none; cursor:pointer; font:inherit;
+  padding:.7rem 1.1rem; font-size:.875rem; font-weight:700; letter-spacing:.01em;
+  color:var(--g-navy); background:#fff;
+  border:1px solid var(--g-ctrl);
+  transition:background-color var(--g-t) var(--g-hover), color var(--g-t) var(--g-hover), border-color var(--g-t) var(--g-hover);
+}
+.g .g-price-tabs button:hover { border-color:var(--g-navy); }
+.g .g-price-tabs button[aria-selected="true"] {
+  background:var(--g-navy); border-color:var(--g-navy); color:#fff;
+}
+.g .g-price-note {
+  margin:0 0 1.75rem; font-size:.9375rem; color:var(--g-muted);
+}
+@media (max-width:560px){
+  .g .g-price-tabs button { flex:1 1 100%; text-align:left; }
+}

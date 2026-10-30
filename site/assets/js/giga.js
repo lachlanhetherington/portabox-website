@@ -1300,7 +1300,7 @@
     }
 
     var copy = {
-      storage: { h: "We store it", p: "We collect it level and take it to our secure Portabox facility.",
+      storage: { h: "We store it", p: "We collect it on an agreed date and bring the container back to our depot.",
                  proof: "Adelaide, Melbourne, Brisbane, Sydney", q: "Where should we drop your Portabox?" },
       moving: { h: "We move it", p: "We collect it level and deliver it to your new home. No double handling.",
                 proof: "Load once, unload once", q: "Where are you moving from?" }
@@ -1329,4 +1329,47 @@
   function boot() { smooth(); nav(); mega(); reveals(); counters(); heroVideo(); quote(); contactForm(); suggests(); quoteFlow(); journey(); year(); }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
   else boot();
+})();
+
+/* ---- Pricing toggle ----------------------------------------------------
+   The client asked for one table that switches between their rate sets.
+   Tabs rather than a two-state switch, because there are three sets and a
+   fourth is expected once the Across Town figures arrive.
+   Without JS every panel is still in the HTML; only the first is visible,
+   and the rest are reachable because `hidden` is the only thing hiding them. */
+(function () {
+  var tabs = document.querySelector(".g-price-tabs");
+  if (!tabs) return;
+  var buttons = [].slice.call(tabs.querySelectorAll("button"));
+  var note = document.getElementById("g-price-note");
+  var notes = {};
+  buttons.forEach(function (b) { notes[b.dataset.panel] = b.getAttribute("data-note"); });
+
+  function show(btn) {
+    buttons.forEach(function (b) {
+      var panel = document.getElementById(b.dataset.panel);
+      var on = b === btn;
+      b.setAttribute("aria-selected", on ? "true" : "false");
+      b.tabIndex = on ? 0 : -1;
+      if (panel) { if (on) panel.removeAttribute("hidden"); else panel.setAttribute("hidden", ""); }
+    });
+    if (note && btn.getAttribute("data-note")) note.textContent = btn.getAttribute("data-note");
+  }
+
+  tabs.addEventListener("click", function (e) {
+    var btn = e.target.closest("button");
+    if (btn) show(btn);
+  });
+
+  /* Left and right move between tabs, which is what a tablist is expected
+     to do once one of them has focus. */
+  tabs.addEventListener("keydown", function (e) {
+    var i = buttons.indexOf(document.activeElement);
+    if (i < 0) return;
+    var next = e.key === "ArrowRight" ? i + 1 : e.key === "ArrowLeft" ? i - 1 : -1;
+    if (next < 0 || next >= buttons.length) return;
+    e.preventDefault();
+    buttons[next].focus();
+    show(buttons[next]);
+  });
 })();

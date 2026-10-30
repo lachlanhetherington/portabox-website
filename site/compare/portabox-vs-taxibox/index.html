@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/giga.css?v=dca8ce93">
+<link rel="stylesheet" href="/assets/css/giga.css?v=22909caa">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://portabox.au/#organization","name":"Portabox","alternateName":["PODS Australia","AusPods"],"url":"https://portabox.au/","telephone":"1800 467 637","email":"sales@portabox.au","areaServed":"AU","sameAs":["https://www.facebook.com/portabox.au","https://www.instagram.com/portabox.au","https://www.linkedin.com/company/portabox-au"]},{"@type":"FAQPage","@id":"https://portabox.au/compare/portabox-vs-taxibox/#faq","mainEntity":[{"@type":"Question","name":"What does 'from' pricing mean?","acceptedAnswer":{"@type":"Answer","text":"Everybody's moving and storage needs are different, and we appreciate that. The monthly rental is a from figure because we still need to know where the container is going and where it is coming from. A quote gives you all the numbers. Remember, we are here to help if it all gets too much."}},{"@type":"Question","name":"Do you really beat a cheaper quote?","acceptedAnswer":{"@type":"Answer","text":"Yes — not just match it. Send us a written quote with the container volume on it and we will beat the per-cubic-metre rate. That comparison is the whole reason we publish ours."}},{"@type":"Question","name":"Is there a minimum term?","acceptedAnswer":{"@type":"Answer","text":"The first month's rental is the minimum. After that it is month by month, and the day we deliver to you is the date you are billed every month."}},{"@type":"Question","name":"What is the cheapest way to store with Portabox?","acceptedAnswer":{"@type":"Answer","text":"Store at Yours is our most affordable option. Keeping your Portabox at a suitable property can save you more per month again than our already low rate for storing it at our depot. It is worth exploring our Price Match Guarantee as well."}},{"@type":"Question","name":"No room at mine. Could I store it at Mum's?","acceptedAnswer":{"@type":"Answer","text":"Mum's place, a mate's property or a neighbour's driveway could all be an option. You will need the property owner's permission, suitable space and clear access for our delivery truck. Give us the proposed address and we will check it is suitable and confirm your quote."}},{"@type":"Question","name":"Could I pay a neighbour to use their driveway?","acceptedAnswer":{"@type":"Answer","text":"You could arrange that directly with your neighbour. If your Store at Yours quote saves you $110 a month, paying them $50 a month for the space still leaves you $60 ahead."}},{"@type":"Question","name":"How do I know whether the Portabox will fit?","acceptedAnswer":{"@type":"Answer","text":"Check the container dimensions, then talk to our team about the spot you have in mind. We will confirm the placement space and the truck access needed before delivery. There is more on EARL, our hydraulic Easylift system, on its own page."}}]},{"@type":"BreadcrumbList","@id":"https://portabox.au/compare/portabox-vs-taxibox/#breadcrumbs","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://portabox.au/"},{"@type":"ListItem","position":2,"name":"Compare","item":"https://portabox.au/compare/"},{"@type":"ListItem","position":3,"name":"Portabox Vs Taxibox","item":"https://portabox.au/compare/portabox-vs-taxibox/"}]}]}</script>
 </head>
 <body class="g">
@@ -40,7 +40,7 @@
                 </a>
                 <a class="g-mega-l" href="/storage/store-with-us/">
                   <b>Store With Us</b>
-                  <span>We collect the loaded container and keep it in a monitored facility. You still hold the only keys.</span>
+                  <span>We collect the loaded container and keep it in a monitored depot. You hold the only keys.</span>
                   <i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></i>
                 </a>
                 <a class="g-mega-l" href="/business/">
@@ -133,7 +133,7 @@
                 </div>
               </div>
               <p class="g-mega-extra">
-                <a href="/facilities/">Our storage facilities</a>
+                <a href="/facilities/">Our storage depots</a>
                 <a href="/moving/regional-solution/">Regional & Remote</a>
               </p>
               <a class="g-mega-all" href="/locations/">All locations<span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>
@@ -246,11 +246,21 @@
     <div class="g-intro">
       <div class="g-rise"><p class="g-label">Sizes &amp; pricing</p><h2 class="g-h2">The number nobody else prints</h2></div>
       <div class="g-rise" style="--d:110ms">
-        <p class="g-body">Every storage company quotes a monthly rate. Divide it by the cubic metres you actually get and the comparison stops being a matter of opinion. Here is ours, done in the open.</p>
+        <p class="g-body">Every storage company quotes a monthly rate. Divide it by the cubic metres you actually get and the comparison stops being a matter of opinion.</p>
         
       </div>
     </div>
-    <div class="g-price">
+    <div class="g-price-tabs g-rise" role="tablist" aria-label="Pricing option">
+      <button type="button" role="tab" id="g-price-tab-yours"
+        aria-controls="g-price-yours" aria-selected="true"
+        tabindex="0" data-panel="g-price-yours" data-note="The container stays at your address.">Store at Yours</button><button type="button" role="tab" id="g-price-tab-withus"
+        aria-controls="g-price-withus" aria-selected="false"
+        tabindex="-1" data-panel="g-price-withus" data-note="We collect it and keep it at our depot.">Store With Us</button><button type="button" role="tab" id="g-price-tab-interstate"
+        aria-controls="g-price-interstate" aria-selected="false"
+        tabindex="-1" data-panel="g-price-interstate" data-note="Loaded once, carried between capitals.">Interstate Moves</button>
+    </div>
+    <p class="g-price-note g-rise" id="g-price-note">The container stays at your address.</p>
+    <div class="g-price" id="g-price-yours">
       <div class="g-price-row g-rise" style="--d:0ms">
         <div>
           <div class="g-price-name"><b>Small</b></div>
@@ -262,8 +272,7 @@
           <span><b class="big">$20.90</b><i>cost per m³</i></span>
         </div>
         <a class="g-btn g-btn--line" href="https://portabox-instant-quote-dun.vercel.app/"><span>Select Small</span><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></i></a>
-      </div>
-      <div class="g-price-row g-rise" style="--d:80ms">
+      </div><div class="g-price-row g-rise" style="--d:80ms">
         <div>
           <div class="g-price-name"><b>Medium</b><span class="g-badge">Price drop</span></div>
           <p class="g-price-feats">Two bedrooms, a lounge, a full kitchen and the garage overflow.</p>
@@ -274,8 +283,7 @@
           <span><b class="big">$11.00</b><i>cost per m³</i></span>
         </div>
         <a class="g-btn g-btn--line" href="https://portabox-instant-quote-dun.vercel.app/"><span>Select Medium</span><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></i></a>
-      </div>
-      <div class="g-price-row g-rise is-best" style="--d:160ms">
+      </div><div class="g-price-row g-rise is-best" style="--d:160ms">
         <div>
           <div class="g-price-name"><b>Large</b><span class="g-badge">Best value</span></div>
           <p class="g-price-feats">A standard three-bedroom home, including the shed and the bikes.</p>
@@ -284,6 +292,76 @@
           <span><b>$219</b><i>per month</i></span>
           <span><b>25 m³</b><i>total capacity</i></span>
           <span><b class="big">$8.76</b><i>cost per m³</i></span>
+        </div>
+        <a class="g-btn g-btn--yellow" href="https://portabox-instant-quote-dun.vercel.app/"><span>Select Large</span><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></i></a>
+      </div>
+    </div><div class="g-price" id="g-price-withus" hidden>
+      <div class="g-price-row g-rise" style="--d:0ms">
+        <div>
+          <div class="g-price-name"><b>Small</b></div>
+          <p class="g-price-feats">A one-bedroom flat, or a single room plus whitegoods.</p>
+        </div>
+        <div class="g-price-figs">
+          <span><b>$219</b><i>per month</i></span>
+          <span><b>10 m³</b><i>total capacity</i></span>
+          <span><b class="big">$21.90</b><i>cost per m³</i></span>
+        </div>
+        <a class="g-btn g-btn--line" href="https://portabox-instant-quote-dun.vercel.app/"><span>Select Small</span><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></i></a>
+      </div><div class="g-price-row g-rise" style="--d:80ms">
+        <div>
+          <div class="g-price-name"><b>Medium</b><span class="g-badge">Price drop</span></div>
+          <p class="g-price-feats">Two bedrooms, a lounge, a full kitchen and the garage overflow.</p>
+        </div>
+        <div class="g-price-figs">
+          <span><b>$289</b><i>per month</i></span>
+          <span><b>19 m³</b><i>total capacity</i></span>
+          <span><b class="big">$15.21</b><i>cost per m³</i></span>
+        </div>
+        <a class="g-btn g-btn--line" href="https://portabox-instant-quote-dun.vercel.app/"><span>Select Medium</span><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></i></a>
+      </div><div class="g-price-row g-rise is-best" style="--d:160ms">
+        <div>
+          <div class="g-price-name"><b>Large</b><span class="g-badge">Best value</span></div>
+          <p class="g-price-feats">A standard three-bedroom home, including the shed and the bikes.</p>
+        </div>
+        <div class="g-price-figs">
+          <span><b>$329</b><i>per month</i></span>
+          <span><b>25 m³</b><i>total capacity</i></span>
+          <span><b class="big">$13.16</b><i>cost per m³</i></span>
+        </div>
+        <a class="g-btn g-btn--yellow" href="https://portabox-instant-quote-dun.vercel.app/"><span>Select Large</span><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></i></a>
+      </div>
+    </div><div class="g-price" id="g-price-interstate" hidden>
+      <div class="g-price-row g-rise" style="--d:0ms">
+        <div>
+          <div class="g-price-name"><b>Small</b></div>
+          <p class="g-price-feats">A one-bedroom flat, or a single room plus whitegoods.</p>
+        </div>
+        <div class="g-price-figs">
+          <span><b>$229</b><i>per month</i></span>
+          <span><b>10 m³</b><i>total capacity</i></span>
+          <span><b class="big">$22.90</b><i>cost per m³</i></span>
+        </div>
+        <a class="g-btn g-btn--line" href="https://portabox-instant-quote-dun.vercel.app/"><span>Select Small</span><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></i></a>
+      </div><div class="g-price-row g-rise" style="--d:80ms">
+        <div>
+          <div class="g-price-name"><b>Medium</b><span class="g-badge">Price drop</span></div>
+          <p class="g-price-feats">Two bedrooms, a lounge, a full kitchen and the garage overflow.</p>
+        </div>
+        <div class="g-price-figs">
+          <span><b>$309</b><i>per month</i></span>
+          <span><b>19 m³</b><i>total capacity</i></span>
+          <span><b class="big">$16.26</b><i>cost per m³</i></span>
+        </div>
+        <a class="g-btn g-btn--line" href="https://portabox-instant-quote-dun.vercel.app/"><span>Select Medium</span><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></i></a>
+      </div><div class="g-price-row g-rise is-best" style="--d:160ms">
+        <div>
+          <div class="g-price-name"><b>Large</b><span class="g-badge">Best value</span></div>
+          <p class="g-price-feats">A standard three-bedroom home, including the shed and the bikes.</p>
+        </div>
+        <div class="g-price-figs">
+          <span><b>$349</b><i>per month</i></span>
+          <span><b>25 m³</b><i>total capacity</i></span>
+          <span><b class="big">$13.96</b><i>cost per m³</i></span>
         </div>
         <a class="g-btn g-btn--yellow" href="https://portabox-instant-quote-dun.vercel.app/"><span>Select Large</span><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></i></a>
       </div>
@@ -387,7 +465,7 @@
     </div>
     <p class="g-areas-more">
       <a href="/locations/">All locations</a>
-      <a href="/facilities/">Storage facilities</a>
+      <a href="/facilities/">Storage depots</a>
       <a href="/moving/regional-solution/">Outside these areas?</a>
     </p>
   </div>
@@ -434,7 +512,7 @@
     </div>
   </div>
 </footer>
-<script src="/assets/js/giga.js?v=6286d291"></script>
+<script src="/assets/js/giga.js?v=a84659a9"></script>
 <script type="application/json" id="qf-suburbs">[["5061","Hyde Park","SA"],["5061","Malvern","SA"],["5061","Unley Park","SA"],["5000","Adelaide CBD","SA"],["5006","North Adelaide","SA"],["5067","Norwood","SA"],["5045","Glenelg","SA"],["5113","Edinburgh North","SA"],["5112","Elizabeth","SA"],["5159","Blackwood","SA"],["5162","Morphett Vale","SA"],["5251","Mount Barker","SA"],["5352","Tanunda (Barossa)","SA"],["5211","Victor Harbor","SA"],["5540","Port Pirie","SA"],["2000","Sydney CBD","NSW"],["2010","Surry Hills","NSW"],["2026","Bondi","NSW"],["2095","Manly","NSW"],["2148","Blacktown","NSW"],["2150","Parramatta","NSW"],["2170","Liverpool","NSW"],["2220","Hurstville","NSW"],["2230","Cronulla","NSW"],["2500","Wollongong","NSW"],["2250","Gosford (Central Coast)","NSW"],["2300","Newcastle","NSW"],["2750","Penrith","NSW"],["2795","Bathurst","NSW"],["3000","Melbourne CBD","VIC"],["3006","Southbank","VIC"],["3026","Laverton North","VIC"],["3030","Werribee","VIC"],["3121","Richmond","VIC"],["3141","South Yarra","VIC"],["3182","St Kilda","VIC"],["3175","Dandenong","VIC"],["3199","Frankston","VIC"],["3220","Geelong","VIC"],["3350","Ballarat","VIC"],["3550","Bendigo","VIC"],["4000","Brisbane City","QLD"],["4006","Fortitude Valley","QLD"],["4101","West End","QLD"],["4122","Mount Gravatt","QLD"],["4208","Gilberton","QLD"],["4207","Yatala","QLD"],["4217","Surfers Paradise","QLD"],["4220","Burleigh Heads","QLD"],["4300","Springfield","QLD"],["4305","Ipswich","QLD"],["4350","Toowoomba","QLD"],["4551","Caloundra","QLD"],["4556","Buderim","QLD"],["4558","Maroochydore","QLD"],["4560","Nambour","QLD"],["4567","Noosa Heads","QLD"],["2600","Canberra (Barton)","ACT"],["2601","Acton","ACT"],["2612","Braddon","ACT"],["6000","Perth CBD","WA"],["6008","Subiaco","WA"],["6160","Fremantle","WA"]]</script>
 </body>
 </html>
