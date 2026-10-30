@@ -2530,21 +2530,50 @@ PAGES.push({
    entity and its ABN, and the governing state. Neither has been supplied,
    and guessing either on a legal page is worse than leaving it visible.
    Grep for NEEDS CONFIRMING. */
-const LEGAL_PLACEHOLDER = '<mark class="g-todo">[NEEDS CONFIRMING]</mark>';
+/* Taken from the public registers, not supplied by the client, so it is
+   worth recording where each piece came from:
+
+     ABN Lookup 56 120 413 774 — Auspods Holding Pty Ltd, an Australian
+     private company, active since 2006, GST registered, main business
+     location SA 5061, carrying the business name PORTABOX from May 2026.
+
+     IP Australia trade mark 2599556 — "PORTABOX MOVING AND STORAGE
+     CONTAINERS", owned by Andrew Hamilton of Unley Park SA 5061. The same
+     postcode, and the same surname as the CRM repository's owner.
+
+     The review sheet itself points at auspods.com.au for the EARL page.
+
+   Three independent sources agreeing is good evidence, not proof. The
+   client should confirm the entity before these pages go live. */
+const LEGAL_ENTITY = "Auspods Holding Pty Ltd";
+const LEGAL_ABN = "56&nbsp;120&nbsp;413&nbsp;774";
+const LEGAL_STATE = "South Australia";
 
 function legalPage(o) {
+  /* A measured column centred in a wide band reads as squeezed — a lot of
+     empty page either side of a thin ribbon of text. The width is put to
+     work instead: contents down the left, sticky on a desktop, because
+     these pages are read by someone hunting one clause rather than
+     straight through. */
+  const slug = (t) => t.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  const all = o.sections.concat([{ h: "Contact us", p: [] }]);
   const sec = (s) => `
-    <section class="g-legal-s">
+    <section class="g-legal-s" id="${slug(s.h)}">
       <h2 class="g-h3">${s.h}</h2>
       <div class="g-prose">${s.p.map((t) => `<p>${t}</p>`).join("")}</div>
     </section>`;
   return `
 <section class="g-band g-band--white">
   <div class="g-wrap g-legal">
+    <nav class="g-legal-toc" aria-label="On this page">
+      <h2>On this page</h2>
+      <ol>${all.map((s) => `<li><a href="#${slug(s.h)}">${s.h}</a></li>`).join("")}</ol>
+    </nav>
+    <div class="g-legal-body">
     <p class="g-legal-date">Last updated ${o.updated}</p>
     <div class="g-prose g-legal-intro">${o.intro.map((t) => `<p>${t}</p>`).join("")}</div>
     ${o.sections.map(sec).join("")}
-    <section class="g-legal-s">
+    <section class="g-legal-s" id="contact-us">
       <h2 class="g-h3">Contact us</h2>
       <div class="g-prose">
         <p>Call <a class="g-link" href="${C.CONTACT.tel}">${C.CONTACT.phone}</a>,
@@ -2554,6 +2583,7 @@ function legalPage(o) {
         <p>We answer ${C.CONTACT.hours.map(([w, t]) => `${t} in ${w}`).join(", and ")}.</p>
       </div>
     </section>
+    </div>
   </div>
 </section>`;
 }
@@ -2573,7 +2603,7 @@ PAGES.push({
       updated: "30 October 2026",
       intro: [
         `These terms apply when you hire a Portabox container, whether it stays at your address or at one of our depots. They sit alongside the quote we give you, and where a written quote says something different, the quote applies.`,
-        `Portabox is operated by ${LEGAL_PLACEHOLDER} (ABN ${LEGAL_PLACEHOLDER}). &ldquo;We&rdquo; and &ldquo;us&rdquo; mean that entity; &ldquo;you&rdquo; means the person or business named on the quote.`,
+        `Portabox is a business name of ${LEGAL_ENTITY} (ABN ${LEGAL_ABN}). &ldquo;We&rdquo; and &ldquo;us&rdquo; mean that company; &ldquo;you&rdquo; means the person or business named on the quote.`,
       ],
       sections: [
         { h: "Quotes and prices", p: [
@@ -2622,7 +2652,7 @@ PAGES.push({
           `We may update these terms. The version that applies to your hire is the one in force when you accepted your quote, and the date at the top of this page tells you when this version was published.`,
         ]},
         { h: "Governing law", p: [
-          `These terms are governed by the law of ${LEGAL_PLACEHOLDER}, and the courts there have jurisdiction.`,
+          `These terms are governed by the law of ${LEGAL_STATE}, and the courts of ${LEGAL_STATE} have jurisdiction.`,
         ]},
       ],
     }),
@@ -2644,7 +2674,7 @@ PAGES.push({
     legalPage({
       updated: "30 October 2026",
       intro: [
-        `This policy covers personal information handled by ${LEGAL_PLACEHOLDER} (ABN ${LEGAL_PLACEHOLDER}) trading as Portabox, and it follows the Australian Privacy Principles in the Privacy Act 1988 (Cth).`,
+        `This policy covers personal information handled by ${LEGAL_ENTITY} (ABN ${LEGAL_ABN}), trading as Portabox, and it follows the Australian Privacy Principles in the Privacy Act 1988 (Cth).`,
         `It covers this website, our Instant Quote tool, and the ordinary business of quoting, delivering, storing and collecting containers.`,
       ],
       sections: [

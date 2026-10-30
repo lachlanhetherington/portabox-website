@@ -2200,7 +2200,32 @@ body.g { box-sizing:border-box; font-family:var(--font, "Montserrat", Arial, san
    A single measured column. These are read in a hurry by someone looking
    for one clause, so the headings carry the weight and the text stays at a
    comfortable measure rather than running the full width. */
-.g .g-legal { max-width:46rem; }
+.g .g-legal { display:grid; gap:2.5rem; align-items:start; }
+@media (min-width:980px){
+  .g .g-legal { grid-template-columns:15rem minmax(0,42rem); gap:4rem; }
+}
+.g .g-legal-body { min-width:0; }
+
+/* Contents. Sticky below the header on a desktop so a long policy stays
+   navigable; a plain list at the top on a phone, where sticking it would
+   eat the screen. */
+.g .g-legal-toc { font-size:.875rem; }
+@media (min-width:980px){
+  .g .g-legal-toc { position:sticky; top:calc(var(--g-nav) + 1.5rem); }
+}
+.g .g-legal-toc h2 {
+  margin:0 0 .9rem; font-size:.6875rem; font-weight:700;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--g-muted);
+}
+.g .g-legal-toc ol {
+  list-style:none; margin:0; padding:0; display:grid; gap:.55rem;
+  border-left:1px solid var(--g-rule); padding-left:1rem;
+}
+.g .g-legal-toc li { margin:0; }
+.g .g-legal-toc a { color:var(--g-body); text-decoration:none; }
+.g .g-legal-toc a:hover { color:var(--g-navy); text-decoration:underline; text-underline-offset:3px; }
+/* A jump link must not land its heading under the fixed header. */
+.g .g-legal-s { scroll-margin-top:calc(var(--g-nav) + 1.5rem); }
 .g .g-legal-date { margin:0 0 2rem; font-size:.8125rem; color:var(--g-muted); }
 .g .g-legal-intro { margin-bottom:2.5rem; }
 .g .g-legal-s { margin-top:2.5rem; }
