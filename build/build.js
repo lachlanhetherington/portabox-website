@@ -3676,7 +3676,7 @@ ${/* Service areas, lifted out of the footer into a band of its own.
   <div class="g-wrap">
     <div class="g-areas-head">
       <p class="g-label">Where we deliver</p>
-      <h2>Four depots, and a long way around each of them</h2>
+      <h2>Four Depots In Four States</h2>
     </div>
     <div class="g-areas-grid">
       ${["brisbane", "sydney", "melbourne", "adelaide"].map((d) => {
