@@ -26,6 +26,14 @@ const on = (page, s) => {
   const f = corpus.find((c) => c.p.replace(/\\/g, '/').endsWith(page + '/index.html'));
   return f ? f.t.includes(s) : false;
 };
+/* Same as `on`, but ignoring the shared footer. Checking a whole page for a
+   string that also lives in the footer passes on every page — which is how
+   the Contact row for opening hours reported green while the page body had
+   none of them. */
+const inBody = (page, s) => {
+  const f = corpus.find((c) => c.p.replace(/\\/g, '/').endsWith(page + '/index.html'));
+  return f ? f.t.split('<footer')[0].includes(s) : false;
+};
 const exists = (p) => fs.existsSync(path.join(SITE, p, 'index.html'));
 
 const ITEMS = [
@@ -69,7 +77,7 @@ const ITEMS = [
   ['About', 9, 'driver calls half an hour before', [['has', 'Our driver calls about half an hour']]],
   ['About', 10, '"Is my stuff protected?"', [['has', 'Is my stuff protected'], ['gone', 'Is my stuff insured'], ['has', 'Contents protection is arranged']]],
 
-  ['Contact', 5, 'opening hours', [['pageHas', 'contact', '8:00am']]],
+  ['Contact', 5, 'opening hours on the page itself', [['bodyHas', 'contact', '8:00am'], ['bodyHas', 'contact', '7:30am']]],
   ['Contact', 6, '"next business day"', [['pageHas', 'contact', 'the team will come back to you during the next business day']]],
   ['Contact', 7, '"Talk to our team"', [['gone', 'Talk to the depot']]],
 
@@ -130,7 +138,8 @@ for (const [tab, row, what, checks] of ITEMS) {
     else if (kind === 'page') ok = exists(a);
     else if (kind === 'noPage') ok = !exists(a);
     else if (kind === 'pageHas') ok = on(a, b);
-    if (!ok) bad.push(`${kind} ${JSON.stringify(a).slice(0, 46)}${b !== undefined && kind !== 'pageHas' ? ' x' + b : ''}`);
+    else if (kind === 'bodyHas') ok = inBody(a, b);
+    if (!ok) bad.push(`${kind} ${JSON.stringify(a).slice(0, 46)}${b !== undefined && kind !== 'pageHas' && kind !== 'bodyHas' ? ' x' + b : ''}`);
   }
   if (bad.length) { fail++; failures.push([tab, row, what, bad]); }
   else pass++;

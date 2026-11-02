@@ -2905,6 +2905,11 @@ PAGES.push({
     featureGrid({
       band: "light", chip: "Reach us",
       h: "Three ways to get in touch",
+      /* The hours belong on this page, not only in the footer. Someone on
+         Contact is deciding whether to ring now, and the sheet asks for them
+         here specifically. Adelaide opens and closes half an hour earlier,
+         which is the part worth printing rather than averaging away. */
+      sub: `Open ${C.CONTACT.hours.map(([where, when]) => `${when} in ${where}`).join(", and ")}.`,
       items: [
         { ico: "phone", t: C.CONTACT.phone,
           b: "Talk to our team that covers your postcode. Quickest way to get a price or check a delivery date." },
