@@ -1772,7 +1772,7 @@ const SERVICE_DETAIL = {
   "interstate-moves": {
     hero: "interstate-map.jpg", heroAlt: "A map of the Portabox interstate routes between Brisbane, Sydney, Melbourne and Adelaide",
     h1: "Interstate moves",
-    sub: "Brisbane, Sydney, Melbourne and Adelaide, door to door. It travels sealed and it travels level.",
+    sub: "Call us to see how we can help you move from inside our service areas to any address outside our regular service area.",
     chip: "Moving", parent: ["Moving Services", url("moving-services")],
     body: `<p class="muted">Interstate is where EARL earns his keep. A load that gets tilted off a tray at both ends, after a thousand kilometres of highway, is a load that arrives rearranged. Ours is lowered flat at the old address and flat again at the new one.</p>
       <p class="muted">It is also where the settlement gap is worst. The container can sit loaded at either end — or in a depot in between — while the dates sort themselves out.</p>`,
