@@ -1770,6 +1770,7 @@ const SERVICE_DETAIL = {
     ],
   },
   "interstate-moves": {
+    trim: true,
     hero: "interstate-map.jpg", heroAlt: "A map of the Portabox interstate routes between Brisbane, Sydney, Melbourne and Adelaide",
     h1: "Interstate moves",
     sub: "Call us to see how we can help you move from inside our service areas to any address outside our regular service area.",
@@ -1831,15 +1832,23 @@ Object.keys(SERVICE_DETAIL).forEach((slug) => {
         btns: traceBtn(C.CONTACT.tel, "Call our team", C.CONTACT.phone, "dark"),
       }),
       trust(),
-      split({
-        band: "light", img: d.img2, alt: d.img2alt, flip: true,
-        chip: d.chip, h: "What you actually get", body: d.body,
-        btns: traceBtn(url("pricing"), "See pricing", "From $209", "outline"),
-      }),
-      featureGrid({ band: "grey", h: "Why this one works", items: d.points.map((p) => ({ ico: p[0], t: p[1], b: p[2] })) }),
-      steps({ band: "dark", chip: "Step by step", h: "How it runs", items: d.steps }),
-      pricing({ band: "light" }),
-      testimonials(),
+      /* `trim` drops the five body sections the review sheet asked to remove:
+         what you actually get, why this one works, how it runs, the pricing
+         table and the testimonials. It is per page on purpose — seven service
+         pages share this renderer, so removing them here unflagged would
+         empty Local moves and Store with us as well. Setting trim back to
+         false restores the page exactly. */
+      ...(d.trim ? [] : [
+        split({
+          band: "light", img: d.img2, alt: d.img2alt, flip: true,
+          chip: d.chip, h: "What you actually get", body: d.body,
+          btns: traceBtn(url("pricing"), "See pricing", "From $209", "outline"),
+        }),
+        featureGrid({ band: "grey", h: "Why this one works", items: d.points.map((p) => ({ ico: p[0], t: p[1], b: p[2] })) }),
+        steps({ band: "dark", chip: "Step by step", h: "How it runs", items: d.steps }),
+        pricing({ band: "light" }),
+        testimonials(),
+      ]),
       faq(C.FAQ_GENERAL, "Questions about this service", "grey"),
       ctaBand(),
     ].join("\n"),
