@@ -1771,6 +1771,7 @@ const SERVICE_DETAIL = {
   },
   "interstate-moves": {
     trim: true,
+    lead: "Interstate is where EARL earns his keep. A load that gets tilted off a tray at both ends, after a thousand kilometres of highway, is a load that has moved twice before it arrives.",
     hero: "interstate-map.jpg", heroAlt: "A map of the Portabox interstate routes between Brisbane, Sydney, Melbourne and Adelaide",
     h1: "Interstate moves",
     sub: "Call us to see how we can help you move from inside our service areas to any address outside our regular service area.",
@@ -1793,6 +1794,11 @@ const SERVICE_DETAIL = {
     ],
   },
   "regional-remote": {
+    /* The sheet's own "Remove these 5 sections", on this tab, alongside
+       "Really want to trim the page down to not overpromise on the REGIONAL
+       SERVICE". What is left is the hero, the trust row, the questions and a
+       call to action — which is the shape the row describes. */
+    trim: true,
     hero: "outback.jpg", heroAlt: "A Portabox truck on an outback highway",
     h1: "Regional & remote",
     sub: "Call us to see how we can help you move from inside our service areas to an address outside them.",
@@ -1832,6 +1838,16 @@ Object.keys(SERVICE_DETAIL).forEach((slug) => {
         btns: traceBtn(C.CONTACT.tel, "Call our team", C.CONTACT.phone, "dark"),
       }),
       trust(),
+      /* A short lead that survives the trim. Trimming Interstate removed the
+         section holding "Interstate is where EARL earns his keep" — a line
+         the client asked for in the sheet — and deleting an approved change
+         as a side effect of a layout request is not a trade worth making. */
+      ...(d.trim && d.lead ? [`
+<section class="g-band g-band--white">
+  <div class="g-wrap" style="max-width:46rem">
+    <p class="g-body g-rise">${d.lead}</p>
+  </div>
+</section>`] : []),
       /* `trim` drops the five body sections the review sheet asked to remove:
          what you actually get, why this one works, how it runs, the pricing
          table and the testimonials. It is per page on purpose — seven service
