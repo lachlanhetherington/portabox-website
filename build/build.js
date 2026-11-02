@@ -1852,7 +1852,7 @@ Object.keys(SERVICE_DETAIL).forEach((slug) => {
    the regional-australia page still comes from LOCATIONS. */
 PAGES.push({
   file: outFile("facilities"), active: "locations.html",
-  title: "Our Storage Depots | Four Depots Australia-wide | Portabox",
+  title: "Our Storage Depots | Four Depots In Four States | Portabox",
   desc: "The four Portabox yards your container is delivered from — Brisbane, Sydney, Melbourne and Adelaide — with addresses, direct numbers and the regions each one covers.",
   faqs: C.FAQ_GENERAL,
   body: facilityIndex(),
