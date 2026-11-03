@@ -1,0 +1,13 @@
+{
+  "name": "Portabox — Moving and Storage Containers",
+  "short_name": "Portabox",
+  "description": "Australia's largest portable storage containers, delivered level to your door.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0E385D",
+  "theme_color": "#0E385D",
+  "icons": [
+    { "src": "/favicon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/favicon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}

@@ -70,6 +70,10 @@ function standaloneHead(p) {
 <title>${p.title}</title>
 <meta name="description" content="${p.desc}">
 <meta name="theme-color" content="#0E385D">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
 <link rel="canonical" href="https://portabox.au${p.path}">
 <meta property="og:title" content="${p.title}">
 <meta property="og:description" content="${p.desc}">
@@ -95,6 +99,10 @@ function head(p) {
 <title>${p.title}</title>
 <meta name="description" content="${p.desc}">
 <meta name="theme-color" content="#0E385D">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
 <link rel="canonical" href="https://portabox.au/${p.file === "index.html" ? "" : p.file}">
 <meta property="og:title" content="${p.title}">
 <meta property="og:description" content="${p.desc}">
