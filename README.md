@@ -54,9 +54,14 @@ cyan band.
 ### The instant quote
 
 The quote itself is **not on this site**. It is the client's own React app,
-deployed separately from
-[portabox-instant-quote](https://github.com/manuelbiocva/portabox-instant-quote)
-to <https://portabox-instant-quote.vercel.app/>.
+served at <https://quote.portabox.au/>.
+
+That address moved in November 2026, from a free `vercel.app` subdomain to a
+real one. It is a deployment this project does not control, which matters for
+the hand-off below: it does **not** read `?postcode=`, so whatever a visitor
+types into a postcode box is discarded and the app opens on its own default,
+5061 Hyde Park. The parameter is still sent, because it costs nothing and the
+hand-off resumes the moment that deployment reads it.
 
 What this site owns is the hand-off, and it has three parts:
 
